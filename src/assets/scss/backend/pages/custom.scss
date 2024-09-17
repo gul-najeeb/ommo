@@ -1,0 +1,29 @@
+.text-size{
+    font-size: 0.9rem; 
+    color: inherit; 
+    
+}
+.text-size2{
+    font-size: 0.8rem; 
+    color: inherit; 
+    
+}
+
+.scroll{
+    max-height: 200px; 
+    overflow-y: auto;
+
+}
+.search-bar{
+    height: 2rem;
+    width: 100%;
+    outline: none; 
+    border: none; 
+    font-size: 14px; 
+    color: #324253;
+}
+.dark .form-control1 {
+    color: #EFF0F1;
+    background: #222222;
+    border-color: #252525;
+  }
