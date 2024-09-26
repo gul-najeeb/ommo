@@ -16,18 +16,18 @@ function mapStateToProps(state) {
 }
 
 const SignUp = (props) => {
-  const [Name, setname] = useState("");
-  const [Email, setEmail] = useState("");
+  const [Name, setName] = useState("");
   const [Address, setAddress] = useState("");
-  const [Phone, setPhone] = useState("");
-  const [MCNumber, setMcNumber] = useState("");
+  const [PhoneOrEmail, setPhoneOrEmail] = useState("");
   const [CompanyType, setCompanyType] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   
-  const handleSignUp = async () => {
-    let item = { Name, Email, Address, Phone, MCNumber, CompanyType };
-
+  const handleSignUp = async (event) => {
+    event.preventDefault();
+  
+    let item = { Name, Address, PhoneOrEmail, CompanyType };
+  
     try {
       let result = await fetch("http://localhost:5055/api/company/create-company", {
         method: 'POST',
@@ -37,18 +37,18 @@ const SignUp = (props) => {
           "Accept": 'application/json'
         }
       });
-
+  
       result = await result.json();
       console.log("Signup result:", result);
-
-      if (result.success) {
-        navigate("/auth/create-user");
+  
+      if (result.authorized) {
+        navigate("/dashboard");
       } else {
         setError("Invalid credentials");
       }
     } catch (error) {
       console.error("Error during signup:", error);
-      setError("An error occurred during sign up. Please try again.")
+      setError("An error occurred during sign up. Please try again.");
     }
   };
 
@@ -154,20 +154,7 @@ const SignUp = (props) => {
                             className="form-control"
                             type="name"
                             placeholder="Enter Name"
-                            onChange={(e) => setname(e.target.value)}
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col lg="12" className="mt-2">
-                        <Form.Group>
-                          <Form.Label className="text-secondary">
-                            Email
-                          </Form.Label>
-                          <Form.Control
-                            className="form-control"
-                            type="email"
-                            placeholder="Enter Email"
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => setName(e.target.value)}
                           />
                         </Form.Group>
                       </Col>
@@ -187,41 +174,38 @@ const SignUp = (props) => {
                       <Col lg="12" className="mt-2">
                         <Form.Group>
                           <Form.Label className="text-secondary">
-                            Phone
+                            Phone/Email
                           </Form.Label>
                           <Form.Control
                             className="form-control"
                             type="name"
                             placeholder="Enter Phone"
-                            onChange={(e) => setPhone(e.target.value)}
+                            onChange={(e) => setPhoneOrEmail(e.target.value)}
                           />
                         </Form.Group>
                       </Col>
                       <Col lg="12" className="mt-2">
-                        <Form.Group>
-                          <Form.Label className="text-secondary">
-                            MCNumber
-                          </Form.Label>
-                          <Form.Control
-                            className="form-control"
-                            type="name"
-                            placeholder="Enter MCNumber"
-                            onChange={(e) => setMcNumber(e.target.value)}
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col lg="12" className="mt-2">
-                        <Form.Group>
-                          <Form.Label className="text-secondary">
-                            Company Type
-                          </Form.Label>
-                          <Form.Control
-                            className="form-control"
-                            type="name"
-                            placeholder="Enter Company Type"
-                            onChange={(e) => setCompanyType(e.target.value)}
-                          />
-                        </Form.Group>
+                      <Form.Group>
+                    <Form.Label className="text-secondary">Company Type</Form.Label>
+                    <div className="d-flex justify-content-start">
+                      <Form.Check
+                        type="radio"
+                        label="Carrier"
+                        name="companyType"
+                        value="1"
+                        onChange={(e) => setCompanyType(e.target.value)}
+                        className="form-control"
+                      />
+                      <Form.Check
+                        type="radio"
+                        label="Dispatch"
+                        name="companyType"
+                        value="2"
+                        onChange={(e) => setCompanyType(e.target.value)}
+                        className="form-control"
+                      />
+                    </div>
+                    </Form.Group>
                       </Col>
                       {/* <Col lg="12" className="mt-2">
                         <Form.Group>
@@ -262,12 +246,13 @@ const SignUp = (props) => {
                       </Col>
                     </Row>
                     <Button
+                      type="button"
                       onClick={handleSignUp}
                       className="btn btn-primary btn-block mt-2"
                     >
                       Create Company
-                      {/* <Link to ="/auth/create-user"></Link> */}
-                    </Button>
+                  </Button>
+
                     <div className="col-lg-12 mt-3">
                       <p className="mb-0 text-center">
                         Do you have a company?{" "}
