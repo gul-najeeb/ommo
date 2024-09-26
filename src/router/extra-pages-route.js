@@ -6,6 +6,7 @@ import LockScreen from "../views/backend/Auth/LockScreen";
 import RecoverPassword from "../views/backend/Auth/RecoverPassword";
 import SignIn from "../views/backend/Auth/SignIn";
 import SignUp from "../views/backend/Auth/SignUp";
+import CreateUser from "../views/backend/Auth/CreateUser"
 
 //ExtarPages
 import Maintainance from "../views/backend/pages/Maintainance";
@@ -40,6 +41,10 @@ export const ExtraPages = [
         path: "sign-up",
         element: <SignUp />,
       },
+      {
+        path: "create-user",
+        element: <CreateUser />
+      }
     ],
   },
   {
