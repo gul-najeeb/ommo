@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Col, Row, Button, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";  // Import useNavigate
 import Card from "../../../components/Card";
 import { connect } from "react-redux";
 import { getDarkMode } from "../../../store/mode";
@@ -15,15 +15,16 @@ function mapStateToProps(state) {
 }
 
 const SignIn = (props) => {
-
   const [EmailOrPhone, setEmailOrPhone] = useState("");
   const [Password, setPassword] = useState("");
+  const [error , setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleSignIn = async () => {
     let item = { EmailOrPhone, Password };
 
     try {
-      let result = await fetch("http://localhost:5055/api/auth/login",{
+      let result = await fetch("http://localhost:5055/api/auth/login", {
         method: 'POST',
         body: JSON.stringify(item),
         headers: {
@@ -34,8 +35,15 @@ const SignIn = (props) => {
 
       result = await result.json();
       console.log("Signin result:", result);
+
+      if (result.success) {
+        navigate("/dashboard");
+      } else {
+        setError("Invalid credentials.");
+      }
     } catch (error) {
       console.error("Error during signin:", error);
+      setError("An error occurred during sign in. Please try again.");
     }
   };
 
@@ -50,25 +58,21 @@ const SignIn = (props) => {
                   <div className="auth-logo">
                     <img
                       src={logo}
-                      className={`img-fluid  rounded-normal  ${
-                        !props.darkMode ? "d-none" : ""
-                      }`}
+                      className={`img-fluid  rounded-normal  ${!props.darkMode ? "d-none" : ""}`}
                       alt="logo"
                     />
                     <img
                       src={darklogo}
-                      className={`img-fluid  rounded-normal  ${
-                        props.darkMode ? "d-none" : ""
-                      }`}
+                      className={`img-fluid  rounded-normal  ${props.darkMode ? "d-none" : ""}`}
                       alt="logo"
                     />
                   </div>
                   <h3 className="mb-3 font-weight-bold text-center">Sign In</h3>
                   <p className="text-center text-secondary mb-4">
-                    Log in to your account to continue
+                    Log in to your company account to continue
                   </p>
                   <div className="social-btn d-flex justify-content-around align-items-center mb-4">
-                    <Button variant="btn btn-outline-light">
+                  <Button variant="btn btn-outline-light">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="20"
@@ -158,9 +162,17 @@ const SignIn = (props) => {
                         </Form.Group>
                       </Col>
                     </Row>
-                    <Link to="/" className="btn btn-primary btn-block mt-2" onClick={handleSignIn}>
+                    {/* Display error message if login fails */}
+                    {error && <p className="text-danger">{error}</p>}
+
+                    {/* Remove <Link> and replace it with Button */}
+                    <Button
+                      className="btn btn-primary btn-block mt-2"
+                      onClick={handleSignIn}
+                    >
                       Log In with Email/Phone
-                    </Link>
+                    </Button>
+
                     <Col lg="12" className="mt-3">
                       <p className="mb-0 text-center">
                         Don't have a company?{" "}
