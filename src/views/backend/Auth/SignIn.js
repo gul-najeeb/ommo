@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Col, Row, Button, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";  // Import useNavigate
 import Card from "../../../components/Card";
 import { connect } from "react-redux";
 import { getDarkMode } from "../../../store/mode";
@@ -15,6 +15,38 @@ function mapStateToProps(state) {
 }
 
 const SignIn = (props) => {
+  const [EmailOrPhone, setEmailOrPhone] = useState("");
+  const [Password, setPassword] = useState("");
+  const [error , setError] = useState(null);
+  const navigate = useNavigate();
+
+  const handleSignIn = async () => {
+    let item = { EmailOrPhone, Password };
+
+    try {
+      let result = await fetch("http://localhost:5055/api/auth/login", {
+        method: 'POST',
+        body: JSON.stringify(item),
+        headers: {
+          "Content-Type": 'application/json',
+          "Accept": 'application/json'
+        }
+      });
+
+      result = await result.json();
+      console.log("Signin result:", result);
+
+      if (result.success) {
+        navigate("/dashboard");
+      } else {
+        setError("Invalid credentials.");
+      }
+    } catch (error) {
+      console.error("Error during signin:", error);
+      setError("An error occurred during sign in. Please try again.");
+    }
+  };
+
   return (
     <>
       <section className="login-content">
@@ -26,25 +58,21 @@ const SignIn = (props) => {
                   <div className="auth-logo">
                     <img
                       src={logo}
-                      className={`img-fluid  rounded-normal  ${
-                        !props.darkMode ? "d-none" : ""
-                      }`}
+                      className={`img-fluid  rounded-normal  ${!props.darkMode ? "d-none" : ""}`}
                       alt="logo"
                     />
                     <img
                       src={darklogo}
-                      className={`img-fluid  rounded-normal  ${
-                        props.darkMode ? "d-none" : ""
-                      }`}
+                      className={`img-fluid  rounded-normal  ${props.darkMode ? "d-none" : ""}`}
                       alt="logo"
                     />
                   </div>
                   <h3 className="mb-3 font-weight-bold text-center">Sign In</h3>
                   <p className="text-center text-secondary mb-4">
-                    Log in to your account to continue
+                    Log in to your company account to continue
                   </p>
                   <div className="social-btn d-flex justify-content-around align-items-center mb-4">
-                    <Button variant="btn btn-outline-light">
+                  <Button variant="btn btn-outline-light">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="20"
@@ -107,11 +135,12 @@ const SignIn = (props) => {
                       <Col lg="12">
                         <Form.Group>
                           <Form.Label className="text-secondary">
-                            Email
+                            Email or Phone
                           </Form.Label>
                           <Form.Control
                             type="email"
-                            placeholder="Enter Email"
+                            placeholder="Email/Phone"
+                            onChange={(e) => setEmailOrPhone(e.target.value)}
                           />
                         </Form.Group>
                       </Col>
@@ -127,18 +156,27 @@ const SignIn = (props) => {
                           </div>
                           <Form.Control
                             type="password"
-                            placeholder="Enter Password"
+                            placeholder="Password"
+                            onChange={(e) => setPassword(e.target.value)}
                           />
                         </Form.Group>
                       </Col>
                     </Row>
-                    <Link to="/" className="btn btn-primary btn-block mt-2">
-                      Log In
-                    </Link>
+                    {/* Display error message if login fails */}
+                    {error && <p className="text-danger">{error}</p>}
+
+                    {/* Remove <Link> and replace it with Button */}
+                    <Button
+                      className="btn btn-primary btn-block mt-2"
+                      onClick={handleSignIn}
+                    >
+                      Log In with Email/Phone
+                    </Button>
+
                     <Col lg="12" className="mt-3">
                       <p className="mb-0 text-center">
-                        Don't have an account?{" "}
-                        <Link to="/auth/sign-up">Sign Up</Link>
+                        Don't have a company?{" "}
+                        <Link to="/auth/sign-up">Create Company Account.</Link>
                       </p>
                     </Col>
                   </Form>
