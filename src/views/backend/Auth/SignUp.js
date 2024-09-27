@@ -18,15 +18,17 @@ function mapStateToProps(state) {
 const SignUp = (props) => {
   const [Name, setName] = useState("");
   const [Address, setAddress] = useState("");
-  const [PhoneOrEmail, setPhoneOrEmail] = useState("");
-  const [CompanyType, setCompanyType] = useState(""); // To track Carrier or Dispatch
+  const [Phone, setPhone] = useState("");
+  const [Email, setEmail] = useState("");
+  const [CompanyType, setCompanyType] = useState("");
+  const [MCNumber, setMcNumber] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   
   const handleSignUp = async (event) => {
     event.preventDefault();
   
-    let item = { Name, Address, PhoneOrEmail, CompanyType };
+    let item = { Name, Address, Phone, Email, CompanyType, MCNumber };
   
     try {
       let result = await fetch("http://localhost:5055/api/company/create-company", {
@@ -53,7 +55,7 @@ const SignUp = (props) => {
   };
 
   const handleCompanyType = (type) => {
-    setCompanyType(type); // Set the company type to either 'Carrier' or 'Dispatch'
+    setCompanyType(type);
   };
 
   return (
@@ -127,13 +129,26 @@ const SignUp = (props) => {
                       <Col lg="12" className="mt-2">
                         <Form.Group>
                           <Form.Label className="text-secondary">
-                            Phone/Email
+                            Phone
                           </Form.Label>
                           <Form.Control
                             className="form-control"
                             type="name"
                             placeholder="Enter Phone"
-                            onChange={(e) => setPhoneOrEmail(e.target.value)}
+                            onChange={(e) => setPhone(e.target.value)}
+                          />
+                        </Form.Group>
+                      </Col>
+                      <Col lg="12" className="mt-2">
+                        <Form.Group>
+                          <Form.Label className="text-secondary">
+                            Email
+                          </Form.Label>
+                          <Form.Control
+                            className="form-control"
+                            type="name"
+                            placeholder="Enter Email"
+                            onChange={(e) => setEmail(e.target.value)}
                           />
                         </Form.Group>
                       </Col>
@@ -153,7 +168,7 @@ const SignUp = (props) => {
                               e.target.style.backgroundColor = '#fff';
                               e.target.style.color = '#007bff';
                             }}
-                            onClick={() => handleCompanyType('Carrier')} // Set to Carrier
+                            onClick={() => handleCompanyType(1)} // Send value 1 for Carrier
                             target="_blank"
                           >
                             Carrier
@@ -169,7 +184,7 @@ const SignUp = (props) => {
                               e.target.style.backgroundColor = '#fff';
                               e.target.style.color = '#007bff';
                             }}
-                            onClick={() => handleCompanyType('Dispatch')} // Set to Dispatch
+                            onClick={() => handleCompanyType(2)} // Send value 2 for Dispatch
                             target="_blank"
                           >
                             Dispatch
@@ -178,7 +193,7 @@ const SignUp = (props) => {
                       </Col>
 
                       {/* Conditionally render MC Number input if company type is Carrier */}
-                      {CompanyType === 'Carrier' && (
+                      {CompanyType === 1 && (
                         <Col lg="12" className="mt-2">
                           <Form.Group>
                             <Form.Label className="text-secondary">
@@ -188,6 +203,8 @@ const SignUp = (props) => {
                               className="form-control"
                               type="text"
                               placeholder="Enter MC Number"
+                              
+                              onChange={(e) => setMcNumber(e.target.value)}
                             />
                           </Form.Group>
                         </Col>
