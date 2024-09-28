@@ -39,12 +39,14 @@ const SignIn = (props) => {
       result = await result.json();
       console.log("Signin result:", result);
 
-      console.log(result)
-
       if (result.token) {
+        toast.success("Login successful.")
+        
+        setTimeout(() => {
         navigate("/");
+        }, 1500);
       } else {
-        setError("Invalid credentials.");
+        toast.error("Invalid credentials.")
       }
     } catch (error) {
       console.error("Error during signin:", error);
@@ -177,7 +179,17 @@ const SignIn = (props) => {
                     >
                       Log In with Email/Phone
                     </Button>
-
+                    <ToastContainer
+                      position="bottom-center"
+                      autoClose={5000}
+                      hideProgressBar={false}
+                      newestOnTop={false}
+                      closeOnClick
+                      rtl={false}
+                      pauseOnFocusLoss
+                      draggable
+                      pauseOnHover
+                    />
                     <Col lg="12" className="mt-3">
                       <p className="mb-0 text-center">
                         Don't have a company?{" "}

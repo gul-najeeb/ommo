@@ -45,15 +45,13 @@ const SignUp = (props) => {
       let result = await response.json();
       console.log("Signup result:", result);
       
-      // Check if the signup was successful
+      
       if (result.message || result.status === "success" || result.statusCode === 200) {
-        // Show toast notification
-        toast.info("Company created successfully.");
-  
-        // Delay navigation to allow the toast message to be visible
+        toast.success("Company created successfully.");
+      
         setTimeout(() => {
           navigate("/auth/create-user");
-        }, 1500); // 2-second delay before navigating
+        }, 1500);
       } else {
         toast.error(result.message || "Company not created.");
       }
