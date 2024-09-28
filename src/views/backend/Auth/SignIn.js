@@ -4,6 +4,9 @@ import { Link, useNavigate } from "react-router-dom";  // Import useNavigate
 import Card from "../../../components/Card";
 import { connect } from "react-redux";
 import { getDarkMode } from "../../../store/mode";
+import { toast, ToastContainer } from "react-toastify";
+
+
 //img
 import logo from "../../../assets/images/logo.png";
 import darklogo from "../../../assets/images/logo-dark.png";
@@ -36,10 +39,14 @@ const SignIn = (props) => {
       result = await result.json();
       console.log("Signin result:", result);
 
-      if (result.success) {
-        navigate("/dashboard");
+      if (result.token) {
+        toast.success("Login successful.")
+        
+        setTimeout(() => {
+        navigate("/");
+        }, 1500);
       } else {
-        setError("Invalid credentials.");
+        toast.error("Invalid credentials.")
       }
     } catch (error) {
       console.error("Error during signin:", error);
@@ -172,7 +179,17 @@ const SignIn = (props) => {
                     >
                       Log In with Email/Phone
                     </Button>
-
+                    <ToastContainer
+                      position="bottom-center"
+                      autoClose={5000}
+                      hideProgressBar={false}
+                      newestOnTop={false}
+                      closeOnClick
+                      rtl={false}
+                      pauseOnFocusLoss
+                      draggable
+                      pauseOnHover
+                    />
                     <Col lg="12" className="mt-3">
                       <p className="mb-0 text-center">
                         Don't have a company?{" "}
