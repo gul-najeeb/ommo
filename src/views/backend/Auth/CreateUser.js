@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Col, Row, Button, Form } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";  // Import useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import Card from "../../../components/Card";
 import { connect } from "react-redux";
 import { getDarkMode } from "../../../store/mode";
