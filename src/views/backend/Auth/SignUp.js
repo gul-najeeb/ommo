@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Card from "../../../components/Card";
 import { connect } from "react-redux";
 import { getDarkMode } from "../../../store/mode";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
 
 //img
 import logo from "../../../assets/images/logo.png";
@@ -31,7 +33,7 @@ const SignUp = (props) => {
     let item = { Name, Address, Phone, Email, CompanyType, MCNumber };
   
     try {
-      let result = await fetch("http://localhost:5055/api/company/create-company", {
+      let response = await fetch("http://localhost:5055/api/company/create-company", {
         method: 'POST',
         body: JSON.stringify(item),
         headers: {
@@ -40,17 +42,25 @@ const SignUp = (props) => {
         }
       });
   
-      result = await result.json();
+      let result = await response.json();
       console.log("Signup result:", result);
+      
+      // Check if the signup was successful
+      if (result.message || result.status === "success" || result.statusCode === 200) {
+        // Show toast notification
+        toast.info("Company created successfully.");
   
-      if (result.authorized) {
-        navigate("/dashboard");
+        // Delay navigation to allow the toast message to be visible
+        setTimeout(() => {
+          navigate("/auth/create-user");
+        }, 1500); // 2-second delay before navigating
       } else {
-        setError("Invalid credentials");
+        toast.error(result.message || "Company not created.");
       }
     } catch (error) {
       console.error("Error during signup:", error);
       setError("An error occurred during sign up. Please try again.");
+      toast.error("An error occurred during sign up.");
     }
   };
 
@@ -60,25 +70,21 @@ const SignUp = (props) => {
 
   return (
     <>
-      <section className="login-content">
-        <Container className="h-100">
-          <Row className="align-items-center justify-content-center h-100">
+      <section className="login-content" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
+        <Container className="h-100" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Row className="align-items-center justify-content-center w-100">
             <Col md="5">
               <Card className="p-3">
                 <Card.Body>
-                  <div className="auth-logo">
+                  <div className="auth-logo text-center">
                     <img
                       src={logo}
-                      className={`img-fluid  rounded-normal  ${
-                        !props.darkMode ? "d-none" : ""
-                      }`}
+                      className={`img-fluid rounded-normal ${!props.darkMode ? "d-none" : ""}`}
                       alt="logo"
                     />
                     <img
                       src={darklogo}
-                      className={`img-fluid  rounded-normal  ${
-                        props.darkMode ? "d-none" : ""
-                      }`}
+                      className={`img-fluid rounded-normal ${props.darkMode ? "d-none" : ""}`}
                       alt="logo"
                     />
                   </div>
@@ -156,9 +162,9 @@ const SignUp = (props) => {
                         <Form.Label className="text-secondary">
                           Select Company Type
                         </Form.Label>
-                        <ButtonGroup className="d-flex justify-content-center"> 
+                        <ButtonGroup className="d-flex justify-content-center">
                           <Button
-                            style={{ transition: 'all 0.3s', color: '#007bff', border: '1px solid #78d421' }} 
+                            style={{ transition: 'all 0.3s', color: '#007bff', border: '1px solid #78d421' }}
                             variant="button btn button-icon bg-white text-primary"
                             onMouseEnter={(e) => {
                               e.target.style.backgroundColor = '#007bff';
@@ -168,7 +174,7 @@ const SignUp = (props) => {
                               e.target.style.backgroundColor = '#fff';
                               e.target.style.color = '#007bff';
                             }}
-                            onClick={() => handleCompanyType(1)} // Send value 1 for Carrier
+                            onClick={() => handleCompanyType(1)}
                             target="_blank"
                           >
                             Carrier
@@ -184,15 +190,13 @@ const SignUp = (props) => {
                               e.target.style.backgroundColor = '#fff';
                               e.target.style.color = '#007bff';
                             }}
-                            onClick={() => handleCompanyType(2)} // Send value 2 for Dispatch
+                            onClick={() => handleCompanyType(2)}
                             target="_blank"
                           >
                             Dispatch
                           </Button>
                         </ButtonGroup>
                       </Col>
-
-                      {/* Conditionally render MC Number input if company type is Carrier */}
                       {CompanyType === 1 && (
                         <Col lg="12" className="mt-2">
                           <Form.Group>
@@ -203,7 +207,6 @@ const SignUp = (props) => {
                               className="form-control"
                               type="text"
                               placeholder="Enter MC Number"
-                              
                               onChange={(e) => setMcNumber(e.target.value)}
                             />
                           </Form.Group>
@@ -242,6 +245,17 @@ const SignUp = (props) => {
                     >
                       Create Company
                     </Button>
+                    <ToastContainer
+                      position="bottom-center"
+                      autoClose={5000}
+                      hideProgressBar={false}
+                      newestOnTop={false}
+                      closeOnClick
+                      rtl={false}
+                      pauseOnFocusLoss
+                      draggable
+                      pauseOnHover
+                    />
 
                     <div className="col-lg-12 mt-3">
                       <p className="mb-0 text-center">
