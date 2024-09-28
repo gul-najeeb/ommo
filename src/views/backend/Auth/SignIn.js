@@ -4,6 +4,9 @@ import { Link, useNavigate } from "react-router-dom";  // Import useNavigate
 import Card from "../../../components/Card";
 import { connect } from "react-redux";
 import { getDarkMode } from "../../../store/mode";
+import { toast, ToastContainer } from "react-toastify";
+
+
 //img
 import logo from "../../../assets/images/logo.png";
 import darklogo from "../../../assets/images/logo-dark.png";
@@ -36,8 +39,10 @@ const SignIn = (props) => {
       result = await result.json();
       console.log("Signin result:", result);
 
-      if (result.success) {
-        navigate("/dashboard");
+      console.log(result)
+
+      if (result.token) {
+        navigate("/");
       } else {
         setError("Invalid credentials.");
       }
