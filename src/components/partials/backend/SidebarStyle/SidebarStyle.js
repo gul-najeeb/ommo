@@ -56,8 +56,8 @@ const SidebarStyle = (props) => {
             <div className={`iq-sidebar sidebar-default ${variant}`}>
             <div className="iq-sidebar-logo d-flex align-items-end justify-content-between">
                 <Link to="/" className="header-logo">
-                    <img src={logo} className={`img-fluid rounded-normal light-logo ${props.darkMode ? 'd-none' : ''}`} alt="logo"/>
-                    <span>OMMO</span>            
+                    <img src={logo} className={`img-fluid rounded-normal light-logo ${props.darkMode ? 'd-none' : ''}`} style={{ width: '150px', height: 'auto', marginLeft: '20px' }}  alt="logo"/>
+                    {/* <span>OMMO</span>  Removed Temporarily            */}
                 </Link>
                 <div className="side-menu-bt-sidebar-1">
                         <svg onClick={minisidbar} xmlns="http://www.w3.org/2000/svg" className="text-light wrapper-menu" width="30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
