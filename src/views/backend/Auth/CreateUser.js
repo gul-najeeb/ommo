@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Col, Row, Button, Form } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";  // Import useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import Card from "../../../components/Card";
 import { connect } from "react-redux";
 import { getDarkMode } from "../../../store/mode";
@@ -160,18 +160,11 @@ const CreateUser = (props) => {
 
                     {/* Remove <Link> and replace it with Button */}
                     <Button
-                      className="btn btn-primary btn-block mt-2"
+                      className="btn btn-primary btn-block mt--1"
                       onClick={handleCreateUser}
                     >
                       Log In with Email/Phone
                     </Button>
-
-                    <Col lg="12" className="mt-3">
-                      <p className="mb-0 text-center">
-                        Don't have a company?{" "}
-                        <Link to="/auth/sign-up">Create Company Account.</Link>
-                      </p>
-                    </Col>
                   </Form>
                 </Card.Body>
               </Card>
