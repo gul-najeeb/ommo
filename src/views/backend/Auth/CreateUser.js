@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Col, Row, Button, Form } from "react-bootstrap";
+import { Container, Col, Row, Button, Form, InputGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Card from "../../../components/Card";
 import { connect } from "react-redux";
@@ -22,11 +22,12 @@ const CreateUser = (props) => {
   const [companyId, setCompanyId] = useState("");
   const [roleId, setRoleId] = useState("");
   const [userType, setUserType] = useState("");
+  const [profileImage, setProfileImage] = useState("");
   const [error , setError] = useState(null);
   const navigate = useNavigate();
 
   const handleCreateUser = async () => {
-    let item = { username, email, phone, password, companyId, roleId, userType };
+    let item = { username, email, phone, password, companyId, roleId, userType, profileImage };
 
     try {
       let result = await fetch("http://localhost:5055/api/user/create-user", {
@@ -153,6 +154,45 @@ const CreateUser = (props) => {
                         </Form.Group>
                       </Col>
                       <Col lg="12" className="mt-2">
+                      <Form>
+                      <Form.Label className="text-secondary">
+                            Profile Photo Upload
+                          </Form.Label>
+      
+        <Row className="justify-content-center">
+          
+          <Col xs="auto">
+            <InputGroup className="mb-3 d-flex justify-content-center align-items-center">
+              {/* Hidden File Input */}
+              
+              <Form.Control 
+                type="file" 
+                id="inputGroupFile04" 
+                aria-describedby="inputGroupFileAddon04" 
+                className="d-none"
+              />
+              {/* Label styled like a button */}
+              <label 
+                htmlFor="inputGroupFile04" 
+                className="btn btn-outline-secondary"
+                style={{ marginRight: '10px', padding: '10px 20px', height: '50px', display: 'inline-box', marginTop: '8px', marginLeft: '-25px' }}
+              >
+                Choose file
+              </label>
+              {/* Upload Button */}
+              <Button 
+                variant="outline-secondary" 
+                id="inputGroupFileAddon04" 
+                style={{ padding: '10px 30px', height: '50px', display: 'inline-block' }}
+                onClick={(e) => setProfileImage(e.target.value)}
+              >
+                Upload
+              </Button>
+            </InputGroup>
+          </Col>
+        </Row>
+      
+    </Form>
                       </Col>
                     </Row>
                     {/* Display error message if login fails */}
