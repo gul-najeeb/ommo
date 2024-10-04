@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Col, Row, Button, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";  // Import useNavigate
 import Card from "../../../components/Card";
 import { connect } from "react-redux";
 import { getDarkMode } from "../../../store/mode";
 import { toast, ToastContainer } from "react-toastify";
-
 
 //img
 import logo from "../../../assets/images/logo.png";
@@ -22,6 +21,31 @@ const SignIn = (props) => {
   const [Password, setPassword] = useState("");
   const [error , setError] = useState(null);
   const navigate = useNavigate();
+
+  // Fetch user info after successful navigation
+  const getUserInfo = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found. User might not be authenticated.");
+        return;
+      }
+
+      const result = await fetch("http://localhost:5055/api/tab/get-tabs", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`, // Pass the token in the Authorization header
+        }
+      });
+
+      const userInfo = await result.json();
+      console.log("User info:", userInfo);
+      // Do something with the userInfo, e.g., store it in state, Redux, etc.
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  };
 
   const handleSignIn = async () => {
     let item = { EmailOrPhone, Password };
@@ -40,13 +64,20 @@ const SignIn = (props) => {
       console.log("Signin result:", result);
 
       if (result.token) {
-        toast.success("Login successful.")
-        
+        // Save the token to localStorage
+        localStorage.setItem("token", result.token);
+
+        toast.success("Login successful.");
+
         setTimeout(() => {
-        navigate("/");
+          // Navigate to the home page
+          navigate("/");
+
+          // Fetch user info after navigation
+          getUserInfo();
         }, 1500);
       } else {
-        toast.error("Invalid credentials.")
+        toast.error("Invalid credentials.");
       }
     } catch (error) {
       console.error("Error during signin:", error);
@@ -79,7 +110,7 @@ const SignIn = (props) => {
                     Log in to your company account to continue
                   </p>
                   <div className="social-btn d-flex justify-content-around align-items-center mb-4">
-                  <Button variant="btn btn-outline-light">
+                    <Button variant="btn btn-outline-light">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="20"
@@ -169,10 +200,8 @@ const SignIn = (props) => {
                         </Form.Group>
                       </Col>
                     </Row>
-                    {/* Display error message if login fails */}
                     {error && <p className="text-danger">{error}</p>}
-
-                    {/* Remove <Link> and replace it with Button */}
+                    
                     <Button
                       className="btn btn-primary btn-block mt-2"
                       onClick={handleSignIn}
@@ -193,7 +222,7 @@ const SignIn = (props) => {
                     <Col lg="12" className="mt-3">
                       <p className="mb-0 text-center">
                         Don't have a company?{" "}
-                        <Link to="/auth/sign-up">Create Company Account.</Link>
+                        <Link to="/auth/create-company">Create Company Account.</Link>
                       </p>
                     </Col>
                   </Form>

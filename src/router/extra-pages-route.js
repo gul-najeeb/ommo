@@ -5,7 +5,7 @@ import ConfirmMail from "../views/backend/Auth/ConfirmMail";
 import LockScreen from "../views/backend/Auth/LockScreen";
 import RecoverPassword from "../views/backend/Auth/RecoverPassword";
 import SignIn from "../views/backend/Auth/SignIn";
-import SignUp from "../views/backend/Auth/SignUp";
+import CreateCompany from "../views/backend/Auth/CreateCompany";
 import CreateUser from "../views/backend/Auth/CreateUser"
 
 //ExtarPages
@@ -38,8 +38,8 @@ export const ExtraPages = [
         element: <SignIn />,
       },
       {
-        path: "sign-up",
-        element: <SignUp />,
+        path: "create-company",
+        element: <CreateCompany />,
       },
       {
         path: "create-user",
