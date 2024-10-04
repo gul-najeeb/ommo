@@ -23,6 +23,7 @@ const CreateCompany = (props) => {
   const [Phone, setPhone] = useState("");
   const [Email, setEmail] = useState("");
   const [CompanyType, setCompanyType] = useState("");
+  const [CategoryType, setCategoryType] = useState("1");
   const [MCNumber, setMcNumber] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const CreateCompany = (props) => {
   const handleCreateCompany = async (event) => {
     event.preventDefault();
   
-    let item = { Name, Address, Phone, Email, CompanyType, MCNumber };
+    let item = { Name, Address, Phone, Email, CompanyType, CategoryType, MCNumber };
   
     try {
       let response = await fetch("http://localhost:5055/api/company/create-company", {
