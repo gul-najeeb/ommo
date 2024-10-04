@@ -22,21 +22,37 @@ const CreateUser = (props) => {
   const [companyId, setCompanyId] = useState("");
   const [roleId, setRoleId] = useState("");
   const [userType, setUserType] = useState("");
-  const [profileImage, setProfileImage] = useState("");
-  const [error , setError] = useState(null);
+  const [profileImage, setProfileImage] = useState(null); // Store the file as an object
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  // Handle file selection
+  const handleFileChange = (e) => {
+    setProfileImage(e.target.files[0]); // Capture the selected file
+  };
+
   const handleCreateUser = async () => {
-    let item = { username, email, phone, password, companyId, roleId, userType, profileImage };
+    // Use FormData to append all form fields and the selected file
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('email', email);
+    formData.append('phone', phone);
+    formData.append('password', password);
+    formData.append('companyId', companyId);
+    formData.append('roleId', roleId);
+    formData.append('userType', userType);
+    if (profileImage) {
+      formData.append('profileImage', profileImage); // Append the file if it exists
+    }
 
     try {
       let result = await fetch("http://localhost:5055/api/user/create-user", {
         method: 'POST',
-        body: JSON.stringify(item),
+        body: formData, // Send the FormData object
         headers: {
-          "Content-Type": 'application/json',
-          "Accept": 'application/json'
-        }
+          // Let the browser set the correct Content-Type for multipart form data
+          "Accept": 'application/json',
+        },
       });
 
       result = await result.json();
@@ -87,7 +103,7 @@ const CreateUser = (props) => {
                             Username
                           </Form.Label>
                           <Form.Control
-                            type="email"
+                            type="text"
                             placeholder="Enter Username"
                             onChange={(e) => setUsername(e.target.value)}
                           />
@@ -107,7 +123,7 @@ const CreateUser = (props) => {
                             Phone
                           </Form.Label>
                           <Form.Control
-                            type="email"
+                            type="text"
                             placeholder="Enter Phone Number"
                             onChange={(e) => setPhone(e.target.value)}
                           />
@@ -127,7 +143,7 @@ const CreateUser = (props) => {
                             Company ID
                           </Form.Label>
                           <Form.Control
-                            type="name"
+                            type="text"
                             placeholder="Enter Company ID"
                             onChange={(e) => setCompanyId(e.target.value)}
                           />
@@ -137,7 +153,7 @@ const CreateUser = (props) => {
                             Role ID
                           </Form.Label>
                           <Form.Control
-                            type="name"
+                            type="text"
                             placeholder="Enter Role ID"
                             onChange={(e) => setRoleId(e.target.value)}
                           />
@@ -147,63 +163,39 @@ const CreateUser = (props) => {
                             User Type
                           </Form.Label>
                           <Form.Control
-                            type="email"
+                            type="text"
                             placeholder="Enter User Type"
                             onChange={(e) => setUserType(e.target.value)}
                           />
                         </Form.Group>
                       </Col>
                       <Col lg="12" className="mt-2">
-                      <Form>
-                      <Form.Label className="text-secondary">
+                        <Form.Group>
+                          <Form.Label className="text-secondary">
                             Profile Photo Upload
                           </Form.Label>
-      
-        <Row className="justify-content-center">
-          
-          <Col xs="auto">
-            <InputGroup className="mb-3 d-flex justify-content-center align-items-center">
-              {/* Hidden File Input */}
-              
-              <Form.Control 
-                type="file" 
-                id="inputGroupFile04" 
-                aria-describedby="inputGroupFileAddon04" 
-                className="d-none"
-              />
-              {/* Label styled like a button */}
-              <label 
-                htmlFor="inputGroupFile04" 
-                className="btn btn-outline-secondary"
-                style={{ marginRight: '10px', padding: '10px 20px', height: '50px', display: 'inline-box', marginTop: '8px', marginLeft: '-25px' }}
-              >
-                Choose file
-              </label>
-              {/* Upload Button */}
-              <Button 
-                variant="outline-secondary" 
-                id="inputGroupFileAddon04" 
-                style={{ padding: '10px 30px', height: '50px', display: 'inline-block' }}
-                onClick={(e) => setProfileImage(e.target.value)}
-              >
-                Upload
-              </Button>
-            </InputGroup>
-          </Col>
-        </Row>
-      
-    </Form>
+
+                          <InputGroup className="mb-3 d-flex justify-content-center align-items-center">
+                            {/* File input for photo upload */}
+                            <Form.Control
+                              type="file"
+                              id="inputGroupFile04"
+                              aria-describedby="inputGroupFileAddon04"
+                              onChange={handleFileChange} // Capture file when selected
+                            />
+                          </InputGroup>
+                        </Form.Group>
                       </Col>
                     </Row>
-                    {/* Display error message if login fails */}
+                    {/* Display error message if user creation fails */}
                     {error && <p className="text-danger">{error}</p>}
 
-                    {/* Remove <Link> and replace it with Button */}
+                    {/* Button to trigger user creation */}
                     <Button
                       className="btn btn-primary btn-block mt--1"
                       onClick={handleCreateUser}
                     >
-                      Log In with Email/Phone
+                      Create User
                     </Button>
                   </Form>
                 </Card.Body>
