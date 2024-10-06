@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Card from "../../../components/Card";
 import { connect } from "react-redux";
 import { getDarkMode } from "../../../store/mode";
+
 //img
 import logo from "../../../assets/images/logo.png";
 import darklogo from "../../../assets/images/logo-dark.png";
@@ -21,18 +22,16 @@ const CreateUser = (props) => {
   const [password, setPassword] = useState("");
   const [companyId, setCompanyId] = useState("");
   const [roleId, setRoleId] = useState("");
-  const [userType, setUserType] = useState("");
-  const [profileImage, setProfileImage] = useState(null); // Store the file as an object
+  const [status, setStatus] = useState("");
+  const [profileImage, setProfileImage] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Handle file selection
   const handleFileChange = (e) => {
-    setProfileImage(e.target.files[0]); // Capture the selected file
+    setProfileImage(e.target.files[0]);
   };
 
   const handleCreateUser = async () => {
-    // Use FormData to append all form fields and the selected file
     const formData = new FormData();
     formData.append('username', username);
     formData.append('email', email);
@@ -40,17 +39,17 @@ const CreateUser = (props) => {
     formData.append('password', password);
     formData.append('companyId', companyId);
     formData.append('roleId', roleId);
-    formData.append('userType', userType);
+    formData.append('status', status);
     if (profileImage) {
-      formData.append('profileImage', profileImage); // Append the file if it exists
+      formData.append('profileImage', profileImage);
     }
 
     try {
       let result = await fetch("http://localhost:5055/api/user/create-user", {
         method: 'POST',
-        body: formData, // Send the FormData object
+        body: formData,
         headers: {
-          // Let the browser set the correct Content-Type for multipart form data
+          
           "Accept": 'application/json',
         },
       });
@@ -138,36 +137,6 @@ const CreateUser = (props) => {
                             onChange={(e) => setPassword(e.target.value)}
                           />
                         </Form.Group>
-                        <Form.Group>
-                          <Form.Label className="text-secondary">
-                            Company ID
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="Enter Company ID"
-                            onChange={(e) => setCompanyId(e.target.value)}
-                          />
-                        </Form.Group>
-                        <Form.Group>
-                          <Form.Label className="text-secondary">
-                            Role ID
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="Enter Role ID"
-                            onChange={(e) => setRoleId(e.target.value)}
-                          />
-                        </Form.Group>
-                        <Form.Group>
-                          <Form.Label className="text-secondary">
-                            User Type
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="Enter User Type"
-                            onChange={(e) => setUserType(e.target.value)}
-                          />
-                        </Form.Group>
                       </Col>
                       <Col lg="12" className="mt-2">
                         <Form.Group>
@@ -181,7 +150,7 @@ const CreateUser = (props) => {
                               type="file"
                               id="inputGroupFile04"
                               aria-describedby="inputGroupFileAddon04"
-                              onChange={handleFileChange} // Capture file when selected
+                              onChange={handleFileChange}
                             />
                           </InputGroup>
                         </Form.Group>
