@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Col, Row, Button, Form } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";  // Import useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import Card from "../../../components/Card";
 import { connect } from "react-redux";
 import { getDarkMode } from "../../../store/mode";
@@ -22,7 +22,6 @@ const SignIn = (props) => {
   const [error , setError] = useState(null);
   const navigate = useNavigate();
 
-  // Fetch user info after successful navigation
   const getUserInfo = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -35,13 +34,13 @@ const SignIn = (props) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`, // Pass the token in the Authorization header
+          "Authorization": `Bearer ${token}`,
         }
       });
 
       const userInfo = await result.json();
       console.log("User info:", userInfo);
-      // Do something with the userInfo, e.g., store it in state, Redux, etc.
+    
     } catch (error) {
       console.error("Error fetching user info:", error);
     }
@@ -64,16 +63,16 @@ const SignIn = (props) => {
       console.log("Signin result:", result);
 
       if (result.token) {
-        // Save the token to localStorage
+        
         localStorage.setItem("token", result.token);
 
         toast.success("Login successful.");
 
         setTimeout(() => {
-          // Navigate to the home page
+          
           navigate("/");
 
-          // Fetch user info after navigation
+          
           getUserInfo();
         }, 1500);
       } else {
