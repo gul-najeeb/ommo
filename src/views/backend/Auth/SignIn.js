@@ -95,7 +95,6 @@ const SignIn = (props) => {
         toast.success("Login successful.");
 
         setTimeout(() => {
-          
           navigate("/");
           getTabsInfo();
           getUserInfo();

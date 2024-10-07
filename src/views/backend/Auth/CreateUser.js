@@ -88,7 +88,7 @@ const CreateUser = (props) => {
                       alt="logo"
                     />
                   </div>
-                  <h3 className="mb-3 font-weight-bold text-center">Create User</h3>
+                  <h3 className="mb-3 font-weight-bold text-center">COMPANY CREATED</h3>
                   <div className="mb-5">
                     <p className="line-around text-secondary mb-0">
                       <span className="line-around-1">Enter user details</span>
@@ -97,36 +97,6 @@ const CreateUser = (props) => {
                   <Form>
                     <Row>
                       <Col lg="12">
-                        <Form.Group>
-                          <Form.Label className="text-secondary">
-                            Username
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="Enter Username"
-                            onChange={(e) => setUsername(e.target.value)}
-                          />
-                        </Form.Group>
-                        <Form.Group>
-                          <Form.Label className="text-secondary">
-                            Email
-                          </Form.Label>
-                          <Form.Control
-                            type="email"
-                            placeholder="Enter Email"
-                            onChange={(e) => setEmail(e.target.value)}
-                          />
-                        </Form.Group>
-                        <Form.Group>
-                          <Form.Label className="text-secondary">
-                            Phone
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="Enter Phone Number"
-                            onChange={(e) => setPhone(e.target.value)}
-                          />
-                        </Form.Group>
                         <Form.Group>
                           <Form.Label className="text-secondary">
                             Password
