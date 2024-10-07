@@ -22,7 +22,7 @@ const SignIn = (props) => {
   const [error , setError] = useState(null);
   const navigate = useNavigate();
 
-  const getUserInfo = async () => {
+  const getTabsInfo = async () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -38,6 +38,30 @@ const SignIn = (props) => {
         }
       });
 
+      const tabInfo = await result.json();
+      console.log("Tab info:", tabInfo);
+    
+    } catch (error) {
+      console.error("Error fetching tab info:", error);
+    }
+  };
+
+  const getUserInfo = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found. User might not be authenticated.");
+        return;
+      }
+
+      const result = await fetch("http://localhost:5055/api/user/get-user-info", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        }
+      });
+
       const userInfo = await result.json();
       console.log("User info:", userInfo);
     
@@ -45,6 +69,8 @@ const SignIn = (props) => {
       console.error("Error fetching user info:", error);
     }
   };
+
+  // add get User Info http://localhost:5055/api/user/get-user-info
 
   const handleSignIn = async () => {
     let item = { EmailOrPhone, Password };
@@ -71,9 +97,9 @@ const SignIn = (props) => {
         setTimeout(() => {
           
           navigate("/");
-
-          
+          getTabsInfo();
           getUserInfo();
+          
         }, 1500);
       } else {
         toast.error("Invalid credentials.");
