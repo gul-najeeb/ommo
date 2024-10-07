@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Col, Row, Button, Form, InputGroup } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Card from "../../../components/Card";
 import { connect } from "react-redux";
 import { getDarkMode } from "../../../store/mode";
@@ -25,7 +25,20 @@ const CreateUser = (props) => {
   const [status, setStatus] = useState("");
   const [profileImage, setProfileImage] = useState(null);
   const [error, setError] = useState(null);
+  
   const navigate = useNavigate();
+  const location = useLocation(); // Get the passed state from the CreateCompany page
+
+  // Populate the form fields with the passed data
+  useEffect(() => {
+    if (location.state) {
+      setUsername(location.state.username || "");
+      setEmail(location.state.email || "");
+      setPhone(location.state.phone || "");
+      setCompanyId(location.state.companyId || "");
+      setRoleId(location.state.roleId || "");
+    }
+  }, [location.state]);
 
   const handleFileChange = (e) => {
     setProfileImage(e.target.files[0]);
@@ -49,7 +62,6 @@ const CreateUser = (props) => {
         method: 'POST',
         body: formData,
         headers: {
-          
           "Accept": 'application/json',
         },
       });
@@ -57,8 +69,8 @@ const CreateUser = (props) => {
       result = await result.json();
       console.log("Create User result:", result);
 
-      if (result.success) {
-        navigate("/dashboard");
+      if (result.message) {
+        navigate("/");
       } else {
         setError("User not created.");
       }
@@ -88,7 +100,7 @@ const CreateUser = (props) => {
                       alt="logo"
                     />
                   </div>
-                  <h3 className="mb-3 font-weight-bold text-center">Create User</h3>
+                  <h3 className="mb-3 font-weight-bold text-center">COMPANY CREATED</h3>
                   <div className="mb-5">
                     <p className="line-around text-secondary mb-0">
                       <span className="line-around-1">Enter user details</span>
@@ -103,30 +115,39 @@ const CreateUser = (props) => {
                           </Form.Label>
                           <Form.Control
                             type="text"
+                            value={username} // Make sure value is bound correctly
                             placeholder="Enter Username"
                             onChange={(e) => setUsername(e.target.value)}
                           />
                         </Form.Group>
+                      </Col>
+                      <Col lg="12" className="mt-2">
                         <Form.Group>
                           <Form.Label className="text-secondary">
                             Email
                           </Form.Label>
                           <Form.Control
                             type="email"
+                            value={email} // Make sure value is bound correctly
                             placeholder="Enter Email"
                             onChange={(e) => setEmail(e.target.value)}
                           />
                         </Form.Group>
+                      </Col>
+                      <Col lg="12" className="mt-2">
                         <Form.Group>
                           <Form.Label className="text-secondary">
                             Phone
                           </Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter Phone Number"
+                            value={phone} // Make sure value is bound correctly
+                            placeholder="Enter Phone"
                             onChange={(e) => setPhone(e.target.value)}
                           />
                         </Form.Group>
+                      </Col>
+                      <Col lg="12" className="mt-2">
                         <Form.Group>
                           <Form.Label className="text-secondary">
                             Password
@@ -138,6 +159,7 @@ const CreateUser = (props) => {
                           />
                         </Form.Group>
                       </Col>
+                      {/* Other form fields */}
                       <Col lg="12" className="mt-2">
                         <Form.Group>
                           <Form.Label className="text-secondary">
@@ -145,7 +167,6 @@ const CreateUser = (props) => {
                           </Form.Label>
 
                           <InputGroup className="mb-3 d-flex justify-content-center align-items-center">
-                            {/* File input for photo upload */}
                             <Form.Control
                               type="file"
                               id="inputGroupFile04"
@@ -156,10 +177,10 @@ const CreateUser = (props) => {
                         </Form.Group>
                       </Col>
                     </Row>
-                    {/* Display error message if user creation fails */}
+
+                    {/* Error message */}
                     {error && <p className="text-danger">{error}</p>}
 
-                    {/* Button to trigger user creation */}
                     <Button
                       className="btn btn-primary btn-block mt--1"
                       onClick={handleCreateUser}
