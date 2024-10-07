@@ -51,7 +51,15 @@ const CreateCompany = (props) => {
         toast.success("Company created successfully.");
       
         setTimeout(() => {
-          navigate("/auth/create-user");
+          navigate("/auth/create-user", {
+            state: {
+              username: result.username,
+              email: result.email,
+              phone: result.phone,
+              companyId: result.companyId,
+              roleId: result.roleId
+            }
+          });
         }, 1500);
       } else {
         toast.error(result.message || "Company not created.");
