@@ -27,9 +27,8 @@ const CreateUser = (props) => {
   const [error, setError] = useState(null);
   
   const navigate = useNavigate();
-  const location = useLocation(); // Get the passed state from the CreateCompany page
+  const location = useLocation();
 
-  // Populate the form fields with the passed data
   useEffect(() => {
     if (location.state) {
       setUsername(location.state.username || "");
@@ -57,6 +56,54 @@ const CreateUser = (props) => {
       formData.append('profileImage', profileImage);
     }
 
+    const getUserInfo = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found. User might not be authenticated.");
+          return;
+        }
+  
+        const result = await fetch("http://localhost:5055/api/user/get-user-info", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          }
+        });
+  
+        const userInfo = await result.json();
+        console.log("User info:", userInfo);
+      
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+
+    const getTabsInfo = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found. User might not be authenticated.");
+          return;
+        }
+  
+        const result = await fetch("http://localhost:5055/api/tab/get-tabs", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          }
+        });
+  
+        const tabInfo = await result.json();
+        console.log("Tab info:", tabInfo);
+      
+      } catch (error) {
+        console.error("Error fetching tab info:", error);
+      }
+    };
+
     try {
       let result = await fetch("http://localhost:5055/api/user/create-user", {
         method: 'POST',
@@ -71,6 +118,8 @@ const CreateUser = (props) => {
 
       if (result.message) {
         navigate("/");
+        getUserInfo();
+        getTabsInfo();
       } else {
         setError("User not created.");
       }
@@ -109,43 +158,6 @@ const CreateUser = (props) => {
                   <Form>
                     <Row>
                       <Col lg="12">
-                        <Form.Group>
-                          <Form.Label className="text-secondary">
-                            Username
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            value={username} // Make sure value is bound correctly
-                            placeholder="Enter Username"
-                            onChange={(e) => setUsername(e.target.value)}
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col lg="12" className="mt-2">
-                        <Form.Group>
-                          <Form.Label className="text-secondary">
-                            Email
-                          </Form.Label>
-                          <Form.Control
-                            type="email"
-                            value={email} // Make sure value is bound correctly
-                            placeholder="Enter Email"
-                            onChange={(e) => setEmail(e.target.value)}
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col lg="12" className="mt-2">
-                        <Form.Group>
-                          <Form.Label className="text-secondary">
-                            Phone
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            value={phone} // Make sure value is bound correctly
-                            placeholder="Enter Phone"
-                            onChange={(e) => setPhone(e.target.value)}
-                          />
-                        </Form.Group>
                       </Col>
                       <Col lg="12" className="mt-2">
                         <Form.Group>

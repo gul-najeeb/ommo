@@ -21,9 +21,34 @@ const minisidbar =() =>{
 
 
 const SidebarStyle = (props) => {
+    const getTabsInfo = async () => {
+        try {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            console.error("No token found. User might not be authenticated.");
+            return;
+          }
+    
+          const result = await fetch("http://localhost:5055/api/tab/get-tabs", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`,
+            }
+          });
+    
+          const tabInfo = await result.json();
+          console.log("Tab info:", tabInfo);
+        
+        } catch (error) {
+          console.error("Error fetching tab info:", error);
+        }
+      };
    
     //location
     let location = useLocation();
+
+    getTabsInfo();
 
     const urlParams = new URLSearchParams(window.location.search);
     const sidebar = urlParams.get('sidebar');
@@ -53,6 +78,7 @@ const SidebarStyle = (props) => {
 )
     return(
         <>
+        console.log(getTabsInfo());
             <div className={`iq-sidebar sidebar-default ${variant}`}>
             <div className="iq-sidebar-logo d-flex align-items-end justify-content-between">
                 <Link to="/" className="header-logo">
