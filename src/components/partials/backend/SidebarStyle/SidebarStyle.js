@@ -18,8 +18,10 @@ const minisidbar = () => {
     document.body.classList.toggle('sidebar-main');
 };
 
+
+
 const SidebarStyle = (props) => {
-    // State to hold API response data
+    
     const [tabsInfo, setTabsInfo] = useState({});
     
     const getTabsInfo = async () => {
@@ -39,16 +41,14 @@ const SidebarStyle = (props) => {
             });
 
             const tabInfo = await result.json();
-            setTabsInfo(tabInfo); // Save API response data in state
+            setTabsInfo(tabInfo);
         } catch (error) {
             console.error('Error fetching tab info:', error);
         }
     };
 
-    // Location
     let location = useLocation();
     
-    // Call the API to get the tabs data
     useEffect(() => {
         getTabsInfo();
     }, []);
@@ -74,11 +74,10 @@ const SidebarStyle = (props) => {
         }
     }
 
-    // Collapse state
+    
     const [activeMenu, setActiveMenu] = useState(false);
     const [activesubMenu, setSubmenu] = useState(false);
 
-    // Helper function to render the menu based on the API response
     const renderMenu = (menuData, basePath = '') => {
         return Object.keys(menuData || {}).map((menuKey) => {
             const subMenu = menuData[menuKey];
@@ -164,5 +163,4 @@ const SidebarStyle = (props) => {
     );
 };
 
-// export default SidebarStyle;
 export default connect(mapStateToProps)(SidebarStyle);
