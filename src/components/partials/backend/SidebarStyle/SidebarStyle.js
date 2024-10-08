@@ -86,7 +86,7 @@ const SidebarStyle = (props) => {
                 <li className="sidebar-layout" key={menuKey}>
                   <div className="d-flex align-items-center">
                     {/* Link to the main menu path */}
-                    <Link to={`/${basePath}${menuKey.toLowerCase()}`} className="svg-icon flex-grow-1">
+                    <Link to={`/${basePath}${menuKey.toLowerCase()}`} className="svg-icon flex-grow-1" style={{ marginLeft: '-10px' }}>
                       <span className="ml-2">{menuKey}</span> {/* Main menu link */}
                     </Link>
               
@@ -122,7 +122,7 @@ const SidebarStyle = (props) => {
                     <Accordion.Collapse className="submenu" eventKey={menuKey}>
                       <ul className="submenu">
                         {subMenu.map((item) => (
-                          <li key={item}>
+                          <li key={item} style={{ paddingLeft: '20px' }}> {/* Add padding to move subcategories to the right */}
                             <Link
                               to={`/${basePath}${item.toLowerCase()}`} // Dynamic link for subcategories
                               className="svg-icon"
@@ -152,6 +152,7 @@ const SidebarStyle = (props) => {
                   )}
                 </li>
               );
+              
               
               
             })
