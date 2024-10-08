@@ -97,7 +97,7 @@ const customers=[
     },
 ]
 
-const Customer = () =>{
+const Unit = () =>{
  return (
         <> 
             <Container fluid>
@@ -105,7 +105,7 @@ const Customer = () =>{
                 <Col lg="12">
                     <div className="d-flex flex-wrap align-items-center justify-content-between my-schedule mb-4">
                        <div className="d-flex align-items-center justify-content-between">
-                            <h4 className="font-weight-bold">Customer</h4>
+                            <h4 className="font-weight-bold">Unit</h4>
                         </div>  
                         <div className="create-workform">
                             <div className="d-flex flex-wrap align-items-center justify-content-between">
@@ -124,7 +124,7 @@ const Customer = () =>{
                                         <svg xmlns="http://www.w3.org/2000/svg" className="mr-2" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                         </svg>
-                                        Add Customer
+                                        Add Unit
                                     </Link>
                                 </div>                            
                             </div>
@@ -135,7 +135,7 @@ const Customer = () =>{
                             <Card className="card-block card-stretch">
                                 <Card.Body className="p-0">
                                     <div className="d-flex justify-content-between align-items-center p-3">
-                                        <h5 className="font-weight-bold">Customer List</h5>
+                                        <h5 className="font-weight-bold">Unit List</h5>
                                         <Button variant="btn btn-secondary btn-sm">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="mr-1" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -249,4 +249,4 @@ const Customer = () =>{
     
     )
 }
-export default Customer;
+export default Unit;

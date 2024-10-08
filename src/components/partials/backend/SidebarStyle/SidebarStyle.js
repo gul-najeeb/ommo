@@ -97,7 +97,7 @@ const SidebarStyle = (props) => {
                         eventKey={menuKey}
                         variant="link"
                         className="p-0 ml-2"
-                        onClick={(e) => e.stopPropagation()} // Prevents the main link from being clicked when the arrow is clicked
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -124,7 +124,7 @@ const SidebarStyle = (props) => {
                         {subMenu.map((item) => (
                           <li key={item} style={{ paddingLeft: '20px' }}> {/* Add padding to move subcategories to the right */}
                             <Link
-                              to={`/${basePath}${item.toLowerCase()}`} // Dynamic link for subcategories
+                              to={`/${basePath}${item.toLowerCase()}`}
                               className="svg-icon"
                             >
                               <i>
