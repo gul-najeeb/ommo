@@ -95,11 +95,9 @@ const CreateCompany = (props) => {
                       alt="logo"
                     />
                   </div>
-                  <h3 className="mb-3 font-weight-bold text-center">
-                    Getting Started
-                  </h3>
-                  <p className="text-center text-secondary mb-4">
-                    Choose your social media to create company
+                  <h3 className="mb-3 mt-n3 text-uppercase font-weight-bold text-center">Getting Started</h3>
+                  <p className="mt-n3 text-center text-uppercase small mb-4">
+                  Choose your social media to create company
                   </p>
                   <div className="social-btn d-flex justify-content-around align-items-center mb-4">
                     <Button variant="btn btn-outline-light">
@@ -155,12 +153,10 @@ const CreateCompany = (props) => {
                       </svg>
                     </Button>
                   </div>
-                  <div className="mb-5">
-                    <p className="line-around text-secondary mb-0">
-                      <span className="line-around-1">
-                        or register with email
-                      </span>
-                    </p>
+                  <div className="mb-10">
+                  <p className="mt-n3 text-center text-uppercase small mb-2">
+                  Choose your social media to create company
+                  </p>
                   </div>
                   <Form>
                     <Row>
