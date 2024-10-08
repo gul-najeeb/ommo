@@ -6,7 +6,7 @@ import Dashbord from "../views/backend/Main/Dashbord";
 import Calendar from "../views/backend/Main/Calendar";
 
 // Customer
-import Customer from "../views/backend/Main/Customer";
+import Unit from "../views/backend/Main/Unit";
 import Customeradd from "../views/backend/Main/Customeradd";
 import Customerview from "../views/backend/Main/Cutomerview";
 import Customeredit from "../views/backend/Main/Customeredit";
@@ -319,8 +319,8 @@ export const Layout1Route = [
         element: <UiTypography />,
       },
       {
-        path: "/customer",
-        element: <Customer />,
+        path: "/unit",
+        element: <Unit />,
       },
       {
         path: "/customer-add",
