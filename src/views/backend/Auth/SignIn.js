@@ -129,8 +129,8 @@ const SignIn = (props) => {
                       alt="logo"
                     />
                   </div>
-                  <h3 className="mb-3 font-weight-bold text-center">Sign In</h3>
-                  <p className="text-center text-secondary mb-4">
+                  <h3 className="mb-3 mt-n3 text-uppercase font-weight-bold text-center">SIGN IN</h3>
+                  <p className="mt-n3 text-center text-uppercase small mb-4">
                     Log in to your company account to continue
                   </p>
                   <div className="social-btn d-flex justify-content-around align-items-center mb-4">
