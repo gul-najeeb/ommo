@@ -86,7 +86,7 @@ const SidebarStyle = (props) => {
                 <li className="sidebar-layout" key={menuKey}>
                   <div className="d-flex align-items-center">
                     {/* Link to the main menu path */}
-                    <Link to={`/${basePath}${menuKey.toLowerCase()}`} className="svg-icon flex-grow-1" style={{ marginLeft: '-10px' }}>
+                    <Link to={`/${basePath}${menuKey.toLowerCase()}`} className="svg-icon flex-grow-1" style={{ marginLeft: '-10px', padding: '15px' }}>
                       <span className="ml-2">{menuKey}</span> {/* Main menu link */}
                     </Link>
               
