@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom'
 import { Navbar, Nav, Dropdown, Button, Form } from 'react-bootstrap'
 import Card from '../../../../components/Card'
@@ -30,6 +30,8 @@ function mapStateToProps(state) {
 
 
 const HeaderStyle1 = (props) => {
+    const [username, setUsername] = useState("");
+    const [profileImageUrl, setProfileImageUrl] = useState("");
     const minisidbar = () => {
         document.body.classList.toggle('sidebar-main')
     }
@@ -43,10 +45,39 @@ const HeaderStyle1 = (props) => {
         { name: "Tracy Letts", id: "OR-902559" },
     ]
 
+    const getUserInfo = async () => {
+        try {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            console.error("No token found. User might not be authenticated.");
+            return;
+          }
+    
+          const result = await fetch("http://localhost:5055/api/user/get-user-info", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`,
+            }
+          });
+    
+          const userInfo = await result.json();
+          
+          setUsername(userInfo.username);
+          setProfileImageUrl(profileImageUrl.profileImageUrl)
+    
+        } catch (error) {
+          console.error("Error fetching user info:", error);
+        }
+      };
+    
+      useEffect(() => {
+        getUserInfo();
+      }, []);
+
 
     return (
         <>
-
             <div className="iq-top-navbar">
                 <div className="iq-navbar-custom">
                     <Navbar expand="lg" className="navbar-light p-0">
@@ -323,8 +354,8 @@ const HeaderStyle1 = (props) => {
                                     </Dropdown>
                                     <Dropdown as="li" className="nav-item nav-icon">
                                         <Dropdown.Toggle as={Button} href="#" variant="nav-item nav-icon pr-0 search-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                                            <img src={user1} className="img-fluid avatar-rounded" alt="user" />
-                                            <span className="mb-0 ml-2 user-name">John Doe</span>
+                                            {/* <img src={user1} className="img-fluid avatar-rounded" alt="user" /> add profile photo here */}
+                                            <span className="mb-0 ml-2 user-name">{username}</span>
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu as="ul" className="dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                             <Dropdown.Item as="li" className="d-flex svg-icon">
