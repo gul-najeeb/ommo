@@ -149,10 +149,11 @@ const CreateUser = (props) => {
                       alt="logo"
                     />
                   </div>
-                  <h3 className="mb-3 font-weight-bold text-center">COMPANY CREATED</h3>
+                  <h3 className="mb-3 mt-n3 text-uppercase small font-weight-bold text-center">your company was successfully created.</h3>
+                  <h3 className="mb-3 mt-n3 text-uppercase small font-weight-bold text-center">create your user now.</h3>
                   <div className="mb-5">
                     <p className="line-around text-secondary mb-0">
-                      <span className="line-around-1">Enter user details</span>
+                      <span className="line-around-1 text-uppercase small">Enter user details</span>
                     </p>
                   </div>
                   <Form>
