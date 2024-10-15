@@ -1,0 +1,12 @@
+/* Custom Tippy.js Styles */
+.tippy-box {
+  background-color: white; /* Set background to white */
+  color: black; /* Set text color to black */
+  border: 1px solid #ccc; /* Optional: add a border */
+  border-radius: 4px; /* Optional: round corners */
+  padding: 10px; /* Optional: add some padding */
+}
+
+.tippy-arrow {
+  color: white; /* Set the arrow color to match the background */
+}
