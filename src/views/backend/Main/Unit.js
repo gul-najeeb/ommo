@@ -21,14 +21,11 @@ import { Link } from "react-router-dom";
 // img
 
 import User1 from "../../../assets/images/user/1.jpg";
-import User2 from "../../../assets/images/user/2.jpg";
-import User3 from "../../../assets/images/user/3.jpg";
-import User4 from "../../../assets/images/user/4.jpg";
-import User5 from "../../../assets/images/user/5.jpg";
-import User6 from "../../../assets/images/user/6.jpg";
 import UnitStatusBadge from "../../../components/shared/badge";
 import { toast } from "react-toastify";
 import { getUnitInfo } from "../../../services/units";
+import useThrottle from "../../../hooks/useThrottle";
+import useForm from "../../../hooks/useForm";
 
 const dropdownItems = [
   { label: "By Driver Name", value: "driverName" },
@@ -83,6 +80,18 @@ const customers_arr = [
 const Unit = () => {
   const [sortOrderRating, setSortOrderRating] = React.useState("asc");
   const [hoveredCell, setHoveredCell] = React.useState(null);
+  // // will be usefull when performing actions
+  // const {
+  //   values,
+  //   errors,
+  //   handleChange: handleInputChange,
+  //   handleSubmit,
+  // } = useForm({ name: "", email: "" }, (values) => {
+  //   const errors = {};
+  //   if (!values.name) errors.name = "Name is required";
+  //   if (!/\S+@\S+\.\S+/.test(values.email)) errors.email = "Email is invalid";
+  //   return errors;
+  // });
 
   const [customers, setCustomers] = React.useState(customers_arr);
   const [selectedValue, setSelectedValue] = React.useState(null);
@@ -119,6 +128,7 @@ const Unit = () => {
         console.log(selectedValue);
         switch (selectedValue.value) {
           case "driverName":
+            // call
             return customer.Driver_Name.toLowerCase().includes(query);
 
           case "trailerId":
@@ -133,6 +143,13 @@ const Unit = () => {
       return false;
     });
   }, [customers, q, selectedValue]);
+
+  // TODO! for now, will be useful queryng to actual db
+  // const throttledQuery = useThrottle(q, 300); // Throttle input changes
+
+  const handleChange = (e) => {
+    setQuery(e.target.value);
+  };
 
   const totalPages = Math.ceil(customers.length / itemsPerPage);
 
