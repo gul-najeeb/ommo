@@ -89,8 +89,10 @@ const Unit = () => {
   const [sortOrder, setSortOrder] = React.useState("asc");
 
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [q, setQ] = React.useState("");
+  const [q, setQ] = React.useState(""); // search Query
   const [itemsPerPage] = React.useState(3); // Set the number of items per page
+  // -- most important part (reusable hook to fetch the data from the server)
+  const { data, loading, error, execute } = useAsync(getUnitInfo, []); // most important (we'll configure after database-conn)
 
   useEffect(() => {
     getUnitInfo()
@@ -134,19 +136,18 @@ const Unit = () => {
 
   const totalPages = Math.ceil(customers.length / itemsPerPage);
 
-/**
- * Sets the hovered cell state to the provided cell.
- */
+  /**
+   * Sets the hovered cell state to the provided cell.
+   */
   const handleMouseEnter = (cell) => {
     setHoveredCell(cell);
   };
 
-/**
- * Resets the hovered cell state back to null
- */
+  /**
+   * Resets the hovered cell state back to null
+   */
   const handleMouseLeave = () => {
     setHoveredCell(null);
-
   };
   /**
    * Sorts the customers by name in either ascending or descending order.
@@ -172,7 +173,6 @@ const Unit = () => {
    * sorted in descending order, and vice versa.
    * @function
    */
-
 
   const sortCustomersByRating = () => {
     const newSortOrder = sortOrderRating === "asc" ? "desc" : "asc";
