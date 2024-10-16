@@ -1,0 +1,319 @@
+[33mcommit b9b86a99067dc0b3d229cd2ce23d12b29fd91f4f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: najeeb-ommo <najeeb@ommo.ai>
+Date:   Wed Oct 16 21:48:27 2024 +0500
+
+    .env setting
+
+[33mcommit 897f7c5fd59923cf614fdbe20c9f4dd1bca18257[m
+Author: OnlineSourceS <115408642+CodeWith-HAMZA@users.noreply.github.com>
+Date:   Wed Oct 16 21:45:06 2024 +0500
+
+    implemented reusable hooks to perform acitons with api
+
+[33mcommit e6b21a6872330989c3a6d221c492bf883520937f[m
+Author: OnlineSourceS <115408642+CodeWith-HAMZA@users.noreply.github.com>
+Date:   Wed Oct 16 21:31:10 2024 +0500
+
+    mod - implemented maintainable way to fetch data
+
+[33mcommit 9d375938dff97e7b4417a108ed0419c2925ca38b[m
+Author: OnlineSourceS <115408642+CodeWith-HAMZA@users.noreply.github.com>
+Date:   Wed Oct 16 21:18:09 2024 +0500
+
+    improved readability and quality of code
+
+[33mcommit e43d227e1e52a6d52326c78d740799b07f12c63b[m
+Author: OnlineSourceS <115408642+CodeWith-HAMZA@users.noreply.github.com>
+Date:   Wed Oct 16 21:15:53 2024 +0500
+
+    add apis actions for the further intercativity,
+    
+    now need database for the confirm testing to further finalize.
+
+[33mcommit 9032db30768fd961b85f13c16e00f84188b8bfd2[m
+Author: OnlineSourceS <115408642+CodeWith-HAMZA@users.noreply.github.com>
+Date:   Wed Oct 16 21:14:54 2024 +0500
+
+    .
+
+[33mcommit edb85e682faaee31ee044d99f292290f90a74438[m
+Author: OnlineSourceS <115408642+CodeWith-HAMZA@users.noreply.github.com>
+Date:   Wed Oct 16 00:00:58 2024 +0500
+
+    feat - VF-5: Filtering work in progress (only remaining API integ)
+    
+    all the chganges are done regarding the frontend logic for the filterations, now we just need an api to integerate it, to make it fully workable
+
+[33mcommit 46e9ed633d4f543f64d6519499ed4007193a93f0[m
+Author: OnlineSourceS <115408642+CodeWith-HAMZA@users.noreply.github.com>
+Date:   Tue Oct 15 23:58:28 2024 +0500
+
+    .
+
+[33mcommit 614f74a221b82e9bfba136788faf3f5750f357c5[m
+Merge: ad45c2f 8fa9dd5
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Wed Oct 9 00:46:29 2024 +0200
+
+    Merge pull request #4 from Sarwaich135/fixDashboardAPIs
+    
+    Fonts fixed.
+
+[33mcommit 8fa9dd524c993ea93e270caa6500b20ee6050ae6[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Wed Oct 9 00:46:07 2024 +0200
+
+    Fonts fixed.
+
+[33mcommit ad45c2fd7ec1b02bf4dae0271d3e116e574455b4[m
+Merge: 5e5d165 a3eefe4
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Wed Oct 9 00:39:48 2024 +0200
+
+    Merge pull request #3 from Sarwaich135/fixDashboardAPIs
+    
+    Added username to the header bar, fixed sidenav bar with main module and subcategories. fixed font on create user
+
+[33mcommit a3eefe4e8bb432d2730b574bc005dacbf0890b57[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Wed Oct 9 00:38:47 2024 +0200
+
+    Added username to the header bar, fixed sidenav bar with main module and subcategories. fixed font on create user
+
+[33mcommit 83384d51911c0922199105d236e2b30fa5459d97[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Tue Oct 8 23:52:10 2024 +0200
+
+    Stylized menu selection and sub menus from the API.
+
+[33mcommit 30a48814b4387e5c9f6471f9675ebad4ca79fbce[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Tue Oct 8 23:48:52 2024 +0200
+
+    Menu alignment fixed.
+
+[33mcommit 9fe5c64b1581eb14cb442ff135d311423087387c[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Tue Oct 8 23:47:34 2024 +0200
+
+    Layout fixed of sidenav bar.
+
+[33mcommit 621e3a69658ed2e2b98b4a2c90f1b930c449555d[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Tue Oct 8 23:10:55 2024 +0200
+
+    sidenav Bar fix.
+
+[33mcommit 6990e5e23a8c006b3bdb5845052aa745be3411b3[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Tue Oct 8 00:40:13 2024 +0200
+
+    integrated dynamic sidenavbar menu from get tab API.
+
+[33mcommit 567f4d04158035011de05e0d0ac09dae30d37adb[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Tue Oct 8 00:31:49 2024 +0200
+
+    dashboard api's into menu integrated successfully.
+
+[33mcommit 5e5d16535d215b51dd42a3ae88738020ae12709c[m
+Merge: 1223092 75525eb
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Mon Oct 7 23:41:18 2024 +0200
+
+    Merge pull request #2 from Sarwaich135/fixDashboardAPIs
+    
+    fixed create-company and create-user workflow.
+
+[33mcommit 75525eb57c6c2b0e464af6bd710ef6573dfb1937[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Mon Oct 7 23:40:24 2024 +0200
+
+    fixed create-company and create-user workflow.
+
+[33mcommit 1223092c11abc93354422ddf6a0e924db4b5af0c[m
+Merge: e14c43f 9c73f7e
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Mon Oct 7 15:55:33 2024 +0200
+
+    Merge pull request #1 from Sarwaich135/fixDashboardAPIs
+    
+    Fix dashboard ap is
+
+[33mcommit 9c73f7e63933776a455d3ce926e1c74e290ae352[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Mon Oct 7 15:49:41 2024 +0200
+
+    createUser WIP.
+
+[33mcommit 4d7bf66dcd9d26b911b9039a8a48639bc0b33310[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Mon Oct 7 14:43:38 2024 +0200
+
+    createUser WIP.
+
+[33mcommit 18bc872e2a9feea449ea7fc0785b5d32c93bd627[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Mon Oct 7 14:32:03 2024 +0200
+
+    createUser WIP.
+
+[33mcommit e14c43f140e088f0d9cb63fb6edc7ba9599c7150[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Mon Oct 7 00:42:46 2024 +0200
+
+    Fixed ommo logo at Navbar and forms for create-user.
+
+[33mcommit 89acadd5b771f2f89147b34371e66d9dd02b20f5[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Mon Oct 7 00:41:40 2024 +0200
+
+    Fixed ommo logo at Navbar and forms for create-user.
+
+[33mcommit ee44ed857cb314e7e76fb7b1ca8d6702d8f2bbb1[m
+Merge: 15a0a2f f224b20
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Fri Oct 4 15:04:54 2024 +0200
+
+    Merge pull request #7 from najeeb1023-ommo/dashBoard
+    
+    Dash board
+
+[33mcommit f224b20080a2d0a5a26dd5a1c81869bce3092d84[m
+Merge: 12a47ee 15a0a2f
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Fri Oct 4 15:04:08 2024 +0200
+
+    Merge branch 'main' of https://github.com/najeeb1023-ommo/ommo into dashBoard
+
+[33mcommit 12a47eef6065d81e5f450ebeb19fbdfb21a8e11e[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Fri Oct 4 14:45:14 2024 +0200
+
+    createUser refactoring WIP - added profile photo btn, fixing API wip.
+
+[33mcommit d73083ace323ec641ac33676601e0d6a2d04dd7a[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Fri Oct 4 14:28:04 2024 +0200
+
+    createUser refactoring WIP
+
+[33mcommit 15a0a2f30460e74c7f29f449351a5eafdccc5668[m
+Merge: c5a6242 e939b3b
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Wed Oct 2 16:26:10 2024 +0200
+
+    Merge pull request #6 from najeeb1023-ommo/updateLogo
+    
+    update sign up API for category_type to send value 1
+
+[33mcommit e939b3b95294e4edb0d2371da9be7c4336067d29[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Wed Oct 2 16:25:16 2024 +0200
+
+    update sign up API for category_type to send value 1
+
+[33mcommit c5a6242f115d7112a34b39927dbb1df016e854ec[m
+Merge: 164a702 f1d5921
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Sun Sep 29 01:30:56 2024 +0200
+
+    Merge pull request #5 from najeeb1023-ommo/updateLogo
+    
+    Logo added in login, create user, sign-up and nav bar.
+
+[33mcommit f1d59210c072bee29549f474e26b3205ab6def69[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Sun Sep 29 01:27:46 2024 +0200
+
+    Logo added in login, create user, sign-up and nav bar.
+
+[33mcommit 164a7020939e3bb475f81d03e4641a619e847661[m
+Merge: 2112a08 903e6f3
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Sat Sep 28 03:08:06 2024 +0200
+
+    Merge pull request #4 from najeeb1023-ommo/signUpForm
+    
+    Sign up form
+
+[33mcommit 903e6f33835574175ecea2b2988d390a4cc9333c[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Sat Sep 28 02:58:14 2024 +0200
+
+    finalized FE of signUp/In, create company and create user.
+
+[33mcommit 68067edf3912aa245920025626e219ad47567c20[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Sat Sep 28 02:31:29 2024 +0200
+
+    Routing fixed, signUp form implemented, create user form implemented and signIn form implemented.
+
+[33mcommit 2112a08b469b2b4de732283cbcec75bf74b7b2cb[m
+Merge: 9f35825 7860bcb
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Fri Sep 27 16:32:11 2024 +0200
+
+    Merge pull request #3 from najeeb1023-ommo/signUpForm
+    
+    Sign up form
+
+[33mcommit 7860bcb1abc5622a8ce513089abe25e0d967e49f[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Fri Sep 27 16:05:20 2024 +0200
+
+    APIs set for new signUp FE.
+
+[33mcommit 2658b93abfe870403761e4acd32ec9c85beff3c7[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Fri Sep 27 15:20:45 2024 +0200
+
+    Added companyType button options, signUp form WIP.
+
+[33mcommit 5ca1da710f471a3856247175a8464059b6d52122[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Thu Sep 26 20:40:10 2024 +0200
+
+    signUpForm WIP.
+
+[33mcommit 9f35825dad4f38f236e03da4ac421c15e3329c12[m
+Merge: 3e47e7c fddb77e
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Thu Sep 26 16:51:45 2024 +0200
+
+    Merge pull request #2 from najeeb1023-ommo/updateTextAndLogo
+    
+    Update text and logo
+
+[33mcommit fddb77e8cc915dc681129feefcd37b61c1f2af19[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Thu Sep 26 16:51:13 2024 +0200
+
+    Signup form and Signin form UI fixed, APIs integrated.
+
+[33mcommit 4fef48c889b1614ea0b3f7a8304f273dea91dbe6[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Thu Sep 26 13:31:12 2024 +0200
+
+    Login API integrated.
+
+[33mcommit 3e47e7c73c55fdc5cabda81d98544020fe8bb1c0[m
+Merge: bdc8ccd 50329b5
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Wed Sep 25 23:21:44 2024 +0200
+
+    Merge pull request #1 from najeeb1023-ommo/editCustomerPage
+    
+    Sign Up BE setup completed.
+
+[33mcommit 50329b5dd54b359d30727c88e91b82352bf6b649[m
+Author: najeeb1023-ommo <najeeb@ommo.ai>
+Date:   Wed Sep 25 23:21:10 2024 +0200
+
+    Sign Up BE setup completed.
+
+[33mcommit bdc8ccd6a30a550e0ed41b32d4ea3cfd3bb8b6ea[m
+Author: najeeb1023 <najeeb.capricorn@gmail.com>
+Date:   Tue Sep 17 23:52:07 2024 +0200
+
+    Initial commit.
