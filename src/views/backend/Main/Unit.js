@@ -134,6 +134,9 @@ const Unit = () => {
 
   const totalPages = Math.ceil(customers.length / itemsPerPage);
 
+/**
+ * Sets the hovered cell state to the provided cell.
+ */
   const handleMouseEnter = (cell) => {
     setHoveredCell(cell);
   };
