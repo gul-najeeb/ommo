@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./unit.css";
 import { FaSort } from "react-icons/fa";
 
@@ -28,6 +28,7 @@ import User5 from "../../../assets/images/user/5.jpg";
 import User6 from "../../../assets/images/user/6.jpg";
 import UnitStatusBadge from "../../../components/shared/badge";
 import { toast } from "react-toastify";
+import { getUnitInfo } from "../../../services/units";
 
 const dropdownItems = [
   { label: "By Driver Name", value: "driverName" },
@@ -75,6 +76,10 @@ const customers_arr = [
   },
 ];
 
+/**
+ * This component represents a Unit list with sorting functionalities and search capabilities.
+ * It displays a table of customers with options to search, sort by name or rating, and navigate through pages.
+ */
 const Unit = () => {
   const [sortOrderRating, setSortOrderRating] = React.useState("asc");
   const [hoveredCell, setHoveredCell] = React.useState(null);
@@ -86,6 +91,19 @@ const Unit = () => {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [q, setQ] = React.useState("");
   const [itemsPerPage] = React.useState(3); // Set the number of items per page
+
+  useEffect(() => {
+    getUnitInfo()
+      .then((data) => {
+        // setting in the state after the data
+        // setCustomers(data);
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Error fetching unit info");
+      });
+  }, []);
 
   const filteredCustomers = React.useMemo(() => {
     return customers.filter((customer) => {
@@ -120,9 +138,19 @@ const Unit = () => {
     setHoveredCell(cell);
   };
 
+/**
+ * Resets the hovered cell state back to null
+ */
   const handleMouseLeave = () => {
     setHoveredCell(null);
+
   };
+  /**
+   * Sorts the customers by name in either ascending or descending order.
+   * If the customers are currently sorted in ascending order, they will be
+   * sorted in descending order, and vice versa.
+   * @function
+   */
   const sortCustomersByName = () => {
     const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
     const sortedCustomers = [...customers].sort((a, b) => {
@@ -135,6 +163,14 @@ const Unit = () => {
     setCustomers(sortedCustomers);
     setSortOrder(newSortOrder);
   };
+  /**
+   * Sorts the customers by rating in either ascending or descending order.
+   * If the customers are currently sorted in ascending order, they will be
+   * sorted in descending order, and vice versa.
+   * @function
+   */
+
+
   const sortCustomersByRating = () => {
     const newSortOrder = sortOrderRating === "asc" ? "desc" : "asc";
     const sortedCustomers = [...customers].sort((a, b) => {
@@ -147,6 +183,14 @@ const Unit = () => {
     setCustomers(sortedCustomers);
     setSortOrderRating(newSortOrder);
   };
+  /**
+   * Handles the selection of a dropdown item in the dropdown component.
+   * This function is passed as a prop to the dropdown component and is
+   * called whenever an item is selected. It updates the selectedValue state
+   * to the value of the selected item and logs the selected value to the
+   * console.
+   * @param {string} value The value of the selected item.
+   */
   const handleSelect = (value) => {
     setSelectedValue(value);
     console.log(`Selected: ${value}`);
@@ -513,7 +557,9 @@ const Unit = () => {
                       alignItems: "center",
                     }}
                   >
-                    <p className="text-align-center">Sorry! No Items Are Found</p>
+                    <p className="text-align-center">
+                      Sorry! No Items Are Found
+                    </p>
                   </div>
                 )}
               </Col>
