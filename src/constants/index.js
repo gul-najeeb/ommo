@@ -1,0 +1,1 @@
+export const baseUrl ='http://localhost:5055' // soon will come through .env
