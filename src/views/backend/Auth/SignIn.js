@@ -19,7 +19,7 @@ function mapStateToProps(state) {
 const SignIn = (props) => {
   const [EmailOrPhone, setEmailOrPhone] = useState("");
   const [Password, setPassword] = useState("");
-  const [error , setError] = useState(null);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const getTabsInfo = async () => {
@@ -34,13 +34,12 @@ const SignIn = (props) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       const tabInfo = await result.json();
       console.log("Tab info:", tabInfo);
-    
     } catch (error) {
       console.error("Error fetching tab info:", error);
     }
@@ -54,17 +53,19 @@ const SignIn = (props) => {
         return;
       }
 
-      const result = await fetch("http://localhost:5055/api/user/get-user-info", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+      const result = await fetch(
+        "http://localhost:5055/api/user/get-user-info",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         }
-      });
+      );
 
       const userInfo = await result.json();
       console.log("User info:", userInfo);
-    
     } catch (error) {
       console.error("Error fetching user info:", error);
     }
@@ -77,19 +78,18 @@ const SignIn = (props) => {
 
     try {
       let result = await fetch("http://localhost:5055/api/auth/login", {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(item),
         headers: {
-          "Content-Type": 'application/json',
-          "Accept": 'application/json'
-        }
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
       });
 
       result = await result.json();
       console.log("Signin result:", result);
 
       if (result.token) {
-        
         localStorage.setItem("token", result.token);
 
         toast.success("Login successful.");
@@ -98,7 +98,6 @@ const SignIn = (props) => {
           navigate("/");
           getTabsInfo();
           getUserInfo();
-          
         }, 1500);
       } else {
         toast.error("Invalid credentials.");
@@ -111,7 +110,10 @@ const SignIn = (props) => {
 
   return (
     <>
-      <section className="login-content">
+      <section
+        className="login-content "
+        style={{ overflow: "scroll", paddingTop: "24rem" }}
+      >
         <Container className="h-100">
           <Row className="align-items-center justify-content-center h-100">
             <Col md="5">
@@ -120,16 +122,22 @@ const SignIn = (props) => {
                   <div className="auth-logo">
                     <img
                       src={logo}
-                      className={`img-fluid  rounded-normal  ${!props.darkMode ? "d-none" : ""}`}
+                      className={`img-fluid  rounded-normal  ${
+                        !props.darkMode ? "d-none" : ""
+                      }`}
                       alt="logo"
                     />
                     <img
                       src={darklogo}
-                      className={`img-fluid  rounded-normal  ${props.darkMode ? "d-none" : ""}`}
+                      className={`img-fluid  rounded-normal  ${
+                        props.darkMode ? "d-none" : ""
+                      }`}
                       alt="logo"
                     />
                   </div>
-                  <h3 className="mb-3 mt-n3 text-uppercase font-weight-bold text-center">SIGN IN</h3>
+                  <h3 className="mb-3 mt-n3 text-uppercase font-weight-bold text-center">
+                    SIGN IN
+                  </h3>
                   <p className="mt-n3 text-center text-uppercase small mb-4">
                     Log in to your company account to continue
                   </p>
@@ -225,7 +233,7 @@ const SignIn = (props) => {
                       </Col>
                     </Row>
                     {error && <p className="text-danger">{error}</p>}
-                    
+
                     <Button
                       className="btn btn-primary btn-block mt-2"
                       onClick={handleSignIn}
@@ -246,7 +254,9 @@ const SignIn = (props) => {
                     <Col lg="12" className="mt-3">
                       <p className="mb-0 text-center">
                         Don't have a company?{" "}
-                        <Link to="/auth/create-company">Create Company Account.</Link>
+                        <Link to="/auth/create-company">
+                          Create Company Account.
+                        </Link>
                       </p>
                     </Col>
                   </Form>

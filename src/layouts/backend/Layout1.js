@@ -7,6 +7,7 @@ import { Outlet } from "react-router-dom";
 import HeaderStyle1 from "../../components/partials/backend/HeaderStyle/HeaderStyle1";
 import SidebarStyle from "../../components/partials/backend/SidebarStyle/SidebarStyle";
 import FooterStyle from "../../components/partials/backend/FooterStyle/FooterStyle";
+import { AuthProvider } from "../../context/auth.context";
 
 // Router Component
 // import Layout1Route from "../../router/layout1-route";
@@ -14,14 +15,16 @@ import FooterStyle from "../../components/partials/backend/FooterStyle/FooterSty
 const Layout1 = () => {
   return (
     <>
-      <div className="wrapper">
-        <HeaderStyle1 />
-        <SidebarStyle />
-        <div className="content-page">
-          <Outlet />
+      <AuthProvider>
+        <div className="wrapper">
+          <HeaderStyle1 />
+          <SidebarStyle />
+          <div className="content-page">
+            <Outlet />
+          </div>
         </div>
-      </div>
-      <FooterStyle />
+        <FooterStyle />
+      </AuthProvider>
     </>
   );
 };

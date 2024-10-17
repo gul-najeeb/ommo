@@ -101,7 +101,7 @@ const Unit = () => {
   const [q, setQ] = React.useState(""); // search Query
   const [itemsPerPage] = React.useState(3); // Set the number of items per page
   // -- most important part (reusable hook to fetch the data from the server)
-  const { data, loading, error, execute } = useAsync(getUnitInfo, []); // most important (we'll configure after database-conn)
+  // const { data, loading, error, execute } = useAsync(getUnitInfo, []); // most important (we'll configure after database-conn)
 
   useEffect(() => {
     getUnitInfo()
@@ -148,7 +148,7 @@ const Unit = () => {
   // const throttledQuery = useThrottle(q, 300); // Throttle input changes
 
   const handleChange = (e) => {
-    setQuery(e.target.value);
+    // setQuery(e.target.value);
   };
 
   const totalPages = Math.ceil(customers.length / itemsPerPage);

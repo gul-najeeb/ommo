@@ -13,19 +13,18 @@ import { Provider } from "react-redux";
 
 //reducer
 import Store from "./store";
+import { AuthProvider } from "./context/auth.context";
 
 const router = createBrowserRouter([...LayoutsRoute], {
   basename: process.env.PUBLIC_URL,
 });
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.Fragment>
-    <Provider store={Store}>
-      <App>
-        <RouterProvider router={router}></RouterProvider>
-      </App>
-    </Provider>
-  </React.Fragment>
+  <Provider store={Store}>
+    <App>
+      <RouterProvider router={router}></RouterProvider>
+    </App>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

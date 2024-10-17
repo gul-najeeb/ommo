@@ -1,10 +1,17 @@
 import React, { useState } from "react";
-import { Container, Col, Row, Form, Button, ButtonGroup } from "react-bootstrap";
+import {
+  Container,
+  Col,
+  Row,
+  Form,
+  Button,
+  ButtonGroup,
+} from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Card from "../../../components/Card";
 import { connect } from "react-redux";
 import { getDarkMode } from "../../../store/mode";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 
 //img
@@ -27,29 +34,43 @@ const CreateCompany = (props) => {
   const [MCNumber, setMcNumber] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  
+
   const handleCreateCompany = async (event) => {
     event.preventDefault();
-  
-    let item = { Name, Address, Phone, Email, CompanyType, CategoryType, MCNumber };
-  
+
+    let item = {
+      Name,
+      Address,
+      Phone,
+      Email,
+      CompanyType,
+      CategoryType,
+      MCNumber,
+    };
+
     try {
-      let response = await fetch("http://localhost:5055/api/company/create-company", {
-        method: 'POST',
-        body: JSON.stringify(item),
-        headers: {
-          "Content-Type": 'application/json',
-          "Accept": 'application/json'
+      let response = await fetch(
+        "http://localhost:5055/api/company/create-company",
+        {
+          method: "POST",
+          body: JSON.stringify(item),
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
         }
-      });
-  
+      );
+
       let result = await response.json();
       console.log("Signup result:", result);
-      
-      
-      if (result.message || result.status === "success" || result.statusCode === 200) {
+
+      if (
+        result.message ||
+        result.status === "success" ||
+        result.statusCode === 200
+      ) {
         toast.success("Company created successfully.");
-      
+
         setTimeout(() => {
           navigate("/auth/create-user", {
             state: {
@@ -57,8 +78,8 @@ const CreateCompany = (props) => {
               email: item.Email,
               phone: item.Phone,
               companyId: result.companyId,
-              roleId: result.roleId
-            }
+              roleId: result.roleId,
+            },
           });
         }, 1500);
       } else {
@@ -77,8 +98,18 @@ const CreateCompany = (props) => {
 
   return (
     <>
-      <section className="login-content" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
-        <Container className="h-100" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <section
+        className="login-content"
+        style={{ minHeight: "100vh", display: "flex", alignItems: "center" }}
+      >
+        <Container
+          className="h-100"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <Row className="align-items-center justify-content-center w-100">
             <Col md="5">
               <Card className="p-3">
@@ -86,18 +117,24 @@ const CreateCompany = (props) => {
                   <div className="auth-logo text-center">
                     <img
                       src={logo}
-                      className={`img-fluid rounded-normal ${!props.darkMode ? "d-none" : ""}`}
+                      className={`img-fluid rounded-normal ${
+                        !props.darkMode ? "d-none" : ""
+                      }`}
                       alt="logo"
                     />
                     <img
                       src={darklogo}
-                      className={`img-fluid rounded-normal ${props.darkMode ? "d-none" : ""}`}
+                      className={`img-fluid rounded-normal ${
+                        props.darkMode ? "d-none" : ""
+                      }`}
                       alt="logo"
                     />
                   </div>
-                  <h3 className="mb-3 mt-n3 text-uppercase font-weight-bold text-center">Getting Started</h3>
+                  <h3 className="mb-3 mt-n3 text-uppercase font-weight-bold text-center">
+                    Getting Started
+                  </h3>
                   <p className="mt-n3 text-center text-uppercase small mb-4">
-                  Choose your social media to create company
+                    Choose your social media to create company
                   </p>
                   <div className="social-btn d-flex justify-content-around align-items-center mb-4">
                     <Button variant="btn btn-outline-light">
@@ -154,9 +191,9 @@ const CreateCompany = (props) => {
                     </Button>
                   </div>
                   <div className="mb-10">
-                  <p className="mt-n3 text-center text-uppercase small mb-2">
-                  Choose your social media to create company
-                  </p>
+                    <p className="mt-n3 text-center text-uppercase small mb-2">
+                      Choose your social media to create company
+                    </p>
                   </div>
                   <Form>
                     <Row>
@@ -188,7 +225,12 @@ const CreateCompany = (props) => {
                       </Col>
                       <Col lg="12" className="mt-2">
                         <Form.Group>
-                          <Form.Label className="text-secondary">
+                          <Form.Label
+                            onClick={() => {
+                              // navigation
+                            }}
+                            className="text-secondary"
+                          >
                             Phone
                           </Form.Label>
                           <Form.Control
@@ -218,15 +260,19 @@ const CreateCompany = (props) => {
                         </Form.Label>
                         <ButtonGroup className="d-flex justify-content-center">
                           <Button
-                            style={{ transition: 'all 0.3s', color: '#007bff', border: '1px solid #78d421' }}
+                            style={{
+                              transition: "all 0.3s",
+                              color: "#007bff",
+                              border: "1px solid #78d421",
+                            }}
                             variant="button btn button-icon bg-white text-primary"
                             onMouseEnter={(e) => {
-                              e.target.style.backgroundColor = '#007bff';
-                              e.target.style.color = '#fff';
+                              e.target.style.backgroundColor = "#007bff";
+                              e.target.style.color = "#fff";
                             }}
                             onMouseLeave={(e) => {
-                              e.target.style.backgroundColor = '#fff';
-                              e.target.style.color = '#007bff';
+                              e.target.style.backgroundColor = "#fff";
+                              e.target.style.color = "#007bff";
                             }}
                             onClick={() => handleCompanyType(1)}
                             target="_blank"
@@ -234,15 +280,19 @@ const CreateCompany = (props) => {
                             Carrier
                           </Button>
                           <Button
-                            style={{ transition: 'all 0.3s', color: '#007bff', border: '1px solid #78d421' }}
+                            style={{
+                              transition: "all 0.3s",
+                              color: "#007bff",
+                              border: "1px solid #78d421",
+                            }}
                             variant="button btn button-icon bg-white text-primary"
                             onMouseEnter={(e) => {
-                              e.target.style.backgroundColor = '#007bff';
-                              e.target.style.color = '#fff';
+                              e.target.style.backgroundColor = "#007bff";
+                              e.target.style.color = "#fff";
                             }}
                             onMouseLeave={(e) => {
-                              e.target.style.backgroundColor = '#fff';
-                              e.target.style.color = '#007bff';
+                              e.target.style.backgroundColor = "#fff";
+                              e.target.style.color = "#007bff";
                             }}
                             onClick={() => handleCompanyType(2)}
                             target="_blank"
