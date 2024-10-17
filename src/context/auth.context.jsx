@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
   };
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate("/auth/sign-in");
+      // navigate("/auth/sign-in");
     }
   }, [navigate, isAuthenticated]);
 

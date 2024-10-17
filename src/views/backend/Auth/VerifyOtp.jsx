@@ -5,7 +5,7 @@ const OTPVerify = () => {
   const [otp, setOtp] = useState(new Array(6).fill("")); // Array to store 6 digits
   const [validated, setValidated] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [timeRemaining, setTimeRemaining] = useState(14); // 3 minutes in seconds
+  const [timeRemaining, setTimeRemaining] = useState(60); // 3 minutes in seconds
   const [otpExpired, setOtpExpired] = useState(false);
   const inputs = useRef([]); // Ref to control focus of input boxes
 
@@ -61,7 +61,7 @@ const OTPVerify = () => {
   const handleResendOTP = () => {
     setOtp(new Array(6).fill("")); // Reset OTP boxes
     setErrorMessage("");
-    setTimeRemaining(30); // Reset timer
+    setTimeRemaining(60); // Reset timer
     setOtpExpired(false); // Reset expired status
     inputs.current[0].focus(); // Focus on the first input
     alert("OTP resent!"); // Simulate OTP resend
