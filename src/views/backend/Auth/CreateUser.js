@@ -117,7 +117,7 @@ const CreateUser = (props) => {
       console.log("Create User result:", result);
 
       if (result.message) {
-        navigate("/");
+        navigate("/auth/verify-otp");
         getUserInfo();
         getTabsInfo();
       } else {

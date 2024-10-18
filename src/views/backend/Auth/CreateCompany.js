@@ -37,6 +37,15 @@ const CreateCompany = (props) => {
 
   const handleCreateCompany = async (event) => {
     event.preventDefault();
+    const re = {
+      "datType": 1,
+      "Name": "John Doe",
+      "Address": "123 Main St, City, Country",
+      "Phone": "+1234567890",
+      "Email": "john.doe@example.com",
+      "MCNumber": "MC123456"
+  }
+  
 
     let item = {
       Name,

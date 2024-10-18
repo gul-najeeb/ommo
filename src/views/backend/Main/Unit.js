@@ -15,9 +15,11 @@ import {
   Button,
   Dropdown,
   Pagination,
+  DropdownButton,
+  NavDropdown,
 } from "react-bootstrap";
 import Card from "../../../components/Card";
-import { Link } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 // img
 
 import User1 from "../../../assets/images/user/1.jpg";
@@ -26,6 +28,7 @@ import { toast } from "react-toastify";
 import { getUnitInfo } from "../../../services/units";
 import useThrottle from "../../../hooks/useThrottle";
 import useForm from "../../../hooks/useForm";
+import axios from "axios";
 
 const dropdownItems = [
   { label: "By Driver Name", value: "driverName" },
@@ -55,12 +58,67 @@ const customers_arr = [
     Unit_Status: "Pending",
   },
   {
+    ID: 12,
+    Driver_Name: "Smith John",
+    Driver_Rating: 4,
+    Truck_ID: "TR116",
+    Trailer_ID: "TL666",
+    Unit_Status: "Pending",
+  },
+  {
+    ID: 123,
+    Driver_Name: "Malve Smith",
+    Driver_Rating: 3,
+    Truck_ID: "TR111",
+    Trailer_ID: "TL166",
+    Unit_Status: "Pending",
+  },
+  {
+    ID: 132,
+    Driver_Name: "George Brown",
+    Driver_Rating: 2,
+    Truck_ID: "TR121",
+    Trailer_ID: "TL121",
+    Unit_Status: "Active",
+  },
+  {
+    ID: 212,
+    Driver_Name: "Johnson",
+    Driver_Rating: 3,
+    Truck_ID: "TR999",
+    Trailer_ID: "TL986",
+    Unit_Status: "Active",
+  },
+  {
+    ID: 12,
+    Driver_Name: "Micke Johnson",
+    Driver_Rating: 1,
+    Truck_ID: "TR999",
+    Trailer_ID: "TL986",
+    Unit_Status: "Active",
+  },
+  {
     ID: 3,
     Driver_Name: "Robert Brown",
     Driver_Rating: 5,
-
     Truck_ID: "TR789",
     Trailer_ID: "TL890",
+    Unit_Status: "IDLE",
+  },
+  {
+    ID: 15,
+    Driver_Name: "Michal",
+    Driver_Rating: 5,
+    Truck_ID: "TR755",
+    Trailer_ID: "TL888",
+    Unit_Status: "IDLE",
+  },
+  {
+    ID: 215,
+    Driver_Name: "Faraday",
+    Driver_Rating: 3,
+    Truck_ID: "TR711",
+    Trailer_ID: "TL858",
     Unit_Status: "IDLE",
   },
   {
@@ -80,6 +138,11 @@ const customers_arr = [
 const Unit = () => {
   const [sortOrderRating, setSortOrderRating] = React.useState("asc");
   const [hoveredCell, setHoveredCell] = React.useState(null);
+  const [selectedStatus, setSelectedStatus] = React.useState("All"); // Default status
+
+  const handleSelectStatus = (status) => {
+    setSelectedStatus(status); // Update the selected status
+  };
   // // will be usefull when performing actions
   // const {
   //   values,
@@ -99,25 +162,42 @@ const Unit = () => {
 
   const [currentPage, setCurrentPage] = React.useState(1);
   const [q, setQ] = React.useState(""); // search Query
-  const [itemsPerPage] = React.useState(3); // Set the number of items per page
+  const [itemsPerPage] = React.useState(4); // Set the number of items per page
+
+  const nav = useNavigate();
   // -- most important part (reusable hook to fetch the data from the server)
   // const { data, loading, error, execute } = useAsync(getUnitInfo, []); // most important (we'll configure after database-conn)
 
   useEffect(() => {
-    getUnitInfo()
-      .then((data) => {
-        // setting in the state after the data
-        // setCustomers(data);
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Error fetching unit info");
-      });
+    async function fetchData() {
+      // i wanna make fetch request
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          nav("/auth/sign-in");
+        }
+        const res = await fetch(
+          "http://localhost:5055/api/units/get-unit-info/?status=Active",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await res.json();
+        console.log("HAHA", data);
+      } catch (error) {}
+    }
+    fetchData();
   }, []);
 
   const filteredCustomers = React.useMemo(() => {
     return customers.filter((customer) => {
+      if (selectedStatus !== "All") {
+        return customer.Unit_Status === selectedStatus;
+      }
+
       if (!q) return true; // If there's no query, show all customers
       const query = q.toLowerCase();
 
@@ -142,7 +222,7 @@ const Unit = () => {
       }
       return false;
     });
-  }, [customers, q, selectedValue]);
+  }, [customers, q, selectedValue, selectedStatus]);
 
   // TODO! for now, will be useful queryng to actual db
   // const throttledQuery = useThrottle(q, 300); // Throttle input changes
@@ -377,7 +457,7 @@ const Unit = () => {
                           <tr className="">
                             <th scope="col" className="pr-0 w-01">
                               <div className="d-flex justify-content-start align-items-end mb-1 ">
-                                <div className="custom-control custom-checkbox custom-control-inline">
+                                {/* <div className="custom-control custom-checkbox custom-control-inline">
                                   <input
                                     type="checkbox"
                                     className="custom-control-input m-0"
@@ -388,6 +468,7 @@ const Unit = () => {
                                     htmlFor="customCheck1"
                                   ></label>
                                 </div>
+                              */}
                               </div>
                             </th>
                             <th
@@ -412,7 +493,29 @@ const Unit = () => {
                             <th scope="col">Truck ID</th>
                             <th scope="col">Trailer ID</th>
                             <th scope="col" className="text-right">
-                              Unit Status
+                              <NavDropdown
+                                id="dropdown-status"
+                                title={`Unit Status: ${selectedStatus}`} // Show selected status
+                                onSelect={handleSelectStatus} // Handle status selection
+                                variant="outline-secondary"
+                                style={{
+                                  backgroundColor: "white",
+                                  color: "black",
+                                }}
+                              >
+                                <NavDropdown.Item eventKey="All">
+                                  All
+                                </NavDropdown.Item>
+                                <NavDropdown.Item eventKey="Active">
+                                  Active
+                                </NavDropdown.Item>
+                                <NavDropdown.Item eventKey="IDLE">
+                                  IDLE
+                                </NavDropdown.Item>
+                                <NavDropdown.Item eventKey="Pending">
+                                  Pending
+                                </NavDropdown.Item>
+                              </NavDropdown>
                             </th>
                             <th scope="col" className="text-right">
                               Actions
@@ -426,42 +529,34 @@ const Unit = () => {
                                   key={item.des}
                                   className="white-space-no-wrap"
                                 >
-                                  <td className="pr-0 ">
-                                    <div className="custom-control custom-checkbox custom-control-inline">
-                                      <input
-                                        type="checkbox"
-                                        className="custom-control-input m-0"
-                                        id="customCheck"
-                                      />
-                                      <label
-                                        className="custom-control-label"
-                                        htmlFor="customCheck"
-                                      ></label>
-                                    </div>
-                                  </td>
+                                  <td className="pr-0 "></td>
+
+                                  {/* Driver Name with Tooltip */}
                                   <td className="">
                                     <div className="active-project-1 d-flex align-items-center mt-0 ">
                                       <div className="h-avatar is-medium">
-                                        <img
-                                          className="avatar rounded-circle"
-                                          alt="user-icon"
-                                          src={User1}
-                                        />
+                                        {/* You can add an avatar image here */}
                                       </div>
                                       <div className="data-content">
                                         <div>
                                           <Tippy
-                                            placement="bottom-end"
+
+                                            placement="right-end"
                                             interactive
                                             content={
                                               <div>
                                                 <p>
-                                                  lorem satoheusa ntnhea ao
-                                                  ehusaoehuasohuaotehu staoheuta
-                                                  euthaoe stahoutehu
-                                                  atoheuatoehu ateuhae{" "}
+                                                  Driver Name:{" "}
+                                                  {item?.Driver_Name}
                                                 </p>
-                                                <Button>show more</Button>
+                                                <p>Driver Type: Full-Time</p>
+                                                <p>Status: Active</p>
+                                                <p>License Number: D00123</p>
+                                                <p>License State: CA</p>
+                                                <p>Email: com@gmail.com</p>
+                                                <p>Phone: +3434453467</p>
+                                                <p>Current Mode: Driving</p>
+                                                <p>Rating: 4.6</p>
                                               </div>
                                             }
                                           >
@@ -474,14 +569,62 @@ const Unit = () => {
                                       </div>
                                     </div>
                                   </td>
+
+                                  {/* Driver Rating */}
                                   <td>{item.Driver_Rating}</td>
-                                  <td>{item.Truck_ID}</td>
-                                  <td>{item.Trailer_ID}</td>
+
+                                  {/* Truck ID with Tooltip */}
+                                  <td>
+                                    <Tippy
+                                      placement="right-end"
+                                      interactive
+                                      content={
+                                        <div>
+                                          <p>Truck Brand: Ford</p>
+                                          <p>Model: F-150</p>
+                                          <p>Year: 2017</p>
+                                          <p>License Plate State: CA </p>
+                                          <p>Status: Active </p>
+                                          <p>Rating: 4.5</p>
+                                          <p>Mileage: 10 MPG </p>
+                                          <p>Odometer: 120,000 miles</p>
+
+                                          <p>VIN: ABC1234567XYZ</p>
+                                          <p>Fuel Type: Diesel</p>
+                                        </div>
+                                      }
+                                    >
+                                      <span>{item.Truck_ID}</span>
+                                    </Tippy>
+                                  </td>
+
+                                  {/* Trailer ID with Tooltip */}
+                                  <td>
+                                    <Tippy
+                                      placement="right-end"
+                                      interactive
+                                      content={
+                                        <div>
+                                          <p>Status: IDLE</p>
+                                          <p>Rating: 3.2</p>
+                                          <p>Plate Number: PLATE4567</p>
+                                          <p>VIN Code: TRL789456123</p>
+                                          <p>Brand: Wabash </p>
+                                        </div>
+                                      }
+                                    >
+                                      <span>{item.Trailer_ID}</span>
+                                    </Tippy>
+                                  </td>
+
+                                  {/* Unit Status */}
                                   <td>
                                     <UnitStatusBadge
                                       status={item.Unit_Status}
                                     />
                                   </td>
+
+                                  {/* Action Buttons (View, Edit, Delete) */}
                                   <td>
                                     <div className="d-flex justify-content-end align-items-center">
                                       <OverlayTrigger
@@ -512,6 +655,7 @@ const Unit = () => {
                                           </svg>
                                         </Link>
                                       </OverlayTrigger>
+
                                       <OverlayTrigger
                                         placement="top"
                                         overlay={<Tooltip>Edit</Tooltip>}
@@ -534,6 +678,7 @@ const Unit = () => {
                                           </svg>
                                         </Link>
                                       </OverlayTrigger>
+
                                       <OverlayTrigger
                                         placement="top"
                                         overlay={<Tooltip>Delete</Tooltip>}

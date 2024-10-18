@@ -26,6 +26,10 @@ export const AuthProvider = ({ children }) => {
     if (!isAuthenticated) {
       // navigate("/auth/sign-in");
     }
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/auth/sign-in");
+    }
   }, [navigate, isAuthenticated]);
 
   return (

@@ -110,10 +110,7 @@ const SignIn = (props) => {
 
   return (
     <>
-      <section
-        className="login-content "
-        style={{ overflow: "scroll", paddingTop: "24rem" }}
-      >
+      <section className="login-content " style={{ overflow: "scroll" }}>
         <Container className="h-100">
           <Row className="align-items-center justify-content-center h-100">
             <Col md="5">
