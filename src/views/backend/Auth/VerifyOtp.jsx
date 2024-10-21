@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const OTPVerify = () => {
   const [otp, setOtp] = useState(new Array(6).fill("")); // Array to store 6 digits
@@ -88,9 +89,14 @@ const OTPVerify = () => {
           <h3 className="text-center mb-4">OTP Verification</h3>
 
           {validated && (
-            <Alert variant="success" className="text-center">
-              OTP verified successfully!
-            </Alert>
+            <>
+              <Alert variant="success" className="text-center">
+                OTP verified successfully
+                </Alert>
+                <Link to="/auth/account-created">
+                <span className="" style={{color: 'black', fontWeight: 'bold'}}>Proceed Further</span>
+                </Link>
+            </>
           )}
 
           {!validated && (
