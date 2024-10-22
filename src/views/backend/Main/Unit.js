@@ -518,11 +518,18 @@ const Unit = () => {
                               <FaSort />
                             </th>
 
-                            <th scope="col" onClick={() => sortByTruckId()}>
+                            <th
+                              scope="col"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => sortByTruckId()}
+                            >
                               Truck ID {sortTruckId === "asc" ? " ↑" : " ↓"}
                             </th>
-                            <th scope="col"
-                            onClick={() => sortByTrailerId()} > 
+                            <th
+                              scope="col"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => sortByTrailerId()}
+                            >
                               {" "}
                               Trailer ID {sortTrailerId === "asc" ? " ↑" : " ↓"}
                             </th>
