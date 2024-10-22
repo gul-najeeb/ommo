@@ -137,6 +137,8 @@ const customers_arr = [
  */
 const Unit = () => {
   const [sortOrderRating, setSortOrderRating] = React.useState("asc");
+  const [sortTruckId, setSortTruckId] = React.useState("asc");
+  const [sortTrailerId, setSortTrailerId] = React.useState("asc");
   const [hoveredCell, setHoveredCell] = React.useState(null);
   const [selectedStatus, setSelectedStatus] = React.useState("All"); // Default status
 
@@ -173,9 +175,9 @@ const Unit = () => {
       // i wanna make fetch request
       try {
         const token = localStorage.getItem("token");
-        if (!token) {
-          nav("/auth/sign-in");
-        }
+        // if (!token) {
+        //   nav("/auth/sign-in");
+        // }
         const res = await fetch(
           "http://localhost:5055/api/units/get-unit-info/?status=Active",
           {
@@ -282,6 +284,32 @@ const Unit = () => {
     });
     setCustomers(sortedCustomers);
     setSortOrderRating(newSortOrder);
+  };
+  const sortByTruckId = () => {
+    const newSortOrder = sortTruckId === "asc" ? "desc" : "asc"; // Toggle sorting direction
+
+    // Sort based on the numeric part of the Truck_ID (ignore the "TR" prefix)
+    const sorted = [...customers].sort((a, b) => {
+      const numA = parseInt(a.Truck_ID.replace("TR", ""), 10);
+      const numB = parseInt(b.Truck_ID.replace("TR", ""), 10);
+
+      return newSortOrder === "asc" ? numA - numB : numB - numA;
+    });
+    setCustomers(sorted); // Update the sorted data
+    setSortTruckId(newSortOrder); // T
+  };
+  const sortByTrailerId = () => {
+    const newSortOrder = sortTrailerId === "asc" ? "desc" : "asc"; // Toggle sorting direction
+
+    // Sort based on the numeric part of the Truck_ID (ignore the "TR" prefix)
+    const sorted = [...customers].sort((a, b) => {
+      const numA = parseInt(a.Trailer_ID.replace("TL", ""), 10);
+      const numB = parseInt(b.Trailer_ID.replace("TL", ""), 10);
+
+      return newSortOrder === "asc" ? numA - numB : numB - numA;
+    });
+    setCustomers(sorted); // Update the sorted data
+    setSortTrailerId(newSortOrder); // T
   };
   /**
    * Handles the selection of a dropdown item in the dropdown component.
@@ -490,8 +518,14 @@ const Unit = () => {
                               <FaSort />
                             </th>
 
-                            <th scope="col">Truck ID</th>
-                            <th scope="col">Trailer ID</th>
+                            <th scope="col" onClick={() => sortByTruckId()}>
+                              Truck ID {sortTruckId === "asc" ? " ↑" : " ↓"}
+                            </th>
+                            <th scope="col"
+                            onClick={() => sortByTrailerId()} > 
+                              {" "}
+                              Trailer ID {sortTrailerId === "asc" ? " ↑" : " ↓"}
+                            </th>
                             <th scope="col" className="text-right">
                               <NavDropdown
                                 id="dropdown-status"
@@ -540,7 +574,6 @@ const Unit = () => {
                                       <div className="data-content">
                                         <div>
                                           <Tippy
-
                                             placement="right-end"
                                             interactive
                                             content={
@@ -730,7 +763,7 @@ const Unit = () => {
               </Col>
             </Row>
             <div
-              hidden={q}
+              hidden={q || selectedStatus !== "All"}
               style={{
                 marginTop: "auto",
                 display: "flex",
