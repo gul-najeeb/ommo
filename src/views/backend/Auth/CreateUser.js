@@ -53,7 +53,7 @@ const CreateUser = (props) => {
     formData.append('roleId', roleId);
     formData.append('status', status);
     if (profileImage) {
-      formData.append('profileImage', profileImage);
+      formData.append('profileImageUrl', profileImage);
     }
 
     const getUserInfo = async () => {
