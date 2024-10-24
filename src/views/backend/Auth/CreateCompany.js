@@ -128,7 +128,7 @@ const CreateCompany = (props) => {
         }, 1500);
       } else {
         console.log(result);
-        toast.error(result?.title || result?.error);
+        toast.error(result?.errors?.Email[0] || result?.title || result?.error);
       }
     } catch (error) {
       setBusy(false);
