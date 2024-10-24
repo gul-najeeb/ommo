@@ -548,8 +548,7 @@ const HeaderStyle1 = (props) => {
                       aria-labelledby="dropdownMenuButton2"
                     >
                       <Card className="shadow-none m-0 border-0">
-                        <div className=" p-0 ">
-                         </div>
+                        <div className=" p-0 "></div>
                       </Card>
                     </Dropdown.Menu>
                   </Dropdown>

@@ -6,6 +6,7 @@ import {
   Form,
   Button,
   ButtonGroup,
+  Spinner,
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Card from "../../../components/Card";
@@ -17,6 +18,7 @@ import { toast, ToastContainer } from "react-toastify";
 //img
 import logo from "../../../assets/images/logo.png";
 import darklogo from "../../../assets/images/logo-dark.png";
+import { baseUrl } from "../../../constants";
 
 function mapStateToProps(state) {
   return {
@@ -26,6 +28,7 @@ function mapStateToProps(state) {
 
 const CreateCompany = (props) => {
   const [Name, setName] = useState("");
+  const [busy, setBusy] = useState(false);
   const [Address, setAddress] = useState("");
   const [Phone, setPhone] = useState("");
   const [Email, setEmail] = useState("");
@@ -38,14 +41,13 @@ const CreateCompany = (props) => {
   const handleCreateCompany = async (event) => {
     event.preventDefault();
     const re = {
-      "datType": 1,
-      "Name": "John Doe",
-      "Address": "123 Main St, City, Country",
-      "Phone": "+1234567890",
-      "Email": "john.doe@example.com",
-      "MCNumber": "MC123456"
-  }
-  
+      datType: 1,
+      Name: "John Doe",
+      Address: "123 Main St, City, Country",
+      Phone: "+1234567890",
+      Email: "john.doe@example.com",
+      MCNumber: "MC123456",
+    };
 
     let item = {
       Name,
@@ -57,28 +59,61 @@ const CreateCompany = (props) => {
       MCNumber,
     };
 
+    // validate each field and show toast according to the error with switch case
+
+    if (!item.Name) {
+      setError("Name is required");
+      toast.error("Name is required");
+      return;
+    }
+
+    if (!item.Address) {
+      setError("Address is required");
+      toast.error("Address is required");
+      return;
+    }
+
+    if (!item.Phone) {
+      setError("Phone is required");
+      toast.error("Phone is required");
+      return;
+    }
+    if (!item.Address) {
+      setError("Address is required");
+      toast.error("Address is required");
+      return;
+    }
+
+    if (!item.Email) {
+      setError("Email is required");
+      toast.error("Email is required");
+      return;
+    }
+    if (!item.CompanyType) {
+      setError("CompanyType is required");
+      toast.error("CompanyType is required");
+      return;
+    }
     try {
-      let response = await fetch(
-        "http://localhost:5055/api/company/create-company",
-        {
-          method: "POST",
-          body: JSON.stringify(item),
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        }
-      );
+      setBusy(true);
+      let response = await fetch(`${baseUrl}/api/company/create-company`, {
+        method: "POST",
+        body: JSON.stringify(item),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
 
       let result = await response.json();
-      console.log("Signup result:", result);
+      // console.log("Signup result:", result);
 
       if (
         result.message ||
         result.status === "success" ||
         result.statusCode === 200
       ) {
-        toast.success("Company created successfully.");
+        toast.success(result?.message ?? "Your Company Successfully Created");
 
         setTimeout(() => {
           navigate("/auth/create-user", {
@@ -92,12 +127,16 @@ const CreateCompany = (props) => {
           });
         }, 1500);
       } else {
-        toast.error(result.message || "Company not created.");
+        console.log(result);
+        toast.error(result?.title || result?.error);
       }
     } catch (error) {
-      console.error("Error during signup:", error);
+      setBusy(false);
+      console.log("Error during signup:", error?.errors);
       setError("An error occurred during sign up. Please try again.");
       toast.error("An error occurred during sign up.");
+    } finally {
+      setBusy(false);
     }
   };
 
@@ -265,24 +304,24 @@ const CreateCompany = (props) => {
                       </Col>
                       <Col lg="12" className="mt-2">
                         <Form.Label className="text-secondary">
-                          Select Company Type
+                          Select Your Company Type
+                          {CompanyType === 1
+                            ? ": (Carrier)"
+                            : CompanyType === 2
+                            ? ": (Dispatch)"
+                            : ""}
                         </Form.Label>
                         <ButtonGroup className="d-flex justify-content-center">
                           <Button
                             style={{
                               transition: "all 0.3s",
-                              color: "#007bff",
-                              border: "1px solid #78d421",
+                              border: "1px solid #007bff",
                             }}
-                            variant="button btn button-icon bg-white text-primary"
-                            onMouseEnter={(e) => {
-                              e.target.style.backgroundColor = "#007bff";
-                              e.target.style.color = "#fff";
-                            }}
-                            onMouseLeave={(e) => {
-                              e.target.style.backgroundColor = "#fff";
-                              e.target.style.color = "#007bff";
-                            }}
+                            variant={
+                              CompanyType === 1
+                                ? "primary"
+                                : "button btn button-icon bg-white btn-primary"
+                            }
                             onClick={() => handleCompanyType(1)}
                             target="_blank"
                           >
@@ -291,18 +330,14 @@ const CreateCompany = (props) => {
                           <Button
                             style={{
                               transition: "all 0.3s",
-                              color: "#007bff",
-                              border: "1px solid #78d421",
+
+                              border: "1px solid #007bff",
                             }}
-                            variant="button btn button-icon bg-white text-primary"
-                            onMouseEnter={(e) => {
-                              e.target.style.backgroundColor = "#007bff";
-                              e.target.style.color = "#fff";
-                            }}
-                            onMouseLeave={(e) => {
-                              e.target.style.backgroundColor = "#fff";
-                              e.target.style.color = "#007bff";
-                            }}
+                            variant={
+                              CompanyType === 2
+                                ? "primary"
+                                : "button btn button-icon bg-white btn-primary"
+                            }
                             onClick={() => handleCompanyType(2)}
                             target="_blank"
                           >
@@ -354,9 +389,21 @@ const CreateCompany = (props) => {
                     <Button
                       type="button"
                       onClick={handleCreateCompany}
-                      className="btn btn-primary btn-block mt-2"
+                      style={{
+                        opacity: busy ? "0.5" : "1",
+                      }}
+                      className={
+                        "btn d-flex justify-content-center align-items-center gap-3 btn-primary btn-block mt-2"
+                      }
                     >
-                      Create Company
+                      <span>{busy ? "Creating..." : "Create Company"}</span>
+                      <Spinner
+                        hidden={!busy}
+                        style={{ marginLeft: "6px" }}
+                        animation="border"
+                        variant="light"
+                        size={"sm"}
+                      />
                     </Button>
                     <ToastContainer
                       position="bottom-center"
