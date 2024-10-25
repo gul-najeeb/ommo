@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(true);
     } else {
       setIsAuthenticated(false);
-      // navigate("/auth/sign-in"); // Redirect to sign-in if no token found
+      navigate("/auth/sign-in"); // Redirect to sign-in if no token found
     }
     setLoading(false); // Set loading to false after checking auth status
   }, [navigate]);

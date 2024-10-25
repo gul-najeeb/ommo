@@ -91,6 +91,7 @@ const SignIn = (props) => {
 
       if (result.token) {
         localStorage.setItem("token", result.token);
+        localStorage.setItem("refreshToken", result.refreshToken);
 
         toast.success("Login successful.");
 
