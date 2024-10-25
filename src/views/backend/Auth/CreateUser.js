@@ -4,6 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import Card from "../../../components/Card";
 import { connect } from "react-redux";
 import { getDarkMode } from "../../../store/mode";
+import { ToastContainer, toast } from "react-toastify";
 
 //img
 import logo from "../../../assets/images/logo.png";
@@ -25,7 +26,7 @@ const CreateUser = (props) => {
   const [status, setStatus] = useState("");
   const [profileImage, setProfileImage] = useState(null);
   const [error, setError] = useState(null);
-  
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -45,15 +46,15 @@ const CreateUser = (props) => {
 
   const handleCreateUser = async () => {
     const formData = new FormData();
-    formData.append('username', username);
-    formData.append('email', email);
-    formData.append('phone', phone);
-    formData.append('password', password);
-    formData.append('companyId', companyId);
-    formData.append('roleId', roleId);
-    formData.append('status', status);
+    formData.append("username", username);
+    formData.append("email", email);
+    formData.append("phone", phone);
+    formData.append("password", password);
+    formData.append("companyId", companyId);
+    formData.append("roleId", roleId);
+    formData.append("status", status);
     if (profileImage) {
-      formData.append('profileImageUrl', profileImage);
+      formData.append("profileImageUrl", profileImage);
     }
 
     const getUserInfo = async () => {
@@ -63,18 +64,20 @@ const CreateUser = (props) => {
           console.error("No token found. User might not be authenticated.");
           return;
         }
-  
-        const result = await fetch("http://localhost:5055/api/user/get-user-info", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
+
+        const result = await fetch(
+          "http://localhost:5055/api/user/get-user-info",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
           }
-        });
-  
+        );
+
         const userInfo = await result.json();
         console.log("User info:", userInfo);
-      
       } catch (error) {
         console.error("Error fetching user info:", error);
       }
@@ -87,18 +90,17 @@ const CreateUser = (props) => {
           console.error("No token found. User might not be authenticated.");
           return;
         }
-  
+
         const result = await fetch("http://localhost:5055/api/tab/get-tabs", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
-  
+
         const tabInfo = await result.json();
         console.log("Tab info:", tabInfo);
-      
       } catch (error) {
         console.error("Error fetching tab info:", error);
       }
@@ -106,25 +108,32 @@ const CreateUser = (props) => {
 
     try {
       let result = await fetch("http://localhost:5055/api/user/create-user", {
-        method: 'POST',
+        method: "POST",
         body: formData,
         headers: {
-          "Accept": 'application/json',
+          Accept: "application/json",
         },
       });
 
       result = await result.json();
-      console.log("Create User result:", result);
+      // console.log("Create User result:", result);
+      if (result?.error) {
+        toast.error(result?.error);
+        return;
+      }
 
       if (result.message) {
         navigate("/auth/verify-otp");
         getUserInfo();
         getTabsInfo();
       } else {
-        setError("User not created.");
+        // setError("User not created.");
+        toast.error("User not created. Please try again.");
       }
     } catch (error) {
       console.error("Error during creating a user:", error);
+      // navigate("/auth/verify-otp");
+
       setError("An error occurred during user creation. Please try again.");
     }
   };
@@ -132,6 +141,17 @@ const CreateUser = (props) => {
   return (
     <>
       <section className="login-content">
+        <ToastContainer
+          position="bottom-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <Container className="h-100">
           <Row className="align-items-center justify-content-center h-100">
             <Col md="5">
@@ -140,26 +160,35 @@ const CreateUser = (props) => {
                   <div className="auth-logo">
                     <img
                       src={logo}
-                      className={`img-fluid  rounded-normal  ${!props.darkMode ? "d-none" : ""}`}
+                      className={`img-fluid  rounded-normal  ${
+                        !props.darkMode ? "d-none" : ""
+                      }`}
                       alt="logo"
                     />
                     <img
                       src={darklogo}
-                      className={`img-fluid  rounded-normal  ${props.darkMode ? "d-none" : ""}`}
+                      className={`img-fluid  rounded-normal  ${
+                        props.darkMode ? "d-none" : ""
+                      }`}
                       alt="logo"
                     />
                   </div>
-                  <h3 className="mb-3 mt-n3 text-uppercase small font-weight-bold text-center">your company was successfully created.</h3>
-                  <h3 className="mb-3 mt-n3 text-uppercase small font-weight-bold text-center">create your user now.</h3>
+                  <h3 className="mb-3 mt-n3 text-uppercase small font-weight-bold text-center">
+                    your company was successfully created.
+                  </h3>
+                  <h3 className="mb-3 mt-n3 text-uppercase small font-weight-bold text-center">
+                    create your user now.
+                  </h3>
                   <div className="mb-5">
                     <p className="line-around text-secondary mb-0">
-                      <span className="line-around-1 text-uppercase small">Enter user details</span>
+                      <span className="line-around-1 text-uppercase small">
+                        Enter user details
+                      </span>
                     </p>
                   </div>
                   <Form>
                     <Row>
-                      <Col lg="12">
-                      </Col>
+                      <Col lg="12"></Col>
                       <Col lg="12" className="mt-2">
                         <Form.Group>
                           <Form.Label className="text-secondary">

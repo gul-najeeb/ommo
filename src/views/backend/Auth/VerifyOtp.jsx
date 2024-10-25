@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { generateOtp } from "../../../services/auth";
+// import { generateOtp } from "../../../services/auth";
 
 const OTPVerify = () => {
   const [otp, setOtp] = useState(new Array(6).fill("")); // Array to store 6 digits
@@ -45,6 +47,11 @@ const OTPVerify = () => {
   // Handle OTP verification on form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    // verifyOtp()
+    generateOtp("codeonlinesource@gmail.com", "+923333333333")
+      .then((_) => console.log(_, " otp,"))
+      .catch((_) => console.log(_, " otp,"));
+    // generateOtp;
     const enteredOtp = otp.join("");
     console.log("OTP entered:", enteredOtp);
     if (otpExpired) {
