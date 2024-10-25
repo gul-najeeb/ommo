@@ -27,3 +27,27 @@ export const generateOtp = async (email, phoneNumber) => {
     throw error; // Rethrow the error for further handling if needed
   }
 };
+
+export const logoutUser = async () => {
+  try {
+    const response = await axiosInstance.post(
+      "/api/auth/logout",
+      { refreshToken: localStorage.getItem("refreshToken") },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("Logout successful:", response.data);
+  } catch (error) {
+    console.error(
+      "Error logging out:",
+      error.response ? error.response.data : error.message
+    );
+  }
+};
+
+// Call the function to log out
+logoutUser();
