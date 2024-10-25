@@ -92,10 +92,33 @@ const OTPVerify = () => {
             <>
               <Alert variant="success" className="text-center">
                 OTP verified successfully
-                </Alert>
-                <Link to="/auth/account-created">
-                <span className="" style={{color: 'black', fontWeight: 'bold'}}>Proceed Further</span>
-                </Link>
+              </Alert>
+              <Link
+                to="/auth/account-created"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Button style={{ display: "flex", alignItems: "center" }}>
+                  <span>Proceed Further</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    style={{ height: 18, marginLeft: 5, width: 18 }}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                    />
+                  </svg>
+                </Button>
+              </Link>
             </>
           )}
 
