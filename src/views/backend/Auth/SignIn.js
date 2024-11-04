@@ -252,7 +252,7 @@ const SignIn = (props) => {
                     <Col lg="12" className="mt-3">
                       <p className="mb-0 text-center">
                         Don't have a company?{" "}
-                        <Link to="/auth/create-company">
+                        <Link to="/auth/registeration">
                           Create Company Account.
                         </Link>
                       </p>

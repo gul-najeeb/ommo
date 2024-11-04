@@ -41,10 +41,60 @@ const CreateUser = (props) => {
   }, [location.state]);
 
   const handleFileChange = (e) => {
-    setProfileImage(e.target.files[0]);
+    const file = e.target.files[0];
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+    const maxSize = 2 * 1024 * 1024; // 2MB in bytes
+
+    if (file) {
+      if (!allowedTypes.includes(file.type)) {
+        toast.error("Invalid file type. Please upload a JPG or PNG image.");
+        setProfileImage(null);
+        return;
+      }
+      if (file.size > maxSize) {
+        toast.error("File size exceeds 2MB. Please upload a smaller image.");
+        setProfileImage(null);
+        return;
+      }
+      setProfileImage(file);
+    }
+  };
+
+  const validatePassword = (password) => {
+    if (password.length < 8) {
+      toast.error("Password must be at least 8 characters.");
+      return false;
+    }
+    if (!/[A-Z]/.test(password)) {
+      toast.error("Password must contain at least one uppercase letter.");
+      return false;
+    }
+    if (!/[a-z]/.test(password)) {
+      toast.error("Password must contain at least one lowercase letter.");
+      return false;
+    }
+    if (!/[0-9]/.test(password)) {
+      toast.error("Password must contain at least one number.");
+      return false;
+    }
+    if (!/[!@#$%^&*]/.test(password)) {
+      toast.error(
+        "Password must contain at least one special character (!@#$%^&*)."
+      );
+      return false;
+    }
+    return true;
   };
 
   const handleCreateUser = async () => {
+    setError(null);
+
+    if (!validatePassword(password)) return;
+    if (!profileImage) {
+      toast.error("Profile image is required.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("username", username);
     formData.append("email", email);
@@ -53,58 +103,7 @@ const CreateUser = (props) => {
     formData.append("companyId", companyId);
     formData.append("roleId", roleId);
     formData.append("status", status);
-    if (profileImage) {
-      formData.append("profileImageUrl", profileImage);
-    }
-
-    const getUserInfo = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          console.error("No token found. User might not be authenticated.");
-          return;
-        }
-
-        const result = await fetch(
-          "http://localhost:5055/api/user/get-user-info",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        const userInfo = await result.json();
-        console.log("User info:", userInfo);
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-      }
-    };
-
-    const getTabsInfo = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          console.error("No token found. User might not be authenticated.");
-          return;
-        }
-
-        const result = await fetch("http://localhost:5055/api/tab/get-tabs", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const tabInfo = await result.json();
-        console.log("Tab info:", tabInfo);
-      } catch (error) {
-        console.error("Error fetching tab info:", error);
-      }
-    };
+    formData.append("profileImageUrl", profileImage);
 
     try {
       let result = await fetch("http://localhost:5055/api/user/create-user", {
@@ -116,24 +115,19 @@ const CreateUser = (props) => {
       });
 
       result = await result.json();
-      // console.log("Create User result:", result);
       if (result?.error) {
-        toast.error(result?.error);
+        toast.error(result.error);
         return;
       }
 
       if (result.message) {
-        navigate("/auth/verify-otp");
-        getUserInfo();
-        getTabsInfo();
+        toast.success(result.message);
+        navigate("/auth/sign-in");
       } else {
-        // setError("User not created.");
-        toast.error("User not created. Please try again.");
+        toast.error(result.errors.profileImageUrl?.at(0));
       }
     } catch (error) {
-      console.error("Error during creating a user:", error);
-      // navigate("/auth/verify-otp");
-
+      console.error("Error during user creation:", error);
       setError("An error occurred during user creation. Please try again.");
     }
   };
@@ -174,10 +168,10 @@ const CreateUser = (props) => {
                     />
                   </div>
                   <h3 className="mb-3 mt-n3 text-uppercase small font-weight-bold text-center">
-                    your company was successfully created.
+                    Your company was successfully created.
                   </h3>
                   <h3 className="mb-3 mt-n3 text-uppercase small font-weight-bold text-center">
-                    create your user now.
+                    Create your user now.
                   </h3>
                   <div className="mb-5">
                     <p className="line-around text-secondary mb-0">
@@ -188,7 +182,6 @@ const CreateUser = (props) => {
                   </div>
                   <Form>
                     <Row>
-                      <Col lg="12"></Col>
                       <Col lg="12" className="mt-2">
                         <Form.Group>
                           <Form.Label className="text-secondary">
@@ -201,13 +194,11 @@ const CreateUser = (props) => {
                           />
                         </Form.Group>
                       </Col>
-                      {/* Other form fields */}
                       <Col lg="12" className="mt-2">
                         <Form.Group>
                           <Form.Label className="text-secondary">
                             Profile Photo Upload
                           </Form.Label>
-
                           <InputGroup className="mb-3 d-flex justify-content-center align-items-center">
                             <Form.Control
                               type="file"

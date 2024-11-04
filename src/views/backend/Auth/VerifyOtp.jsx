@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { generateOtp } from "../../../services/auth";
+import { decryptQueryParamToObject, encryptObjectToQueryParam } from "../../../utils/crypto";
 // import { generateOtp } from "../../../services/auth";
 
 const OTPVerify = () => {
@@ -11,6 +12,13 @@ const OTPVerify = () => {
   const [timeRemaining, setTimeRemaining] = useState(60); // 3 minutes in seconds
   const [otpExpired, setOtpExpired] = useState(false);
   const inputs = useRef([]); // Ref to control focus of input boxes
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Retrieve Email and Phone from query parameters
+  const queryParams = new URLSearchParams(location.search);
+  const param1 = queryParams.get("__u");
+  const { Email, Phone } = decryptQueryParamToObject(param1);
 
   useEffect(() => {
     if (timeRemaining > 0) {
@@ -48,6 +56,7 @@ const OTPVerify = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // verifyOtp()
+
     generateOtp("codeonlinesource@gmail.com", "+923333333333")
       .then((_) => console.log(_, " otp,"))
       .catch((_) => console.log(_, " otp,"));
@@ -100,8 +109,14 @@ const OTPVerify = () => {
               <Alert variant="success" className="text-center">
                 OTP verified successfully
               </Alert>
-              <Link
-                to="/auth/account-created"
+              <div
+                onClick={() => {
+                  const encryptedUser = encryptObjectToQueryParam({
+                    Email,
+                    Phone,
+                  });
+                  navigate("/auth/create-company?__u=" + encryptedUser);
+                }}
                 style={{
                   display: "flex",
                   justifyContent: "center",
@@ -125,7 +140,7 @@ const OTPVerify = () => {
                     />
                   </svg>
                 </Button>
-              </Link>
+              </div>
             </>
           )}
 
@@ -179,8 +194,15 @@ const OTPVerify = () => {
 
               <div className="mt-3 text-center">
                 <p>
+                  sent the OTP code to your account <b>{Email}</b>{" "}
+                </p>
+                <p>
                   Didn’t receive the code?{" "}
-                  <Button variant="link" onClick={handleResendOTP}>
+                  <Button
+                    disabled={!otpExpired}
+                    variant="link"
+                    onClick={handleResendOTP}
+                  >
                     Resend
                   </Button>
                 </p>

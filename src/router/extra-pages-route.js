@@ -17,6 +17,7 @@ import CommingSoon from "../views/backend/pages/CommingSoon";
 import BlankLayout from "../layouts/BlankLayout";
 import VerifyOtp from "../views/backend/Auth/VerifyOtp";
 import AccountCreated from "../views/backend/pages/Extrapages/AccountCreated";
+import EmailPhone from "../views/backend/Auth/EmailPhone";
 
 export const ExtraPages = [
   {
@@ -38,6 +39,10 @@ export const ExtraPages = [
       {
         path: "sign-in",
         element: <SignIn />,
+      },
+      {
+        path: "registeration",
+        element: <EmailPhone />,
       },
       {
         path: "account-created",
