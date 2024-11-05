@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container, Col, Row, Button, Form, InputGroup } from "react-bootstrap";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Card from "../../../components/Card";
 import { connect } from "react-redux";
 import { getDarkMode } from "../../../store/mode";
 import { ToastContainer, toast } from "react-toastify";
+import { useForm, Controller } from "react-hook-form";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 //img
 import logo from "../../../assets/images/logo.png";
@@ -17,15 +19,23 @@ function mapStateToProps(state) {
 }
 
 const CreateUser = (props) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+    watch,
+  } = useForm();
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
   const [companyId, setCompanyId] = useState("");
   const [roleId, setRoleId] = useState("");
   const [status, setStatus] = useState("");
-  const [profileImage, setProfileImage] = useState(null);
-  const [error, setError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [profileImagePreview, setProfileImagePreview] = useState(null);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -40,73 +50,20 @@ const CreateUser = (props) => {
     }
   }, [location.state]);
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
-    const maxSize = 2 * 1024 * 1024; // 2MB in bytes
-
-    if (file) {
-      if (!allowedTypes.includes(file.type)) {
-        toast.error("Invalid file type. Please upload a JPG or PNG image.");
-        setProfileImage(null);
-        return;
-      }
-      if (file.size > maxSize) {
-        toast.error("File size exceeds 2MB. Please upload a smaller image.");
-        setProfileImage(null);
-        return;
-      }
-      setProfileImage(file);
-    }
-  };
-
-  const validatePassword = (password) => {
-    if (password.length < 8) {
-      toast.error("Password must be at least 8 characters.");
-      return false;
-    }
-    if (!/[A-Z]/.test(password)) {
-      toast.error("Password must contain at least one uppercase letter.");
-      return false;
-    }
-    if (!/[a-z]/.test(password)) {
-      toast.error("Password must contain at least one lowercase letter.");
-      return false;
-    }
-    if (!/[0-9]/.test(password)) {
-      toast.error("Password must contain at least one number.");
-      return false;
-    }
-    if (!/[!@#$%^&*]/.test(password)) {
-      toast.error(
-        "Password must contain at least one special character (!@#$%^&*)."
-      );
-      return false;
-    }
-    return true;
-  };
-
-  const handleCreateUser = async () => {
-    setError(null);
-
-    if (!validatePassword(password)) return;
-    if (!profileImage) {
-      toast.error("Profile image is required.");
-      return;
-    }
-
+  const onSubmit = async (data) => {
+    return;
     const formData = new FormData();
     formData.append("username", username);
     formData.append("email", email);
     formData.append("phone", phone);
-    formData.append("password", password);
+    formData.append("password", data.password);
     formData.append("companyId", companyId);
     formData.append("roleId", roleId);
     formData.append("status", status);
-    formData.append("profileImageUrl", profileImage);
+    formData.append("profileImageUrl", data.profileImage[0]);
 
     try {
-      let result = await fetch("http://localhost:5055/api/user/create-user", {
+      const result = await fetch("http://localhost:5055/api/user/create-user", {
         method: "POST",
         body: formData,
         headers: {
@@ -114,109 +71,191 @@ const CreateUser = (props) => {
         },
       });
 
-      result = await result.json();
-      if (result?.error) {
-        toast.error(result.error);
-        return;
-      }
-
-      if (result.message) {
-        toast.success(result.message);
-        navigate("/auth/sign-in");
+      const responseData = await result.json();
+      if (responseData.error) {
+        toast.error(responseData.error);
       } else {
-        toast.error(result.errors.profileImageUrl?.at(0));
+        toast.success(responseData.message);
+        navigate("/auth/sign-in");
       }
     } catch (error) {
-      console.error("Error during user creation:", error);
-      setError("An error occurred during user creation. Please try again.");
+      toast.error("An error occurred during user creation.");
+    }
+  };
+
+  // Watch for password field to match in confirm password validation
+  const password = watch("password");
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setProfileImagePreview(URL.createObjectURL(file));
     }
   };
 
   return (
     <>
       <section className="login-content">
-        <ToastContainer
-          position="bottom-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
+        <ToastContainer position="bottom-center" autoClose={5000} />
         <Container className="h-100">
           <Row className="align-items-center justify-content-center h-100">
             <Col md="5">
               <Card className="p-3">
                 <Card.Body>
-                  <div className="auth-logo">
+                  <div className="auth-logo text-center">
                     <img
                       src={logo}
-                      className={`img-fluid  rounded-normal  ${
+                      className={`img-fluid rounded-normal ${
                         !props.darkMode ? "d-none" : ""
                       }`}
                       alt="logo"
                     />
                     <img
                       src={darklogo}
-                      className={`img-fluid  rounded-normal  ${
+                      className={`img-fluid rounded-normal ${
                         props.darkMode ? "d-none" : ""
                       }`}
                       alt="logo"
                     />
                   </div>
                   <h3 className="mb-3 mt-n3 text-uppercase small font-weight-bold text-center">
-                    Your company was successfully created.
-                  </h3>
-                  <h3 className="mb-3 mt-n3 text-uppercase small font-weight-bold text-center">
                     Create your user now.
                   </h3>
-                  <div className="mb-5">
-                    <p className="line-around text-secondary mb-0">
-                      <span className="line-around-1 text-uppercase small">
-                        Enter user details
-                      </span>
-                    </p>
+
+                  {/* Profile Image Preview */}
+                  <div className="text-center mb-4">
+                    {profileImagePreview ? (
+                      <img
+                        src={profileImagePreview}
+                        alt=""
+                        className="rounded-circle"
+                        style={{
+                          width: "140px",
+                          height: "140px",
+                          cursor: "pointer",
+
+                          objectFit: "cover",
+                        }}
+                      />
+                    ) : (
+                      <div
+                        className="rounded-circle bg-light d-inline-flex align-items-center justify-content-center"
+                        style={{ width: "140px", height: "140px" }}
+                      >
+                        <span className="text-secondary">Your Profile</span>
+                      </div>
+                    )}
                   </div>
-                  <Form>
+
+                  <Form onSubmit={handleSubmit(onSubmit)}>
                     <Row>
                       <Col lg="12" className="mt-2">
                         <Form.Group>
                           <Form.Label className="text-secondary">
                             Password
                           </Form.Label>
-                          <Form.Control
-                            type="password"
-                            placeholder="Enter Password"
-                            onChange={(e) => setPassword(e.target.value)}
-                          />
+                          <InputGroup>
+                            <Form.Control
+                              type={showPassword ? "text" : "password"}
+                              placeholder="Enter Password"
+                              isInvalid={!!errors.password}
+                              {...register("password", {
+                                required: "Password is required",
+                                minLength: {
+                                  value: 8,
+                                  message:
+                                    "Password must be at least 8 characters",
+                                },
+                                // pattern: {
+                                //   value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/,
+                                //   message:
+                                //     "Must include uppercase, lowercase, number, and special character",
+                                // },
+                              })}
+                            />
+                            <InputGroup.Text
+                              onClick={() => setShowPassword(!showPassword)}
+                            >
+                              {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            </InputGroup.Text>
+                          </InputGroup>
+                          {errors.password && (
+                            <small className="text-danger d-block mt-1">
+                              {errors.password.message}
+                            </small>
+                          )}
                         </Form.Group>
                       </Col>
+
+                      <Col lg="12" className="mt-2">
+                        <Form.Group>
+                          <Form.Label className="text-secondary">
+                            Confirm Password
+                          </Form.Label>
+                          <InputGroup>
+                            <Form.Control
+                              type={showConfirmPassword ? "text" : "password"}
+                              placeholder="Confirm Password"
+                              isInvalid={!!errors.confirmPassword}
+                              {...register("confirmPassword", {
+                                required: "Please confirm your password",
+                                validate: (value) =>
+                                  value === password ||
+                                  "Passwords do not match",
+                              })}
+                            />
+                            <InputGroup.Text
+                              onClick={() =>
+                                setShowConfirmPassword(!showConfirmPassword)
+                              }
+                            >
+                              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                            </InputGroup.Text>
+                          </InputGroup>
+                          {errors.confirmPassword && (
+                            <small className="text-danger d-block mt-1">
+                              {errors.confirmPassword.message}
+                            </small>
+                          )}
+                        </Form.Group>
+                      </Col>
+
                       <Col lg="12" className="mt-2">
                         <Form.Group>
                           <Form.Label className="text-secondary">
                             Profile Photo Upload
                           </Form.Label>
-                          <InputGroup className="mb-3 d-flex justify-content-center align-items-center">
-                            <Form.Control
-                              type="file"
-                              id="inputGroupFile04"
-                              aria-describedby="inputGroupFileAddon04"
-                              onChange={handleFileChange}
+                          <InputGroup className="mb-3">
+                            <Controller
+                              name="profileImage"
+                              control={control}
+                              rules={
+                                {
+                                  // required: "Profile image is required",
+                                }
+                              }
+                              render={({ field }) => (
+                                <Form.Control
+                                  {...field}
+                                  type="file"
+                                  onChange={handleFileChange}
+                                  isInvalid={!!errors.profileImage}
+                                />
+                              )}
                             />
+                            {errors.profileImage && (
+                              <small className="text-danger d-block mt-1">
+                                {errors.profileImage.message}
+                              </small>
+                            )}
                           </InputGroup>
                         </Form.Group>
                       </Col>
                     </Row>
 
-                    {/* Error message */}
-                    {error && <p className="text-danger">{error}</p>}
-
                     <Button
-                      className="btn btn-primary btn-block mt--1"
-                      onClick={handleCreateUser}
+                      className="btn btn-primary btn-block mt-2"
+                      type="submit"
                     >
                       Create User
                     </Button>

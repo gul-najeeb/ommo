@@ -244,37 +244,6 @@ const SidebarStyle = (props) => {
               {/* Dynamically Rendered Menu Items from API */}
               {renderMenu(tabsInfo)}
             </Accordion>
-            <li className="sidebar-layout  mt-4">
-              <Link
-                onClick={() => {
-                  localStorage.removeItem("token");
-                  logoutUser().then((_) => {
-                    toast.success(_?.message || "Logout Successfully");
-                    window.location.href = "/auth/sign-in";
-                  });
-                }}
-                className="svg-icon"
-              >
-                <span className="ml-2 " style={{ color: "#8494B3" }}>
-                  Logout
-                </span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  // className="size-6"
-                  style={{ width: 22, height: 22, marginLeft: 8 }}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
-                  />
-                </svg>
-              </Link>
-            </li>
           </nav>
         </div>
       </div>

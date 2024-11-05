@@ -20,6 +20,8 @@ import flag6 from "../../../../assets/images/Flag/flag-06.png";
 
 //chnage-mode
 import ChangeMode from "../../../Change-Mode";
+import { logoutUser } from "../../../../services/auth";
+import { toast } from "react-toastify";
 function mapStateToProps(state) {
   return {
     darkMode: getDarkMode(state),
@@ -732,7 +734,14 @@ const HeaderStyle1 = (props) => {
                             d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                           />
                         </svg>
-                        <Link to="/auth/sign-in">Logout</Link>
+                        <a onClick={() => {
+                          localStorage.removeItem("token");
+                          logoutUser().then((_) => {
+                            toast.success(_?.message || "Logout Successfully");
+                            window.location.href = "/auth/sign-in";
+                          });
+        
+                        }}>Logout</a>
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
