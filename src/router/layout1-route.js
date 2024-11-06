@@ -88,6 +88,7 @@ import UiTypography from "../views/backend/ui/UiTypography";
 
 // icon-heroicon
 import Heroicons from "../views/backend/Icons/Heroicons ";
+import Units from "../views/backend/App/Units";
 
 export const Layout1Route = [
   {
@@ -320,6 +321,10 @@ export const Layout1Route = [
       },
       {
         path: "/unit",
+        element: <Units />,
+      },
+      {
+        path: "/units",
         element: <Unit />,
       },
       {
