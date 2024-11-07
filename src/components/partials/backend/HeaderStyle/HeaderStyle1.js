@@ -533,18 +533,7 @@ const HeaderStyle1 = (props) => {
                       aria-haspopup="true"
                       aria-expanded="false"
                     >
-                      <img
-                        src={flag1}
-                        className="img-fluid rounded-circle"
-                        alt="user"
-                        style={{
-                          height: "30px",
-                          minWidth: "30px",
-                          width: "30px",
-                        }}
-                      />
-                      <span className="bg-primary"></span>
-                    </Dropdown.Toggle>
+                     </Dropdown.Toggle>
                     <Dropdown.Menu
                       className="iq-sub-dropdown"
                       aria-labelledby="dropdownMenuButton2"
@@ -624,7 +613,16 @@ const HeaderStyle1 = (props) => {
                       aria-haspopup="true"
                       aria-expanded="false"
                     >
-                      {/* <img src={user1} className="img-fluid avatar-rounded" alt="user" /> add profile photo here */}
+                      <img
+                        src={flag1}
+                        className="img-fluid rounded-circle"
+                        alt="user"
+                        style={{
+                          height: "42px",
+                          minWidth: "42px",
+                          width: "30px",
+                        }}
+                      />
                       <span className="mb-0 ml-2 user-name">{username}</span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu
@@ -734,14 +732,19 @@ const HeaderStyle1 = (props) => {
                             d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                           />
                         </svg>
-                        <a onClick={() => {
-                          localStorage.removeItem("token");
-                          logoutUser().then((_) => {
-                            toast.success(_?.message || "Logout Successfully");
-                            window.location.href = "/auth/sign-in";
-                          });
-        
-                        }}>Logout</a>
+                        <a
+                          onClick={() => {
+                            localStorage.removeItem("token");
+                            logoutUser().then((_) => {
+                              toast.success(
+                                _?.message || "Logout Successfully"
+                              );
+                              window.location.href = "/auth/sign-in";
+                            });
+                          }}
+                        >
+                          Logout
+                        </a>
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>

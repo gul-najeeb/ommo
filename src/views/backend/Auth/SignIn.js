@@ -90,6 +90,8 @@ const SignIn = (props) => {
       console.log("Signin result:", result);
 
       if (result.token) {
+        console.log(result)
+        // return;
         localStorage.setItem("token", result.token);
         localStorage.setItem("refreshToken", result.refreshToken);
 
