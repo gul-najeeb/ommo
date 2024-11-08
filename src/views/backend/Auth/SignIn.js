@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+
 import { Container, Col, Row, Button, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Card from "../../../components/Card";
@@ -19,6 +21,8 @@ function mapStateToProps(state) {
 const SignIn = (props) => {
   const [EmailOrPhone, setEmailOrPhone] = useState("");
   const [Password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -90,7 +94,7 @@ const SignIn = (props) => {
       console.log("Signin result:", result);
 
       if (result.token) {
-        console.log(result)
+        console.log(result);
         // return;
         localStorage.setItem("token", result.token);
         localStorage.setItem("refreshToken", result.refreshToken);
@@ -224,11 +228,22 @@ const SignIn = (props) => {
                               <Link to="/auth/recoverpw">Forgot Password?</Link>
                             </Form.Label>
                           </div>
-                          <Form.Control
-                            type="password"
-                            placeholder="Password"
-                            onChange={(e) => setPassword(e.target.value)}
-                          />
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: "1rem",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Form.Control
+                              type={showPassword ? "text" : "password"}
+                              placeholder="Password"
+                              onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <div  onClick={() => setShowPassword(!showPassword)}>
+                              {!showPassword ? <FaEyeSlash /> : <FaEye />}
+                            </div>
+                          </div>
                         </Form.Group>
                       </Col>
                     </Row>
