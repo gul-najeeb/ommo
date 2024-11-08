@@ -219,7 +219,7 @@ const SignIn = (props) => {
                         </Form.Group>
                       </Col>
                       <Col lg="12" className="mt-2">
-                        <Form.Group>
+                        <Form.Group style={{position: 'relative'}}>
                           <div className="d-flex justify-content-between align-items-center">
                             <Form.Label className="text-secondary">
                               Password
@@ -240,10 +240,10 @@ const SignIn = (props) => {
                               placeholder="Password"
                               onChange={(e) => setPassword(e.target.value)}
                             />
-                            <div  onClick={() => setShowPassword(!showPassword)}>
+                            </div>
+                            <div style={{position: 'absolute', bottom: '1rem', right: '1rem'}} onClick={() => setShowPassword(!showPassword)}>
                               {!showPassword ? <FaEyeSlash /> : <FaEye />}
                             </div>
-                          </div>
                         </Form.Group>
                       </Col>
                     </Row>
