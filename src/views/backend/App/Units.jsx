@@ -1,4 +1,6 @@
 import React, { useMemo, useState } from "react";
+import { Alert } from "react-bootstrap";
+import HereMapContainer from "../../../components/map/HereMapContainer";
 const upArrow = "▲"; // Upward arrow for ascending order
 const downArrow = "▼"; // Downward arrow for descending order
 const defaultArrow = "△"; // Placeholder arrow (unselected or default state)
@@ -92,7 +94,7 @@ const styles = {
     height: "100vh",
     overflow: "hidden",
     fontFamily: "Arial, sans-serif",
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#f0f0f015",
     color: "#333",
   },
   sidebar: {
@@ -180,9 +182,13 @@ const styles = {
   },
   mapContainer: {
     flexGrow: 1,
+
+    // margin: "4rem 0 0 0 ",
+    paddingLeft: "12px",
     borderRadius: "4%",
-    backgroundColor: "#e0e0e0",
+    // backgroundColor: "#e0e0e0",
     display: "flex",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
     color: "#666",
@@ -270,7 +276,6 @@ const Sidebar = () => {
           style={styles.searchInput}
         />
         <div style={styles.filters}>
-           
           <button
             style={styles.filterButton}
             onClick={() =>
@@ -321,17 +326,32 @@ const Sidebar = () => {
 };
 const MapContainer = () => (
   <div style={styles.mapContainer}>
+    <Alert
+      variant="info"
+      style={{
+        width: "100%",
+        paddingTop: "1rem",
+        paddingBottom: "1rem",
+        textAlign: "center",
+      }}
+    >
+      Space For Components: We'll Include Other Components for functionalities
+      if Needed
+    </Alert>
+
     <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3604.567442469831!2d68.36501541086709!3d25.385809677496585!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x394c70f025e2ab29%3A0x53b3fc1dd75b7bdb!2sHyder%20Chowk%20Round%20About%2C%20Hyderabad%2C%20Sindh%2C%20Pakistan!5e0!3m2!1sen!2s!4v1730994126008!5m2!1sen!2s"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d100939.99640988868!2d-122.52000187618431!3d37.757807038251286!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80859a6d00690021%3A0x4a501367f076adff!2sSan%20Francisco%2C%20CA%2C%20USA!5e0!3m2!1sen!2s!4v1731344214319!5m2!1sen!2s"
       width="100%"
       height="100%"
-      style={{ border: 1, borderRadius: "4%" }}
+      style={{ border: 1, borderRadius: "2%" }}
       allowfullscreen=""
       loading="lazy"
       referrerpolicy="no-referrer-when-downgrade"
     ></iframe>
   </div>
 );
+
+// <HereMapContainer apikey={'YOUR_API_KEY(insert real api key)'} />;
 
 const Units = () => (
   <div style={styles.container}>
