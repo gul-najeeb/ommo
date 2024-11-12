@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaHome, FaUsers, FaChartPie, FaCogs, FaSignOutAlt } from 'react-icons/fa';
 import { MdSettings, MdMessage, MdWork, MdNotifications } from 'react-icons/md';
 import { AiOutlineFileText, AiOutlineCalendar, AiOutlineDashboard } from 'react-icons/ai';
@@ -32,6 +32,11 @@ const Test1 = () => {
       setError("Geolocation is not supported by this browser.");
     }
   };
+  useEffect(() => {
+    handleClick()
+     
+  }, [])
+  
 
   return (
     <div style={styles.wrapper}>
@@ -52,8 +57,7 @@ const Test1 = () => {
       <main style={styles.mainContent}>
         <ClockCard />
         <SearchBox/>
-        <PermissionPopup handleClick={handleClick} />
-      </main>
+       </main>
     </div>
   );
 };
@@ -61,7 +65,7 @@ const Test1 = () => {
 const NavItem = ({ icon, label }) => (
   <a href="#" style={styles.navItem}>
     
-    <span className="material-icons">{icon}</span>&nbsp; {label}
+     &nbsp; {label}
   </a>
 );
 
@@ -79,19 +83,19 @@ const ClockCard = () => (
   </div>
 );
 
-const PermissionPopup = ({handleClick}) => {
- const [shown, setShown] = useState(true)
+// const PermissionPopup = ({handleClick}) => {
+//  const [shown, setShown] = useState(true)
 
   
-  return <div className='' hidden={!shown} style={styles.popup}>
-    <p>192.168.1.107 wants to:</p>
-    <p style={styles.timeText}>Know your location</p>
-    <div style={styles.actionButtons}>
-      <button style={{ ...styles.popupButton, ...styles.popupButtonBlock }} onClick={() => setShown(false)}>Block</button>
-      <button style={{ ...styles.popupButton, ...styles.popupButtonAllow }} onClick={() => {handleClick(); setShown(false)}}>Allow</button>
-    </div>
-  </div>
-};
+//   return <div className='' hidden={!shown} style={styles.popup}>
+//     <p>192.168.1.107 wants to:</p>
+//     <p style={styles.timeText}>Know your location</p>
+//     <div style={styles.actionButtons}>
+//       <button style={{ ...styles.popupButton, ...styles.popupButtonBlock }} onClick={() => setShown(false)}>Block</button>
+//       <button style={{ ...styles.popupButton, ...styles.popupButtonAllow }} onClick={() => {handleClick(); setShown(false)}}>Allow</button>
+//     </div>
+//   </div>
+// };
 
 // Styles as JavaScript objects
 const styles = {
