@@ -89,6 +89,7 @@ import UiTypography from "../views/backend/ui/UiTypography";
 // icon-heroicon
 import Heroicons from "../views/backend/Icons/Heroicons ";
 import Units from "../views/backend/App/Units";
+import Test1 from "../components/test/Test1";
 
 export const Layout1Route = [
   {
@@ -98,7 +99,8 @@ export const Layout1Route = [
       {
         path: "/",
         element: <Dashbord />,
-      },
+      }, 
+      
       {
         path: "/user-profile",
         element: <UserProfile />,

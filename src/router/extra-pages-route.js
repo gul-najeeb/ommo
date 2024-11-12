@@ -18,12 +18,14 @@ import BlankLayout from "../layouts/BlankLayout";
 import VerifyOtp from "../views/backend/Auth/VerifyOtp";
 import AccountCreated from "../views/backend/pages/Extrapages/AccountCreated";
 import EmailPhone from "../views/backend/Auth/EmailPhone";
+import Test1 from "../components/test/Test1";
 
 export const ExtraPages = [
   {
     path: "/auth",
     element: <BlankLayout />,
     children: [
+
       {
         path: "confirm-mail",
         element: <ConfirmMail />,
@@ -61,6 +63,10 @@ export const ExtraPages = [
         element: <CreateUser />,
       },
     ],
+  },
+  {
+    path: "/testing",
+    element: <Test1/>
   },
   {
     path: "/extra-pages",
