@@ -24,10 +24,13 @@ const SearchBox = () => {
         <select
           style={{
             ...styles.dropdown,
-            ...{ color: "gray", fontSize: "0.8rem" },
+            ...{ color: "gray", fontSize: "0.8rem", paddingLeft: '0.3rem', cursor: "pointer" },
           }}
         >
           <option style={{ color: "gray", fontSize: "0.8rem", cursor: "pointer" }}>Select</option>
+          <option style={{ color: "gray", fontSize: "0.8rem", cursor: "pointer" }}>Field 1</option>
+          <option style={{ color: "gray", fontSize: "0.8rem", cursor: "pointer" }}>Field 2</option>
+          <option style={{ color: "gray", fontSize: "0.8rem", cursor: "pointer" }}>Field 3</option>
         </select>
         <FormControl
           placeholder="Search text..."
