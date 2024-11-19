@@ -19,6 +19,7 @@ import VerifyOtp from "../views/backend/Auth/VerifyOtp";
 import AccountCreated from "../views/backend/pages/Extrapages/AccountCreated";
 import EmailPhone from "../views/backend/Auth/EmailPhone";
 import Test1 from "../components/test/Test1";
+import ChangePassword from "../views/backend/Auth/change-password";
 
 export const ExtraPages = [
   {
@@ -29,6 +30,10 @@ export const ExtraPages = [
       {
         path: "confirm-mail",
         element: <ConfirmMail />,
+      },
+      {
+        path: "change-password",
+        element: <ChangePassword />,
       },
       {
         path: "lock-screen",

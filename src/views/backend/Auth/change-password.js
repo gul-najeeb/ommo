@@ -8,7 +8,7 @@ import { getDarkMode } from "../../../store/mode";
 import logo from "../../../assets/images/logo.png";
 import darklogo from "../../../assets/images/logo-dark.png";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function mapStateToProps(state) {
   return {
@@ -16,8 +16,7 @@ function mapStateToProps(state) {
   };
 }
 
-const RecoverPassword = (props) => {
-  const nav = useNavigate()
+const ChangePassword = (props) => {
   return (
     <>
       <section className="login-content">
@@ -42,26 +41,34 @@ const RecoverPassword = (props) => {
                       alt="logo"
                     />
                   </div>
-                  <h3 className="mb-3 text-center">Reset Password</h3>
+                  <h3 className="mb-3 text-center">Change Your Password</h3>
                   <p className="text-center small text-secondary mb-3">
-                    You can reset your password here
+                    You can change your password here
                   </p>
                   <Form>
                     <Row>
                       <Col lg="12">
                         <Form.Group>
-                          <Form.Label className="text-secondary mb-4">
-                            Email
+                          <Form.Label className="text-secondary">
+                            Your New Password
                           </Form.Label>
                           <Form.Control
                             type="email"
-                            placeholder="Enter Email"
+                            placeholder="Enter Your New Password"
+                            className="mb-3"
+                          />
+                          <Form.Label className="text-secondary">
+ Confirm Password 
+                          </Form.Label>
+                          <Form.Control
+                            type="password"
+                            placeholder="Enter Confirm Password"
                           />
                         </Form.Group>
                       </Col>
                     </Row>
-                    <Link to="/auth/change-password" className="btn btn-primary btn-block">
-                      Reset Password
+                    <Link to="/" className="btn btn-primary btn-block">
+                      Change My Password
                     </Link>
                   </Form>
                 </Card.Body>
@@ -74,4 +81,4 @@ const RecoverPassword = (props) => {
   );
 };
 
-export default connect(mapStateToProps)(RecoverPassword);
+export default connect(mapStateToProps)(ChangePassword);
