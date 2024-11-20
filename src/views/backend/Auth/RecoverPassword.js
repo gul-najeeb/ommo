@@ -50,7 +50,7 @@ const RecoverPassword = (props) => {
                     <Row>
                       <Col lg="12">
                         <Form.Group>
-                          <Form.Label className="text-secondary mb-4">
+                          <Form.Label className="text-secondary ">
                             Email
                           </Form.Label>
                           <Form.Control
