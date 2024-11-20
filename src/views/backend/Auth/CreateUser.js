@@ -11,6 +11,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 //img
 import logo from "../../../assets/images/logo.png";
 import darklogo from "../../../assets/images/logo-dark.png";
+import { baseUrl } from "../../../constants";
 
 function mapStateToProps(state) {
   return {
@@ -51,7 +52,7 @@ const CreateUser = (props) => {
   }, [location.state]);
 
   const onSubmit = async (data) => {
-    return;
+    // return;
     const formData = new FormData();
     formData.append("username", username);
     formData.append("email", email);
@@ -63,7 +64,7 @@ const CreateUser = (props) => {
     formData.append("profileImageUrl", data.profileImage[0]);
 
     try {
-      const result = await fetch("http://localhost:5055/api/user/create-user", {
+      const result = await fetch(baseUrl+"/api/user/create-user", {
         method: "POST",
         body: formData,
         headers: {

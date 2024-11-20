@@ -84,49 +84,27 @@ const EmailPhone = (props) => {
 
                   <Form onSubmit={handleSubmit(onSubmit)}>
                     <Row>
+                       
                       <Col lg="12" className="mt-2">
                         <Form.Group>
                           <Form.Label className="text-secondary">
-                            Phone
-                          </Form.Label>
-                          <Controller
-                            name="Phone"
-                            control={control}
-                            rules={{ required: "Phone is required" }}
-                            render={({ field }) => (
-                              <Form.Control
-                                {...field}
-                                type="text"
-                                placeholder="Enter Phone"
-                                isInvalid={!!errors.Phone}
-                              />
-                            )}
-                          />
-                          <Form.Control.Feedback type="invalid">
-                            {errors.Phone?.message}
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                      </Col>
-                      <Col lg="12" className="mt-2">
-                        <Form.Group>
-                          <Form.Label className="text-secondary">
-                            Email
+                            Your Email / Phone
                           </Form.Label>
                           <Controller
                             name="Email"
                             control={control}
                             rules={{
-                              required: "Email is required",
+                              required: "Email Or Phone is required",
                               pattern: {
-                                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                                message: "Invalid email format",
+                                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$|^\+(\d{1,3})\d{7,15}$/,
+                                message: "Invalid Email Or Phone format",
                               },
                             }}
                             render={({ field }) => (
                               <Form.Control
                                 {...field}
-                                type="email"
-                                placeholder="Enter Email"
+                                type="text"
+                                placeholder="Enter Your Email/Phone"
                                 isInvalid={!!errors.Email}
                               />
                             )}

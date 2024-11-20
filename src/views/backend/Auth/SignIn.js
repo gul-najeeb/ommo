@@ -11,6 +11,7 @@ import { toast, ToastContainer } from "react-toastify";
 //img
 import logo from "../../../assets/images/logo.png";
 import darklogo from "../../../assets/images/logo-dark.png";
+import { baseUrl } from "../../../constants";
 
 function mapStateToProps(state) {
   return {
@@ -34,7 +35,7 @@ const SignIn = (props) => {
         return;
       }
 
-      const result = await fetch("http://localhost:5055/api/tab/get-tabs", {
+      const result = await fetch(baseUrl+"/api/tab/get-tabs", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +59,7 @@ const SignIn = (props) => {
       }
 
       const result = await fetch(
-        "http://localhost:5055/api/user/get-user-info",
+        baseUrl + "/api/user/get-user-info",
         {
           method: "GET",
           headers: {
@@ -78,10 +79,10 @@ const SignIn = (props) => {
   // add get User Info http://localhost:5055/api/user/get-user-info
 
   const handleSignIn = async () => {
-    let item = { EmailOrPhone, Password };
+    let item = { emailOrPhone: EmailOrPhone, password: Password };
 
     try {
-      let result = await fetch("http://localhost:5055/api/auth/login", {
+      let result = await fetch(baseUrl + "/api/auth/login", {
         method: "POST",
         body: JSON.stringify(item),
         headers: {
@@ -126,16 +127,14 @@ const SignIn = (props) => {
                   <div className="auth-logo">
                     <img
                       src={logo}
-                      className={`img-fluid  rounded-normal  ${
-                        !props.darkMode ? "d-none" : ""
-                      }`}
+                      className={`img-fluid  rounded-normal  ${!props.darkMode ? "d-none" : ""
+                        }`}
                       alt="logo"
                     />
                     <img
                       src={darklogo}
-                      className={`img-fluid  rounded-normal  ${
-                        props.darkMode ? "d-none" : ""
-                      }`}
+                      className={`img-fluid  rounded-normal  ${props.darkMode ? "d-none" : ""
+                        }`}
                       alt="logo"
                     />
                   </div>
@@ -219,7 +218,7 @@ const SignIn = (props) => {
                         </Form.Group>
                       </Col>
                       <Col lg="12" className="mt-2">
-                        <Form.Group style={{position: 'relative'}}>
+                        <Form.Group style={{ position: 'relative' }}>
                           <div className="d-flex justify-content-between align-items-center">
                             <Form.Label className="text-secondary">
                               Password
@@ -240,10 +239,10 @@ const SignIn = (props) => {
                               placeholder="Password"
                               onChange={(e) => setPassword(e.target.value)}
                             />
-                            </div>
-                            <div style={{position: 'absolute', bottom: '1rem', right: '1rem'}} onClick={() => setShowPassword(!showPassword)}>
-                              {!showPassword ? <FaEyeSlash /> : <FaEye />}
-                            </div>
+                          </div>
+                          <div style={{ position: 'absolute', bottom: '0.6rem', right: '1rem' }} onClick={() => setShowPassword(!showPassword)}>
+                            {!showPassword ? <FaEyeSlash /> : <FaEye />}
+                          </div>
                         </Form.Group>
                       </Col>
                     </Row>

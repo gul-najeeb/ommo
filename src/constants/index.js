@@ -1,5 +1,5 @@
-export const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:5055"; // soon will come through .env
-
+export const baseUrl = process.env.REACT_APP_API_URL || "http://116.203.191.120:5000"; // soon will come through .env
+// http://116.203.191.120:5000/
 const units = [
   {
     unit_id: 1,
