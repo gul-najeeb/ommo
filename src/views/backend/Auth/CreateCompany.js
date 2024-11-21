@@ -44,14 +44,18 @@ const CreateCompany = (props) => {
   // Retrieve Email and Phone from query parameters
   const queryParams = new URLSearchParams(location.search);
   const param1 = queryParams.get("__u");
-  const { Email, Phone } = decryptQueryParamToObject(param1);
-
+  const { Email } = decryptQueryParamToObject(param1);
+  
+  function isValidEmail(email) {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  }
   const handleCreateCompany = async (data) => {
     const item = {
       ...data,
       CompanyType,
-      Email, // Email from query params
-      Phone, // Phone from query params
+      [isValidEmail(Email)? 'Email' : 'Phone']: Email // If Email is valid, key will be 'Email', else 'Phone'
+      // Phone, // Phone from query params
     };
 
     // Validate CompanyType
@@ -77,14 +81,15 @@ const CreateCompany = (props) => {
       console.log(result);
       if (result?.message) {
         toast.success(result?.message ?? "Your Company Successfully Created");
-
+// console.log(result)
+//         return;
         setTimeout(() => {
-          navigate("/auth/create-user", {
+          navigate(`/auth/create-user?companyId=${result?.data?.companyId}&roleId=${result?.roleId}`, {
             state: {
               username: item.Name,
               email: item.Email,
               phone: item.Phone,
-              companyId: result.companyId,
+              companyId: result?.data?.companyId,
               roleId: result.roleId,
             },
           });
@@ -125,16 +130,14 @@ const CreateCompany = (props) => {
                   <div className="auth-logo text-center">
                     <img
                       src={logo}
-                      className={`img-fluid rounded-normal ${
-                        !props.darkMode ? "d-none" : ""
-                      }`}
+                      className={`img-fluid rounded-normal ${!props.darkMode ? "d-none" : ""
+                        }`}
                       alt="logo"
                     />
                     <img
                       src={darklogo}
-                      className={`img-fluid rounded-normal ${
-                        props.darkMode ? "d-none" : ""
-                      }`}
+                      className={`img-fluid rounded-normal ${props.darkMode ? "d-none" : ""
+                        }`}
                       alt="logo"
                     />
                   </div>
@@ -192,19 +195,35 @@ const CreateCompany = (props) => {
                         </Form.Group>
                       </Col>
                       <Col lg="12" className="mt-2">
-                        <Form.Group>
+                      {/* <Form.Group>
                           <Form.Label className="text-secondary">
                             Phone
                           </Form.Label>
-                          <Form.Control type="text" value={Phone} readOnly />
-                        </Form.Group>
+                          <Controller
+                            name="Phone"
+                            control={control}
+                            defaultValue=""
+                            rules={{ required: "Phone is required" }}
+                            render={({ field }) => (
+                              <Form.Control
+                                {...field}
+                                type="text"
+                                isInvalid={!!errors.Phone}
+                                placeholder="Enter Your Phone"
+                              />
+                            )}
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.Phone?.message}
+                          </Form.Control.Feedback>
+                        </Form.Group> */}
                       </Col>
                       <Col lg="12" className="mt-2">
                         <Form.Group>
                           <Form.Label className="text-secondary">
-                            Email
+                            Email or Phone
                           </Form.Label>
-                          <Form.Control type="email" value={Email} readOnly />
+                          <Form.Control type="text" value={Email} readOnly />
                         </Form.Group>
                       </Col>
                       <Col lg="12" className="mt-2">

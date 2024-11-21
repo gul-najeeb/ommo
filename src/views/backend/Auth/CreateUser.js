@@ -20,6 +20,11 @@ function mapStateToProps(state) {
 }
 
 const CreateUser = (props) => {
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
+  const _companyId = queryParams.get('companyId');
+  
   const {
     register,
     handleSubmit,
@@ -36,17 +41,18 @@ const CreateUser = (props) => {
   const [status, setStatus] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [imgFile, setImgFile] = useState(null)
   const [profileImagePreview, setProfileImagePreview] = useState(null);
 
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
 
   useEffect(() => {
     if (location.state) {
       setUsername(location.state.username || "");
       setEmail(location.state.email || "");
       setPhone(location.state.phone || "");
-      setCompanyId(location.state.companyId || "");
+      setCompanyId(_companyId || "");
       setRoleId(location.state.roleId || "");
     }
   }, [location.state]);
@@ -61,7 +67,8 @@ const CreateUser = (props) => {
     formData.append("companyId", companyId);
     formData.append("roleId", roleId);
     formData.append("status", status);
-    formData.append("profileImageUrl", data.profileImage[0]);
+    formData.append("profileImageUrl", imgFile);
+    console.log(imgFile, profileImagePreview)
 
     try {
       const result = await fetch(baseUrl+"/api/user/create-user", {
@@ -77,7 +84,7 @@ const CreateUser = (props) => {
         toast.error(responseData.error);
       } else {
         toast.success(responseData.message);
-        navigate("/auth/sign-in");
+        // navigate("/auth/sign-in");
       }
     } catch (error) {
       toast.error("An error occurred during user creation.");
@@ -90,6 +97,7 @@ const CreateUser = (props) => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setImgFile(file)
       setProfileImagePreview(URL.createObjectURL(file));
     }
   };

@@ -86,3 +86,8 @@ export const getSrc = (src) => {
 export const isSrc = (str) => str.length > 0 && /(\/|\.)/.test(str);
 export const isStr = (val) => typeof val === 'string';
 export const toLower = (val) => val.toLowerCase();
+
+export function isValidEmail(email) {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  }

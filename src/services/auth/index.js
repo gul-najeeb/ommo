@@ -1,4 +1,26 @@
+import axios from "axios";
 import { axiosInstance } from "..";
+import { baseUrl } from "../../constants";
+
+export const generateOtpSignup = async (email) => {
+  try {
+    const response = await axios.post(
+      `${baseUrl}/api/otp/generate-otp-signup?receiver=${encodeURIComponent(email)}`,
+      {},  
+      {
+        headers: {
+          'Accept': '*/*',  
+        },
+      }
+    );
+    console.log('OTP Response:', response.data);
+    return response.data; // Return the response data for further use
+  } catch (error) {
+    console.error('Error generating OTP:', error);
+    throw error; // Propagate the error to be handled by the caller
+  }
+};
+ 
 
 // Function to verify OTP
 export const verifyOtp = async (otpId, otpNumber) => {

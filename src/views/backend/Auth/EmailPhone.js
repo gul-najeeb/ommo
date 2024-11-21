@@ -19,8 +19,9 @@ import { useForm, Controller } from "react-hook-form";
 //img
 import logo from "../../../assets/images/logo.png";
 import darklogo from "../../../assets/images/logo-dark.png";
-import { baseUrl } from "../../../constants";
+import { baseUrl, ENDCODED_USER, OTP_ID } from "../../../constants";
 import { encryptObjectToQueryParam } from "../../../utils/crypto";
+import { generateOtpSignup } from "../../../services/auth";
 
 function mapStateToProps(state) {
   return {
@@ -40,13 +41,40 @@ const EmailPhone = (props) => {
   // get query params
 
   const queryParams = new URLSearchParams(window.location.search);
+  function isValidEmail(email) {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  }
   const onSubmit = async (data) => {
-    setBusy(true);
-    setTimeout(() => {
-      setBusy(false);
-      const encryptedUser = encryptObjectToQueryParam(data);
-      console.log(data, queryParams);
-      navigate("/auth/verify-otp?__u=" + encryptedUser);
+    
+    setTimeout(async () => {
+      if(!isValidEmail(data?.Email)){
+        toast.info('Currently Phone Verification Service is Not Available')
+        return;
+      }
+      
+      setBusy(true);
+      try {
+        
+        const res = await generateOtpSignup(data?.Email)
+        console.log(res)
+        
+        setBusy(false);
+        
+        
+        const encryptedUser = encryptObjectToQueryParam(data);
+        console.log(data, queryParams);
+        // navigate("/auth/verify-otp?__u=" + encryptedUser + '');
+        if(res?.otp_id){
+          navigate(`/auth/verify-otp?${ENDCODED_USER}=${encryptedUser}&${OTP_ID}=${res?.otp_id}`);
+        }
+      } catch (error) {
+
+        toast.error('Account already Exists, Login Please!')
+        setBusy(false);
+
+      }
+      
     }, 1000);
   };
 

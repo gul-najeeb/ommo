@@ -1,24 +1,29 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { generateOtp } from "../../../services/auth";
+import { generateOtp, generateOtpSignup, verifyOtp } from "../../../services/auth";
 import { decryptQueryParamToObject, encryptObjectToQueryParam } from "../../../utils/crypto";
+import { ENDCODED_USER, OTP_ID } from "../../../constants";
+import { toast } from "react-toastify";
 // import { generateOtp } from "../../../services/auth";
 
 const OTPVerify = () => {
   const [otp, setOtp] = useState(new Array(6).fill("")); // Array to store 6 digits
   const [validated, setValidated] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [timeRemaining, setTimeRemaining] = useState(60); // 3 minutes in seconds
+  const [timeRemaining, setTimeRemaining] = useState(60); // 1 minutes in seconds
   const [otpExpired, setOtpExpired] = useState(false);
   const inputs = useRef([]); // Ref to control focus of input boxes
   const location = useLocation();
+  const [resendOtpId, setResendOtpId] = useState('')
   const navigate = useNavigate();
 
   // Retrieve Email and Phone from query parameters
   const queryParams = new URLSearchParams(location.search);
-  const param1 = queryParams.get("__u");
-  const { Email, Phone } = decryptQueryParamToObject(param1);
+  const decodedUser = queryParams.get(ENDCODED_USER);
+  const otpId = queryParams.get(OTP_ID);
+  const { Email, Phone } = decryptQueryParamToObject(decodedUser);
+  // const { Email, Phone } = decryptQueryParamToObject(decodedUser);
 
   useEffect(() => {
     if (timeRemaining > 0) {
@@ -55,13 +60,13 @@ const OTPVerify = () => {
   // Handle OTP verification on form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    const enteredOtp = otp.join("");
     // verifyOtp()
 
-    generateOtp("codeonlinesource@gmail.com", "+923333333333")
-      .then((_) => console.log(_, " otp,"))
-      .catch((_) => console.log(_, " otp,"));
+
     // generateOtp;
-    const enteredOtp = otp.join("");
+    // // console.log(otpId, 'shaddu',enteredOtp)
+    // return;
     console.log("OTP entered:", enteredOtp);
     if (otpExpired) {
       setErrorMessage("The OTP has expired. Please request a new one.");
@@ -70,18 +75,46 @@ const OTPVerify = () => {
     if (enteredOtp.length !== 6) {
       setErrorMessage("Please enter a complete 6-digit OTP.");
     } else {
-      setValidated(true);
+      
+      verifyOtp(resendOtpId || otpId, enteredOtp)
+        .then((_) => {
+
+          // console.log(_, ' otp-id')
+          if(_?.message?.success){
+            // toast.error('Error Occured')
+            toast.success('Successfully Verified ' + Email)
+
+            
+            setValidated(true)
+            // toast
+          }else{
+            setErrorMessage('Entered Incorrect OTP')
+          }
+        })
+        .catch((_) => { 
+          setErrorMessage('Entered Incorrect OTP')
+        });
+
+      // setValidated(true);
       console.log("OTP submitted:", enteredOtp);
     }
   };
 
-  const handleResendOTP = () => {
+  const handleResendOTP = async() => {
     setOtp(new Array(6).fill("")); // Reset OTP boxes
+    
+    const res = await generateOtpSignup(Email)
+    // if()
+    setResendOtpId(res?.otp_id)
+    // if()
+    toast.info('Resent OTP at ' + Email)
+
+    console.log(res)
     setErrorMessage("");
     setTimeRemaining(60); // Reset timer
     setOtpExpired(false); // Reset expired status
     inputs.current[0].focus(); // Focus on the first input
-    alert("OTP resent!"); // Simulate OTP resend
+    // alert("OTP resent!"); // Simulate OTP resend
   };
 
   const formatTime = (time) => {

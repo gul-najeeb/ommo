@@ -352,3 +352,6 @@ const units = [
     },
   },
 ];
+
+export const ENDCODED_USER = '__u'
+export const OTP_ID = '__otp'
