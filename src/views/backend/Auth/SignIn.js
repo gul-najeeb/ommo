@@ -12,6 +12,7 @@ import { toast, ToastContainer } from "react-toastify";
 import logo from "../../../assets/images/logo.png";
 import darklogo from "../../../assets/images/logo-dark.png";
 import { baseUrl } from "../../../constants";
+import PasswordInput from "./PasswordInput";
 
 function mapStateToProps(state) {
   return {
@@ -26,6 +27,8 @@ const SignIn = (props) => {
 
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
 
   const getTabsInfo = async () => {
     try {
@@ -240,9 +243,49 @@ const SignIn = (props) => {
                               onChange={(e) => setPassword(e.target.value)}
                             />
                           </div>
-                          <div style={{ position: 'absolute', bottom: '0.6rem', right: '1rem' }} onClick={() => setShowPassword(!showPassword)}>
-                            {!showPassword ? <FaEyeSlash /> : <FaEye />}
-                          </div>
+                          <div
+        onClick={togglePasswordVisibility}
+        style={{
+          position: "absolute",
+          right: "10px",
+          top: "70%",
+          transform: "translateY(-50%)",
+          cursor: "pointer",
+          width: "24px",
+          height: "24px",
+          overflow: "hidden", // Ensures icons outside the box aren't visible
+        }}
+      >
+        {/* FaEye Icon */}
+        <div
+          style={{
+            position: "absolute",
+            top: showPassword ? "-40px" : "0px", // Slide up for hiding
+            opacity: showPassword ? 0 : 1, // Fade out when sliding out
+            transform: showPassword
+              ? "scale(1.0) skewY(-50deg)" // Shrink and skew for hiding
+              : "scaleY(1.06) skewY(0deg)", // Restore to normal size
+            transition: "all 0.3s ease", // Smooth animation for all properties
+          }}
+        >
+          <FaEye style={{ fontSize: "22px", color: "#5d5d5d" }} />
+        </div>
+
+        {/* FaEyeSlash Icon */}
+        <div
+          style={{
+            position: "absolute",
+            top: showPassword ? "0px" : "40px", // Slide in from bottom
+            opacity: showPassword ? 1 : 0, // Fade in when sliding in
+            transform: showPassword
+              ? "scale(1) skewY(0deg)" // Restore to normal size for showing
+              : "scale(0.7) skewY(-10deg)", // Shrink and skew when hiding
+            transition: "all 0.3s ease", // Smooth animation for all properties
+          }}
+        >
+          <FaEyeSlash style={{ fontSize: "22px", color: "gray" }} />
+        </div>
+      </div>
                         </Form.Group>
                       </Col>
                     </Row>
@@ -254,7 +297,7 @@ const SignIn = (props) => {
                     >
                       Log In with Email/Phone
                     </Button>
-                    <ToastContainer
+                     <ToastContainer
                       position="bottom-center"
                       autoClose={5000}
                       hideProgressBar={false}
@@ -265,6 +308,7 @@ const SignIn = (props) => {
                       draggable
                       pauseOnHover
                     />
+{/* <PasswordInput/> */}
                     <Col lg="12" className="mt-3">
                       <p className="mb-0 text-center">
                         Don't have a company?{" "}
