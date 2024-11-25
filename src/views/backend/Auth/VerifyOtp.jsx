@@ -81,20 +81,22 @@ const OTPVerify = () => {
         .then((_) => {
 
           // console.log(_, ' otp-id')
+          
           if(_?.message?.success){
             // toast.error('Error Occured')
             toast.success('Successfully Verified ' + Email)
             
-            setValidated(true)
+            // setValidated(true)
 
-            setTimeout(() => {
+            const encryptedUser = encryptObjectToQueryParam({
+              Email,
+              Phone,
+            });
+            return navigate("/auth/create-company?__u=" + encryptedUser);
+ 
+            // setTimeout(() => {
               
-              const encryptedUser = encryptObjectToQueryParam({
-                Email,
-                Phone,
-              });
-              navigate("/auth/create-company?__u=" + encryptedUser);
-            }, 1200);
+            // }, 1200);
             // toast
           }else{
             setErrorMessage('Entered Incorrect OTP')
