@@ -60,12 +60,12 @@ const CreateUser = (props) => {
   const onSubmit = async (data) => {
     // return;
     const formData = new FormData();
-    formData.append("username", username);
+    formData.append("username", 'username');
     formData.append("email", email);
     formData.append("phone", phone);
     formData.append("password", data.password);
     formData.append("companyId", companyId);
-    formData.append("roleId", roleId);
+    formData.append("roleId", 1);
     formData.append("status", status);
     formData.append("profileImageUrl", imgFile);
     console.log(imgFile, profileImagePreview)

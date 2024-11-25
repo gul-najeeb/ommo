@@ -107,7 +107,7 @@ const OTPVerify = () => {
     // if()
     setResendOtpId(res?.otp_id)
     // if()
-    toast.info('Resent OTP at ' + Email)
+    // toast.info('Resent OTP at ' + Email)
 
     console.log(res)
     setErrorMessage("");
@@ -125,6 +125,29 @@ const OTPVerify = () => {
       .padStart(2, "0")}`;
   };
 
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const pasteData = e.clipboardData.getData("text"); // Get the pasted value
+    const pasteDigits = pasteData.slice(0, 6).split(""); // Take only the first 6 digits
+  
+    if (/^\d+$/.test(pasteDigits.join(""))) {
+      // Validate that all characters are digits
+      const newOtp = [...otp];
+      pasteDigits.forEach((digit, index) => {
+        if (index < newOtp.length) {
+          newOtp[index] = digit;
+        }
+      });
+      setOtp(newOtp);
+  
+      // Move focus to the next input after the last filled box
+      const nextIndex = pasteDigits.length < 6 ? pasteDigits.length : 5;
+      inputs.current[nextIndex]?.focus();
+    } else {
+      toast.error("Please paste a valid 6-digit numeric OTP");
+    }
+  };
+  
   return (
     <Container
       className="d-flex justify-content-center align-items-center"
@@ -180,40 +203,38 @@ const OTPVerify = () => {
           {!validated && (
             <>
               <Form noValidate onSubmit={handleSubmit}>
-                <Form.Group controlId="otp" className="text-center">
-                  <div className="d-flex justify-content-between">
-                    {otp.map((data, index) => (
-                      <>
-                        <Form.Control
-                          key={index}
-                          type="text"
-                          value={data}
-                          onChange={(e) => handleChange(e.target, index)}
-                          onKeyDown={(e) => handleKeyDown(e, index)}
-                          maxLength="1"
-                          ref={(el) => (inputs.current[index] = el)}
-                          placeholder="_"
-                          style={{
-                            padding: 0,
-                            width: "40px",
-                            height: "50px",
-                            textAlign: "center",
-                            borderWidth: 2,
-                            color: "black",
-                            fontSize: "20px",
-                            marginRight: "8px",
-                          }}
-                          className="otp-input"
-                          disabled={otpExpired} // Disable inputs if OTP has expired
-                        />
-                      </>
-                    ))}
-                  </div>
-                  {errorMessage && (
-                    <div className="text-danger mt-2">{errorMessage}</div>
-                  )}
-                </Form.Group>
-
+              <Form.Group controlId="otp" className="text-center">
+  <div className="d-flex justify-content-between">
+    {otp.map((data, index) => (
+      <Form.Control
+        key={index}
+        type="text"
+        value={data}
+        onChange={(e) => handleChange(e.target, index)}
+        onKeyDown={(e) => handleKeyDown(e, index)}
+        onPaste={index === 0 ? handlePaste : null} // Attach paste handler to the first input
+        maxLength="1"
+        ref={(el) => (inputs.current[index] = el)}
+        placeholder="_"
+        style={{
+          padding: 0,
+          width: "40px",
+          height: "50px",
+          textAlign: "center",
+          borderWidth: 2,
+          color: "black",
+          fontSize: "20px",
+          marginRight: "8px",
+        }}
+        className="otp-input"
+        disabled={otpExpired} // Disable inputs if OTP has expired
+      />
+    ))}
+  </div>
+  {errorMessage && (
+    <div className="text-danger mt-2">{errorMessage}</div>
+  )}
+</Form.Group>
                 <Button
                   className="mt-3"
                   variant="primary"
