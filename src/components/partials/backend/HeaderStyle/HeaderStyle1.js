@@ -614,9 +614,9 @@ const HeaderStyle1 = (props) => {
                       aria-expanded="false"
                     >
                       <img
-                        src={flag1}
+                        src={profileImageUrl || flag1}
                         className="img-fluid rounded-circle"
-                        alt="user"
+                        alt={""}
                         style={{
                           height: "42px",
                           minWidth: "42px",
