@@ -97,7 +97,7 @@ const SignIn = (props) => {
       result = await result.json();
       console.log("Signin result:", result);
 
-      if (result.token) {
+      if (result?.token || result?.Success) {
         console.log(result);
         // return;
         localStorage.setItem("token", result.token);

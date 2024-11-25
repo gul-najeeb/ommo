@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Alert, Spinner } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { generateOtp, generateOtpSignup, verifyOtp } from "../../../services/auth";
 import { decryptQueryParamToObject, encryptObjectToQueryParam } from "../../../utils/crypto";
@@ -17,6 +17,7 @@ const OTPVerify = () => {
   const location = useLocation();
   const [resendOtpId, setResendOtpId] = useState('')
   const navigate = useNavigate();
+  const [busy, setBusy] = useState(false)
 
   // Retrieve Email and Phone from query parameters
   const queryParams = new URLSearchParams(location.search);
@@ -83,9 +84,17 @@ const OTPVerify = () => {
           if(_?.message?.success){
             // toast.error('Error Occured')
             toast.success('Successfully Verified ' + Email)
-
             
             setValidated(true)
+
+            setTimeout(() => {
+              
+              const encryptedUser = encryptObjectToQueryParam({
+                Email,
+                Phone,
+              });
+              navigate("/auth/create-company?__u=" + encryptedUser);
+            }, 1200);
             // toast
           }else{
             setErrorMessage('Entered Incorrect OTP')
@@ -102,9 +111,11 @@ const OTPVerify = () => {
 
   const handleResendOTP = async() => {
     setOtp(new Array(6).fill("")); // Reset OTP boxes
+    setBusy(true)
     
     const res = await generateOtpSignup(Email)
     // if()
+    setBusy(false)
     setResendOtpId(res?.otp_id)
     // if()
     // toast.info('Resent OTP at ' + Email)
@@ -167,11 +178,7 @@ const OTPVerify = () => {
               </Alert>
               <div
                 onClick={() => {
-                  const encryptedUser = encryptObjectToQueryParam({
-                    Email,
-                    Phone,
-                  });
-                  navigate("/auth/create-company?__u=" + encryptedUser);
+                 
                 }}
                 style={{
                   display: "flex",
@@ -179,23 +186,7 @@ const OTPVerify = () => {
                   alignItems: "center",
                 }}
               >
-                <Button style={{ display: "flex", alignItems: "center" }}>
-                  <span>Proceed Further</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    style={{ height: 18, marginLeft: 5, width: 18 }}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m8.25 4.5 7.5 7.5-7.5 7.5"
-                    />
-                  </svg>
-                </Button>
+               
               </div>
             </>
           )}
@@ -204,36 +195,39 @@ const OTPVerify = () => {
             <>
               <Form noValidate onSubmit={handleSubmit}>
               <Form.Group controlId="otp" className="text-center">
-  <div className="d-flex justify-content-between">
-    {otp.map((data, index) => (
-      <Form.Control
-        key={index}
-        type="text"
-        value={data}
-        onChange={(e) => handleChange(e.target, index)}
-        onKeyDown={(e) => handleKeyDown(e, index)}
-        onPaste={index === 0 ? handlePaste : null} // Attach paste handler to the first input
-        maxLength="1"
-        ref={(el) => (inputs.current[index] = el)}
-        placeholder="_"
-        style={{
-          padding: 0,
-          width: "40px",
-          height: "50px",
-          textAlign: "center",
-          borderWidth: 2,
-          color: "black",
-          fontSize: "20px",
-          marginRight: "8px",
-        }}
-        className="otp-input"
-        disabled={otpExpired} // Disable inputs if OTP has expired
-      />
-    ))}
-  </div>
-  {errorMessage && (
-    <div className="text-danger mt-2">{errorMessage}</div>
-  )}
+            <div className="d-flex justify-content-between">
+              {otp.map((data, index) => (
+                <Form.Control
+                  key={index}
+                  type="text"
+                  value={data}
+                  onChange={(e) => handleChange(e.target, index)}
+                  onKeyDown={(e) => handleKeyDown(e, index)}
+                  onPaste={index === 0 ? handlePaste : null} // Attach paste handler to the first input
+                  maxLength="1"
+                  ref={(el) => (inputs.current[index] = el)}
+
+
+                  
+                  placeholder="_"
+                  style={{
+                    padding: 0,
+                    width: "40px",
+                    height: "50px",
+                    textAlign: "center",
+                    borderWidth: 2,
+                    color: "black",
+                    fontSize: "20px",
+                    marginRight: "8px",
+                  }}
+                  className="otp-input"
+                  disabled={otpExpired} // Disable inputs if OTP has expired
+                />
+              ))}
+            </div>
+            {errorMessage && (
+              <div className="text-danger mt-2">{errorMessage}</div>
+            )}
 </Form.Group>
                 <Button
                   className="mt-3"
@@ -257,7 +251,7 @@ const OTPVerify = () => {
                     variant="link"
                     onClick={handleResendOTP}
                   >
-                    Resend
+                    {      busy ? <Spinner animation="border" size="sm" />: 'Resend'}
                   </Button>
                 </p>
               </div>

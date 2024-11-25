@@ -13,12 +13,14 @@ import logo from "../../../assets/images/logo.png";
 import darklogo from "../../../assets/images/logo-dark.png";
 import { baseUrl } from "../../../constants";
 
+ 
 function mapStateToProps(state) {
   return {
     darkMode: getDarkMode(state),
   };
 }
 
+{/* <Pages */}
 const CreateUser = (props) => {
   const location = useLocation();
 
@@ -60,13 +62,13 @@ const CreateUser = (props) => {
   const onSubmit = async (data) => {
     // return;
     const formData = new FormData();
-    formData.append("username", 'username');
-    formData.append("email", email);
-    formData.append("phone", phone);
-    formData.append("password", data.password);
-    formData.append("companyId", companyId);
-    formData.append("roleId", 1);
-    formData.append("status", status);
+    formData.append("Username", 'username');
+    formData.append("Email", email);
+    formData.append("Phone", phone);
+    formData.append("Password", data.password);
+    formData.append("CompanyId", companyId);
+    formData.append("RoleId", 1);
+    formData.append("Status", status || '');
     formData.append("profileImageUrl", imgFile);
     console.log(imgFile, profileImagePreview)
 
