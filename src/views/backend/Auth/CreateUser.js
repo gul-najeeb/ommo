@@ -68,7 +68,7 @@ const CreateUser = (props) => {
     formData.append("Password", data.password);
     formData.append("CompanyId", companyId);
     formData.append("RoleId", 1);
-    formData.append("Status", status || '');
+    formData.append("Status", "Active" || '');
     formData.append("profileImageUrl", imgFile);
     console.log(imgFile, profileImagePreview)
 
