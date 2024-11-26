@@ -47,7 +47,10 @@ const ChangePassword = () => {
       
 
       setMessage("Password changed successfully!");
-      window.location.href = "/auth/sign-in"
+      setTimeout(() => {
+        
+        window.location.href = "/auth/sign-in"
+      }, 800);
 
     } catch (error) {
       setMessage("Failed to change password. Please try again.");
