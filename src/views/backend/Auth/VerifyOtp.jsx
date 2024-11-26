@@ -109,12 +109,7 @@ const OTPVerify = () => {
             // toast
           } else {
             
-            const encryptedUser = encryptObjectToQueryParam({
-              Email,
-              Phone,
-            });
-            return navigate("/auth/create-company?__u=" + encryptedUser);
-
+             
             setErrorMessage('Entered Incorrect OTP')
           }
         })
