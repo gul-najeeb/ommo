@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { Alert } from "react-bootstrap";
 import HereMapContainer from "../../../components/map/HereMapContainer";
+import { getUnitInfo } from "../../../services/units";
 const upArrow = "▲"; // Upward arrow for ascending order
 const downArrow = "▼"; // Downward arrow for descending order
 const defaultArrow = "△"; // Placeholder arrow (unselected or default state)
@@ -218,12 +219,13 @@ const AssetItem = ({ id, title, subtitle, name, speed }) => (
   </div>
 );
 
-const Sidebar = () => {
+const Sidebar = ({ units }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTag, setSelectedTag] = useState(null); // Tag filter
   const [inRiskZone, setInRiskZone] = useState(false); // Risk Zone filter
   const [sortOption, setSortOption] = useState(null); // Sorting
-
+  const [myUnits, setMyUnits] = useState(data)
+  // console.log(data)
   // Function to clear all filters
   const clearFilters = () => {
     setSearchQuery("");
@@ -231,9 +233,21 @@ const Sidebar = () => {
     setInRiskZone(false);
     setSortOption(null);
   };
+  useEffect(() => {
+    if (units && units.length > 0) {
+      // Merge the units from the API with the static data
+      const updatedUnits = data.map((item, index) => ({
+        ...item,
+        title: units[index]?.driverName || item.title , // Replace title if driverName exists
+      }));
+      setMyUnits(updatedUnits); // Update the state
+    }
+    console.log(units, "ALL UNITS FETCING FROM API")
+  }, [units]); 
   // Memoized filtered data based on current filters and search query
   const filteredData = useMemo(() => {
-    return data
+
+    return myUnits
       .filter((item) =>
         // Search filter
         item.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -338,18 +352,52 @@ const MapContainer = () => (
       Space For Components: We'll Include Other Components for functionalities
       if Needed
     </Alert>
-    <HereMapContainer apikey={'cynCdVQhgemw3arLVJp4Mp-zV3WJuEkO4q6vDFpcv9A'}/>
+    <HereMapContainer apikey={'cynCdVQhgemw3arLVJp4Mp-zV3WJuEkO4q6vDFpcv9A'} />
 
   </div>
 );
 
 // <HereMapContainer apikey={'YOUR_API_KEY(insert real api key)'} />;
 
-const Units = () => (
-  <div style={styles.container}>
-    <Sidebar />
-    <MapContainer />
-  </div>
-);
+const Units = () => {
+  // Define state variables
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  // Fetch the unit info when the component mounts
+  useEffect(() => {
+    // Define the async function to fetch the data
+    const fetchUnitInfo = async () => {
+      try {
+        // Assuming getUnitInfo() is the async function you want to call
+        const unitData = await getUnitInfo();
+        setData(unitData); // Set the retrieved data
+      } catch (err) {
+        setError('Failed to load unit info'); // Handle any errors
+      } finally {
+        setLoading(false); // Set loading to false once the data is fetched
+      }
+    };
+
+    fetchUnitInfo(); // Call the function on mount
+  }, []); // Empty dependency array means it runs once after the component mounts
+
+
+  let unitsSidebar = null;
+  if (loading) {
+    unitsSidebar = <div> Loading Units...</div>;
+  }
+  else {
+    unitsSidebar = <Sidebar units={data?.data} />;
+  }
+
+
+  return (
+    <div style={styles.container}>
+      {unitsSidebar}
+      <MapContainer />
+    </div>
+  )
+};
 
 export default Units;

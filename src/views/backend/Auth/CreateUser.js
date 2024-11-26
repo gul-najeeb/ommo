@@ -70,6 +70,7 @@ const CreateUser = (props) => {
     formData.append("RoleId", 1);
     formData.append("Status", "Active" || '');
     formData.append("profileImageUrl", imgFile);
+    console.log(imgFile)
     console.log(imgFile, profileImagePreview)
 
     try {
@@ -86,7 +87,10 @@ const CreateUser = (props) => {
         toast.error(responseData.error);
       } else {
         toast.success(responseData.message);
-        // navigate("/auth/sign-in");
+
+        console.log('hey', responseData)
+        navigate("/auth/sign-in");
+        
       }
     } catch (error) {
       toast.error("An error occurred during user creation.");

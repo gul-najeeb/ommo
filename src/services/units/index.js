@@ -20,6 +20,9 @@ export const getUnitInfo = async (status, ids, minRating, maxRating) => {
         minRating,
         maxRating,
       },
+      headers:{
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
     });
 
     return response.data; // Return the data from the response

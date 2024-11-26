@@ -35,14 +35,41 @@ export const verifyOtp = async (otpId, otpNumber) => {
     throw error; // Rethrow the error for further handling if needed
   }
 };
+// Function to verify OTP
+export const changePassword = async (identifier, newPassword) => {
+  try {
+    const response = await axiosInstance.post("/api/user/forget-password", {
+      identifier,
+      newPassword,
+    });
+    return response.data; // Handle the response as needed
+  } catch (error) {
+    console.error("Error changing password OTP:", error);
+    throw error; // Rethrow the error for further handling if needed
+  }
+};
 
 // Function to generate OTP
-export const generateOtp = async (email, phoneNumber) => {
+export const generateOtp = async (email, phoneNumber, sub = null) => {
   try {
-    const response = await axiosInstance.post("/api/otp/generate", {
-      email: email,
-      phoneNumber: phoneNumber,
-    });
+    let data = null;
+    if(sub){
+
+      data = {
+        receiver: email,
+        phoneNumber: phoneNumber,
+        subject: sub 
+        
+      }
+    }else{
+      
+      data = {
+        receiver: email,
+        phoneNumber: phoneNumber,        
+      }
+
+    }
+    const response = await axiosInstance.post("/api/otp/generate", data);
     return response.data; // Handle the response as needed
   } catch (error) {
     console.error("Error generating OTP:", error);

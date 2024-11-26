@@ -1,14 +1,17 @@
-import React from "react";
-import { Container, Col, Row, Form } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import Card from "../../../components/Card";
 import { connect } from "react-redux";
 import { getDarkMode } from "../../../store/mode";
+import { Link, useNavigate } from "react-router-dom";
+import { generateOtp } from "../../../services/auth";
 
 //img
 import logo from "../../../assets/images/logo.png";
 import darklogo from "../../../assets/images/logo-dark.png";
-
-import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { ENDCODED_USER, OTP_ID } from "../../../constants";
+import { encryptObjectToQueryParam } from "../../../utils/crypto";
 
 function mapStateToProps(state) {
   return {
@@ -17,7 +20,40 @@ function mapStateToProps(state) {
 }
 
 const RecoverPassword = (props) => {
-  const nav = useNavigate()
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleGenerateOtp = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+    setLoading(true); // Set loading state
+    setMessage(""); // Reset message
+
+    try {
+      // Call the generateOtp function
+      // console.log(email)
+      // return;
+      const response = await generateOtp(email, null, 'ForgetPassword');
+      console.log(response)
+       
+      const encryptedUser = encryptObjectToQueryParam({Email:email});
+      // console.log(data, queryParams);
+      // navigate("/auth/verify-otp?__u=" + encryptedUser + '');
+      if(response?.otp_id){
+        navigate(`/auth/verify-otp?${ENDCODED_USER}=${encryptedUser}&${OTP_ID}=${response?.otp_id}&isForgotPassword=true`);
+      }
+      toast.success('Successfully Sent Otp')
+      // setMessage("OTP sent successfully! Please check your email.");
+    } catch (error) {
+      // setMessage("Failed to send OTP, Please try again.");
+      toast.error("Error while sending OTP")
+      console.error("Error:", error.response);
+    } finally {
+      setLoading(false); // Reset loading state
+    }
+  };
+
   return (
     <>
       <section className="login-content">
@@ -46,24 +82,34 @@ const RecoverPassword = (props) => {
                   <p className="text-center small text-secondary mb-3">
                     You can reset your password here
                   </p>
-                  <Form>
+                  <Form onSubmit={handleGenerateOtp}>
                     <Row>
                       <Col lg="12">
                         <Form.Group>
-                          <Form.Label className="text-secondary ">
+                          <Form.Label className="text-secondary">
                             Email
                           </Form.Label>
                           <Form.Control
                             type="email"
                             placeholder="Enter Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
                           />
                         </Form.Group>
                       </Col>
                     </Row>
-                    <Link to="/auth/change-password" className="btn btn-primary btn-block">
-                      Reset Password
-                    </Link>
+                    <Button
+                      className="btn btn-primary btn-block"
+                      type="submit"
+                      disabled={loading}
+                    >
+                      {loading ? "Sending..." : "Reset Your Password"}
+                    </Button>
                   </Form>
+                  {message && (
+                    <p className="text-center mt-3 small text-info">{message}</p>
+                  )}
                 </Card.Body>
               </Card>
             </Col>
