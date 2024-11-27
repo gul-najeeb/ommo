@@ -91,7 +91,8 @@ const OTPVerify = () => {
 
             if (isForgotPassword) {
 
-              navigate('/auth/change-password?id=' + Email)
+              navigate(`/auth/change-password?${ENDCODED_USER}=${encryptObjectToQueryParam({Email})}`)
+              
               console.log('isforgotpassowrd')
               return;
             }

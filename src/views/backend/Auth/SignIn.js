@@ -268,7 +268,7 @@ const SignIn = (props) => {
             transition: "all 0.3s ease", // Smooth animation for all properties
           }}
         >
-          <FaEye style={{ fontSize: "22px", color: "#5d5d5d" }} />
+        <FaEyeSlash style={{ fontSize: "22px", color: "gray" }} />
         </div>
 
         {/* FaEyeSlash Icon */}
@@ -283,7 +283,7 @@ const SignIn = (props) => {
             transition: "all 0.3s ease", // Smooth animation for all properties
           }}
         >
-          <FaEyeSlash style={{ fontSize: "22px", color: "gray" }} />
+            <FaEye style={{ fontSize: "22px", color: "#5d5d5d" }} />
         </div>
       </div>
                         </Form.Group>

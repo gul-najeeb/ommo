@@ -74,7 +74,7 @@ const CreateUser = (props) => {
     console.log(imgFile, profileImagePreview)
 
     try {
-      const result = await fetch(baseUrl+"/api/user/create-user", {
+      const result = await fetch(baseUrl+"/api/user/create-user-signup", {
         method: "POST",
         body: formData,
         headers: {

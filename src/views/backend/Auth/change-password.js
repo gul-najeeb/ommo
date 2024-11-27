@@ -13,6 +13,8 @@ import darklogo from "../../../assets/images/logo-dark.png";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ENDCODED_USER } from "../../../constants";
+import { decryptQueryParamToObject } from "../../../utils/crypto";
 
 function mapStateToProps(state) {
   return {
@@ -24,7 +26,7 @@ function mapStateToProps(state) {
 const ChangePassword = () => {
   const location =useLocation()
   const queryParams = new URLSearchParams(location.search);
-  const id = queryParams.get('id');
+  const {Email} = decryptQueryParamToObject(queryParams.get(ENDCODED_USER));
 
   const {
     register,
@@ -32,6 +34,7 @@ const ChangePassword = () => {
     watch,
     formState: { errors },
   } = useForm();
+  const [passwordVisibleC, setPasswordVisibleC] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -42,14 +45,14 @@ const ChangePassword = () => {
     setLoading(true);
     setMessage("");
     try {
-      await changePassword(id, newPassword );
+      await changePassword(Email, newPassword );
       toast.success("Successfully Changed Your Password")
       
 
       setMessage("Password changed successfully!");
       setTimeout(() => {
         
-        window.location.href = "/auth/sign-in"
+        window.location.replace ( "/auth/sign-in")
       }, 800);
 
     } catch (error) {
@@ -94,7 +97,7 @@ const ChangePassword = () => {
                         style={{ cursor: "pointer" }}
                         onClick={() => setPasswordVisible((prev) => !prev)}
                       >
-                        {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+                        {passwordVisible ? <FaEye /> : <FaEyeSlash/>}
                       </span>
                     </div>
                     {errors.newPassword && (
@@ -108,6 +111,7 @@ const ChangePassword = () => {
                     <Form.Label className="text-secondary">
                       Confirm New Password
                     </Form.Label>
+                    <div className="input-group">
                     <Form.Control
                       type="password"
                       placeholder="Confirm new password"
@@ -117,6 +121,14 @@ const ChangePassword = () => {
                           "Passwords do not match",
                       })}
                     />
+                      <span
+                        className="input-group-text"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => setPasswordVisibleC((prev) => !prev)}
+                      >
+                        {passwordVisibleC ? <FaEye /> : <FaEyeSlash/>}
+                      </span>
+                      </div>
                     {errors.confirmPassword && (
                       <small className="text-danger">
                         {errors.confirmPassword.message}

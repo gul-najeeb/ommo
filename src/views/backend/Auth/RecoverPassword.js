@@ -9,7 +9,7 @@ import { generateOtp } from "../../../services/auth";
 //img
 import logo from "../../../assets/images/logo.png";
 import darklogo from "../../../assets/images/logo-dark.png";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { ENDCODED_USER, OTP_ID } from "../../../constants";
 import { encryptObjectToQueryParam } from "../../../utils/crypto";
 
@@ -35,19 +35,21 @@ const RecoverPassword = (props) => {
       // console.log(email)
       // return;
       const response = await generateOtp(email, null, 'ForgetPassword');
-      console.log(response)
+      console.log(' shadu ',response)
        
       const encryptedUser = encryptObjectToQueryParam({Email:email});
       // console.log(data, queryParams);
       // navigate("/auth/verify-otp?__u=" + encryptedUser + '');
       if(response?.otp_id){
         navigate(`/auth/verify-otp?${ENDCODED_USER}=${encryptedUser}&${OTP_ID}=${response?.otp_id}&isForgotPassword=true`);
+        toast.success('Successfully Sent Otp')
       }
-      toast.success('Successfully Sent Otp')
       // setMessage("OTP sent successfully! Please check your email.");
     } catch (error) {
+
+      // console.log('Shaddusthaeuthaouthoeuth')
       // setMessage("Failed to send OTP, Please try again.");
-      toast.error("Error while sending OTP")
+      toast.error("User Doesn't Exist with this Email")
       console.error("Error:", error.response);
     } finally {
       setLoading(false); // Reset loading state
@@ -56,6 +58,17 @@ const RecoverPassword = (props) => {
 
   return (
     <>
+    <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <section className="login-content">
         <Container className="h-100">
           <Row className="align-items-center justify-content-center h-100">
