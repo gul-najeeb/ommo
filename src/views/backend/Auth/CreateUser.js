@@ -82,14 +82,22 @@ const CreateUser = (props) => {
         },
       });
 
+
       const responseData = await result.json();
       if (responseData.error) {
+
         toast.error(responseData.error);
+
       } else {
+
         toast.success(responseData.message);
 
         console.log('hey', responseData)
-        navigate("/auth/sign-in");
+
+        localStorage.setItem('token', responseData.token)
+        navigate("/");
+
+        return;
         
       }
     } catch (error) {
