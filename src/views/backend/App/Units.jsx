@@ -210,10 +210,11 @@ const AssetItem = ({ id, title, subtitle, name, speed }) => (
   >
     <div style={styles.itemDetails}>
       <div style={styles.itemTitle}>
-        {id} {title}
+        (0{id}) - {title}
       </div>
-      <div style={styles.itemSubtitle}>{subtitle}</div>
-      <div style={styles.itemName}>{name}</div>
+      <div style={styles.itemSubtitle}>City, State: {subtitle}</div>
+      
+      <div style={styles.itemName}>Driver Status: ({name})</div>
     </div>
     <StatusBadge speed={speed} />
   </div>
@@ -224,7 +225,7 @@ const Sidebar = ({ units }) => {
   const [selectedTag, setSelectedTag] = useState(null); // Tag filter
   const [inRiskZone, setInRiskZone] = useState(false); // Risk Zone filter
   const [sortOption, setSortOption] = useState(null); // Sorting
-  const [myUnits, setMyUnits] = useState(data)
+  const [myUnits, setMyUnits] = useState([])
   // console.log(data)
   // Function to clear all filters
   const clearFilters = () => {
@@ -233,21 +234,10 @@ const Sidebar = ({ units }) => {
     setInRiskZone(false);
     setSortOption(null);
   };
-  useEffect(() => {
-    if (units && units.length > 0) {
-      // Merge the units from the API with the static data
-      const updatedUnits = data.map((item, index) => ({
-        ...item,
-        title: units[index]?.driverName || item.title , // Replace title if driverName exists
-      }));
-      setMyUnits(updatedUnits); // Update the state
-    }
-    console.log(units, "ALL UNITS FETCING FROM API")
-  }, [units]); 
   // Memoized filtered data based on current filters and search query
   const filteredData = useMemo(() => {
 
-    return myUnits
+    return units && units
       .filter((item) =>
         // Search filter
         item.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -296,7 +286,7 @@ const Sidebar = ({ units }) => {
               setSortOption(sortOption === "title" ? null : "title")
             }
           >
-            Sort by Title {sortOption === "title" ? downArrow : defaultArrow}
+            Sort by Truck Driver Name {sortOption === "title" ? downArrow : defaultArrow}
           </button>
           <button
             style={styles.filterButton}
@@ -304,7 +294,7 @@ const Sidebar = ({ units }) => {
               setSortOption(sortOption === "speed" ? null : "speed")
             }
           >
-            Sort by Speed {sortOption === "speed" ? downArrow : defaultArrow}
+            Sort by Truck's Speed {sortOption === "speed" ? downArrow : defaultArrow}
           </button>
           <button
             style={{
@@ -388,7 +378,7 @@ const Units = () => {
     unitsSidebar = <div> Loading Units...</div>;
   }
   else {
-    unitsSidebar = <Sidebar units={data?.data} />;
+    unitsSidebar = <Sidebar units={data?.data.map(_ => ({ id: _?.unitId, title: _?.driverName, speed: _?.speed + ' MPH', subtitle: _?.city + ', ' + _?.state, name: _?.truckStatus }))} />;
   }
 
 
