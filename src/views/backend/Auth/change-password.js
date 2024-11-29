@@ -204,7 +204,7 @@ const ChangePassword = () => {
                       }}
                     >
                       <Form.Control
-                        type="password"
+                        type={passwordVisible ? "text" : "password"}
                         placeholder="Confirm new password"
                         {...register("confirmPassword", {
                           validate: (value) =>
@@ -216,7 +216,7 @@ const ChangePassword = () => {
                       />
                     </div>
                     <div
-                      onClick={togglePasswordVisibility}
+                      onClick={togglePasswordVisibilityC}
                       style={{
                         position: "absolute",
                         right: "10px",
