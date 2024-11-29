@@ -83,7 +83,7 @@ const OTPVerify = () => {
           // console.log(_, ' otp-id')
 
           // if (_?.message?.success) {
-          if (true) {
+          if (_?.message?.success) {
             // toast.error('Error Occured')
             // toast.success('Successfully Verified ' + Email)
 
@@ -126,8 +126,14 @@ const OTPVerify = () => {
   const handleResendOTP = async () => {
     setOtp(new Array(6).fill("")); // Reset OTP boxes
     setBusy(true)
+    let res;
+    if(isForgotPassword){
+      
+       res = await generateOtp(Email, null, 'ForgetPassword');
+    }else{
 
-    const res = await generateOtpSignup(Email)
+       res = await generateOtpSignup(Email)
+    }
     // if()
     setBusy(false)
     setResendOtpId(res?.otp_id)
