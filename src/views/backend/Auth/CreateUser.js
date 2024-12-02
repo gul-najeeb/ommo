@@ -199,7 +199,7 @@ const CreateUser = (props) => {
                             <InputGroup.Text
                               onClick={() => setShowPassword(!showPassword)}
                             >
-                              {showPassword ? <FaEye /> : <FaEyeSlash />}
+                              {showPassword ? <FaEyeSlash /> : <FaEye />}
                             </InputGroup.Text>
                           </InputGroup>
                           {errors.password && (
@@ -232,7 +232,7 @@ const CreateUser = (props) => {
                                 setShowConfirmPassword(!showConfirmPassword)
                               }
                             >
-                              {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
+                              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                             </InputGroup.Text>
                           </InputGroup>
                           {errors.confirmPassword && (

@@ -4,7 +4,7 @@ import { Accordion, Button } from "react-bootstrap";
 import Scrollbar from "smooth-scrollbar";
 import { connect } from "react-redux";
 import { getDarkMode } from "../../../../store/mode";
-
+import { baseUrl } from "../../../../constants";
 //img
 import logo from "../../../../../src/assets/images/logo.png";
 import { logoutUser } from "../../../../services/auth";
@@ -31,7 +31,7 @@ const SidebarStyle = (props) => {
         return;
       }
 
-      const result = await fetch("http://localhost:5055/api/tab/get-tabs", {
+      const result = await fetch(baseUrl+"/api/tab/get-tabs", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -76,27 +76,32 @@ const SidebarStyle = (props) => {
   const [activeMenu, setActiveMenu] = useState(false);
   const [activesubMenu, setSubmenu] = useState(false);
 
-  const renderMenu = (menuData, basePath = "") => {
-    return [...Object.keys(menuData || {})].map((menuKey) => {
-      const subMenu = menuData[menuKey];
-
+  const renderMenu = (tabsData) => {
+    // Ensure tabsData is an array before mapping
+    if (!Array.isArray(tabsData)) {
+      console.error("tabsData is not an array:", tabsData);
+      return null;
+    }
+  
+    return tabsData.map((tab) => {
+      const { moduleName, components } = tab;
+  
       return (
-        <li className="sidebar-layout" key={menuKey}>
+        <li className="sidebar-layout" key={moduleName}>
+          {/* Module Heading */}
           <div className="d-flex align-items-center">
-            {/* Link to the main menu path */}
             <Link
-              to={`/${basePath}${menuKey.toLowerCase()}`}
+              to={`/${moduleName.toLowerCase()}`}
               className="svg-icon flex-grow-1"
               style={{ marginLeft: "-10px", padding: "15px" }}
             >
-              <span className="ml-2">{menuKey}</span> {/* Main menu link */}
+              <span className="ml-2">{moduleName}</span>
             </Link>
-
-            {/* Only show the arrow if there are subcategories */}
-            {subMenu.length > 0 && (
+  
+            {components && components.length > 0 && (
               <Accordion.Toggle
                 as={Button}
-                eventKey={menuKey}
+                eventKey={moduleName}
                 variant="link"
                 className="p-0 ml-2"
                 onClick={(e) => e.stopPropagation()}
@@ -118,17 +123,17 @@ const SidebarStyle = (props) => {
               </Accordion.Toggle>
             )}
           </div>
-
-          {/* Submenu items */}
-          {subMenu.length > 0 && (
-            <Accordion.Collapse className="submenu" eventKey={menuKey}>
+  
+          {components && components.length > 0 && (
+            <Accordion.Collapse className="submenu" eventKey={moduleName}>
               <ul className="submenu">
-                {subMenu.map((item) => (
-                  <li key={item} style={{ paddingLeft: "20px" }}>
-                    {" "}
-                    {/* Add padding to move subcategories to the right */}
+                {components.map((component) => (
+                  <li
+                    key={component.componentName}
+                    style={{ paddingLeft: "20px" }}
+                  >
                     <Link
-                      to={`/${basePath}${item.toLowerCase()}`}
+                      to={`/${moduleName.toLowerCase()}/${component.componentName.toLowerCase()}`}
                       className="svg-icon"
                     >
                       <i>
@@ -147,8 +152,7 @@ const SidebarStyle = (props) => {
                           />
                         </svg>
                       </i>
-                      <span className="ml-2">{item}</span>{" "}
-                      {/* Submenu item text */}
+                      <span className="ml-2">{component.componentName}</span>
                     </Link>
                   </li>
                 ))}
@@ -242,7 +246,7 @@ const SidebarStyle = (props) => {
               </li>
 
               {/* Dynamically Rendered Menu Items from API */}
-              {renderMenu(tabsInfo)}
+              {tabsInfo.data && tabsInfo.data.tabs && renderMenu(tabsInfo.data.tabs)}
             </Accordion>
           </nav>
         </div>

@@ -7,7 +7,7 @@ import Card from "../../../components/Card";
 import { connect } from "react-redux";
 import { getDarkMode } from "../../../store/mode";
 import { toast, ToastContainer } from "react-toastify";
-
+//import { baseUrl } from "../../../constants";
 //img
 import logo from "../../../assets/images/logo.png";
 import darklogo from "../../../assets/images/logo-dark.png";
@@ -45,7 +45,6 @@ const SignIn = (props) => {
           Authorization: `Bearer ${token}`,
         },
       });
-
       const tabInfo = await result.json();
       console.log("Tab info:", tabInfo);
     } catch (error) {
@@ -79,7 +78,6 @@ const SignIn = (props) => {
     }
   };
 
-  // add get User Info http://localhost:5055/api/user/get-user-info
 
   const handleSignIn = async () => {
     let item = { emailOrPhone: EmailOrPhone, password: Password };
@@ -268,7 +266,7 @@ const SignIn = (props) => {
             transition: "all 0.3s ease", // Smooth animation for all properties
           }}
         >
-        <FaEyeSlash style={{ fontSize: "22px", color: "gray" }} />
+          <FaEye style={{ fontSize: "22px", color: "#5d5d5d" }} />
         </div>
 
         {/* FaEyeSlash Icon */}
@@ -283,7 +281,7 @@ const SignIn = (props) => {
             transition: "all 0.3s ease", // Smooth animation for all properties
           }}
         >
-            <FaEye style={{ fontSize: "22px", color: "#5d5d5d" }} />
+          <FaEyeSlash style={{ fontSize: "22px", color: "gray" }} />
         </div>
       </div>
                         </Form.Group>

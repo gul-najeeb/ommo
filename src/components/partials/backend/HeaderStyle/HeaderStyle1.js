@@ -4,6 +4,7 @@ import { Navbar, Nav, Dropdown, Button, Form } from "react-bootstrap";
 import Card from "../../../../components/Card";
 import { getDarkMode } from "../../../../store/mode";
 import { connect } from "react-redux";
+import { baseUrl } from "../../../../constants";
 
 //img
 
@@ -51,9 +52,8 @@ const HeaderStyle1 = (props) => {
         console.error("No token found. User might not be authenticated.");
         return;
       }
-
       const result = await fetch(
-        "http://localhost:5055/api/user/get-user-info",
+        baseUrl+"/api/user/get-user-info",
         {
           method: "GET",
           headers: {
@@ -64,9 +64,10 @@ const HeaderStyle1 = (props) => {
       );
 
       const userInfo = await result.json();
-
-      setUsername(userInfo.username);
-      setProfileImageUrl(profileImageUrl.profileImageUrl);
+      console.log("userinfo")
+      console.log(userInfo)
+      setUsername(userInfo.data.username);
+      setProfileImageUrl(userInfo.data.profileImageUrl);
     } catch (error) {
       console.error("Error fetching user info:", error);
     }
