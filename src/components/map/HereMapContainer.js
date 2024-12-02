@@ -19,6 +19,20 @@ const HereMapContainer = ({ apikey, markers }) => {
         zoom: 4,
       });
 
+      // / Define a variable holding SVG mark-up that defines an icon image:
+      var svgMarkup = '<svg width="24" height="36" ' +
+      'xmlns="http://www.w3.org/2000/svg">' +
+      '<path fill="red" stroke="white" stroke-width="1" ' +
+      'd="M12 0C7 0 3 4 3 9c0 6 9 15 9 15s9-9 9-15c0-5-4-9-9-9z"/>' +
+      '<circle cx="12" cy="9" r="3" fill="white"/>' +
+      '<text x="12" y="34" font-size="8pt" ' +
+      'font-family="Arial" font-weight="bold" text-anchor="middle" ' +
+      'fill="white">H</text></svg>';
+  
+
+// Create an icon, an object holding the latitude and longitude, and a marker:
+const icon = new H.map.Icon(svgMarkup)
+ 
       // Enable interaction
       const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
       const ui = H.ui.UI.createDefault(map, defaultLayers);
@@ -31,19 +45,27 @@ const HereMapContainer = ({ apikey, markers }) => {
       ];
       console.log(markers, ' mark')
 
-      markers.forEach(({ lat, lng, label }) => {
-        const marker = new H.map.Marker({ lat, lng });
-        // marker.setData(label); // Set label as data
+      markers.forEach(({ lat, lng, driverName	 }) => {
+          // const marker = new H.map.Marker({ lat, lng });
+          const marker = new H.map.Marker({lat, lng}, {icon: icon});
+
+        marker.setData('Driver: '+driverName); // Set label as data
+        // marker.setData('Driver: '+driverName); // Set label as data
+
         map.addObject(marker);
+
       });
 
       // Optional: Add marker info bubble
-      // map.addEventListener("tap", function (evt) {
-      //   const bubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
-      //     content: evt.target.getData(),
-      //   });
-      //   ui.addBubble(bubble);
-      // });
+      map.addEventListener("tap", function (evt) {
+        if (evt.target instanceof H.map.Marker) {
+          // Check if the clicked target is a marker
+          const bubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
+            content: evt.target.getData(), // Get the label
+          });
+          ui.addBubble(bubble);
+        }
+      });
 
       return () => {
         map.dispose(); // Clean up when component unmounts
@@ -56,7 +78,7 @@ const HereMapContainer = ({ apikey, markers }) => {
       ref={mapRef}
       style={{
         width: "100%",
-        height: "500px",
+        height: "99.8vh",
       }}
     />
   );

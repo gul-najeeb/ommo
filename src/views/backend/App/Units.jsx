@@ -388,7 +388,7 @@ const Units = () => {
 
     <div style={styles.container}>
     <Sidebar units={data?.data.map(_ => ({ id: _?.unitId, title: _?.driverName, speed: _?.speed + ' MPH', subtitle: _?.city + ', ' + _?.state, name: _?.truckStatus }))} />
-    <MapContainer markers={data?.data?.map(_ => ({lat: _?.latitude, lng: _?.longitude}))} />
+    <MapContainer markers={data?.data?.map(_ => ({lat: _?.latitude, lng: _?.longitude, driverName: _?.driverName	}))} />
 
      </div>
     </>
