@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
-import { Alert } from "react-bootstrap";
+import { Alert, Spinner } from "react-bootstrap";
 import HereMapContainer from "../../../components/map/HereMapContainer";
 import { getUnitInfo } from "../../../services/units";
 const upArrow = "▲"; // Upward arrow for ascending order
@@ -92,6 +92,8 @@ const StatusBadge = ({ speed }) => {
 const styles = {
   container: {
     display: "flex",
+    justifyContent: 'center',
+    // alignItems: 'center',q
     height: "100vh",
     overflow: "hidden",
     fontFamily: "Arial, sans-serif",
@@ -191,7 +193,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
     color: "#666",
     fontSize: "20px",
     fontWeight: "bold",
@@ -310,7 +312,7 @@ const Sidebar = ({ units }) => {
 
       {/* List of Items */}
       <div style={styles.itemList}>
-        {filteredData.length > 0 ? (
+        {filteredData ? (
           filteredData.map((item) => (
             <AssetItem
               key={item.id}
@@ -328,9 +330,9 @@ const Sidebar = ({ units }) => {
     </div>
   );
 };
-const MapContainer = () => (
+const MapContainer = ({markers}) => (
   <div style={styles.mapContainer}>
-    <Alert
+    {/* <Alert
       variant="info"
       style={{
         width: "100%",
@@ -341,8 +343,8 @@ const MapContainer = () => (
     >
       Space For Components: We'll Include Other Components for functionalities
       if Needed
-    </Alert>
-    <HereMapContainer apikey={'cynCdVQhgemw3arLVJp4Mp-zV3WJuEkO4q6vDFpcv9A'} />
+    </Alert> */}
+    <HereMapContainer markers={markers} apikey={'cynCdVQhgemw3arLVJp4Mp-zV3WJuEkO4q6vDFpcv9A'} />
 
   </div>
 );
@@ -375,19 +377,26 @@ const Units = () => {
 
   let unitsSidebar = null;
   if (loading) {
-    unitsSidebar = <div> Loading Units...</div>;
+    unitsSidebar = <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
+
+    <Spinner animation="border" variant="secondary" size={"lg"} />
+    </div> 
+ 
   }
   else {
-    unitsSidebar = <Sidebar units={data?.data.map(_ => ({ id: _?.unitId, title: _?.driverName, speed: _?.speed + ' MPH', subtitle: _?.city + ', ' + _?.state, name: _?.truckStatus }))} />;
+    unitsSidebar = <>
+
+    <div style={styles.container}>
+    <Sidebar units={data?.data.map(_ => ({ id: _?.unitId, title: _?.driverName, speed: _?.speed + ' MPH', subtitle: _?.city + ', ' + _?.state, name: _?.truckStatus }))} />
+    <MapContainer markers={data?.data?.map(_ => ({lat: _?.latitude, lng: _?.longitude}))} />
+
+     </div>
+    </>
   }
 
 
-  return (
-    <div style={styles.container}>
-      {unitsSidebar}
-      <MapContainer />
-    </div>
-  )
-};
+  return unitsSidebar
+}
+   
 
 export default Units;

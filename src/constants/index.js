@@ -1,4 +1,5 @@
 export const baseUrl = process.env.REACT_APP_API_URL || "http://116.203.191.120:5000"; // soon will come through .env
+export const notFoundImage = `https://cdni.iconscout.com/illustration/premium/thumb/404-error-page-illustration-download-in-svg-png-gif-file-formats--bug-landing-pack-design-development-illustrations-2451625.png?f=webp`
 // http://116.203.191.120:5000/
 const units = [
   {

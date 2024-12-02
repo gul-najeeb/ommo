@@ -18,6 +18,7 @@ function App({ children }) {
         draggable
         pauseOnHover
       />
+      
       <div className="App">{children}</div>
     </>
   );
