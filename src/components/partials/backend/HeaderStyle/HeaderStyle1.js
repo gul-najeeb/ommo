@@ -12,12 +12,7 @@ import user1 from "../../../../assets/images/user/1.jpg";
 import user2 from "../../../../assets/images/user/2.jpg";
 
 // flag
-import flag1 from "../../../../assets/images/Flag/flag001.png";
-import flag3 from "../../../../assets/images/Flag/flag-03.png";
-import flag4 from "../../../../assets/images/Flag/flag-04.png";
-import flag2 from "../../../../assets/images/Flag/flag-02.png";
-import flag5 from "../../../../assets/images/Flag/flag-05.png";
-import flag6 from "../../../../assets/images/Flag/flag-06.png";
+import flag1 from "../../../../assets/images/Flag/flag001.png"; 
 
 //chnage-mode
 import ChangeMode from "../../../Change-Mode";

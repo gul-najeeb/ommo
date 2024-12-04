@@ -24,10 +24,12 @@ export const getUnitInfo = async (status, ids, minRating, maxRating) => {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     });
+    console.log(response, ' shaddu')
 
     return response.data; // Return the data from the response
   } catch (error) {
-    console.error("Error fetching unit info:", error);
+    // console.log()
+    console.log("Error fetching unit info:", error);
     throw error; // Rethrow the error if you want to handle it elsewhere
   }
 };

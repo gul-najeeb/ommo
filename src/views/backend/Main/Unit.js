@@ -346,7 +346,7 @@ const Unit = () => {
 
   return (
     <>
-      <Container fluid>
+      <Container style={{width: '45%'}} fluid>
         <Row>
           <Col lg="12">
             <div className="d-flex flex-wrap align-items-center justify-content-between my-schedule mb-4">
@@ -361,7 +361,7 @@ const Unit = () => {
                     className="font-weight-bold "
                     style={{ background: "red" }}
                   >
-                    Unit
+                    Drivers
                   </h4>
                 </Tooltip>
               </div>
@@ -459,7 +459,7 @@ const Unit = () => {
                 <Card className="card-block card-stretch">
                   <Card.Body className="p-0">
                     <div className="d-flex justify-content-between align-items-center p-3">
-                      <h5 className="font-weight-bold">Unit List</h5>
+                      <h5 className="font-weight-bold">Drivers List</h5>
                       <Button variant="btn btn-secondary btn-sm">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -514,7 +514,7 @@ const Unit = () => {
                               }}
                               onClick={sortCustomersByRating}
                             >
-                              <span>Driver Rating</span>
+                              <span> Rating</span>
                               <FaSort />
                             </th>
 
@@ -523,7 +523,7 @@ const Unit = () => {
                               style={{ cursor: "pointer" }}
                               onClick={() => sortByTruckId()}
                             >
-                              Truck ID {sortTruckId === "asc" ? " ↑" : " ↓"}
+                              Truck {sortTruckId === "asc" ? " ↑" : " ↓"}
                             </th>
                             <th
                               scope="col"
@@ -531,7 +531,7 @@ const Unit = () => {
                               onClick={() => sortByTrailerId()}
                             >
                               {" "}
-                              Trailer ID {sortTrailerId === "asc" ? " ↑" : " ↓"}
+                              Trailer  {sortTrailerId === "asc" ? " ↑" : " ↓"}
                             </th>
                             <th scope="col" className="text-right">
                               <NavDropdown
@@ -658,7 +658,7 @@ const Unit = () => {
                                   </td>
 
                                   {/* Unit Status */}
-                                  <td>
+                                  <td className="d-flex justify-content-center align-items-center"> 
                                     <UnitStatusBadge
                                       status={item.Unit_Status}
                                     />

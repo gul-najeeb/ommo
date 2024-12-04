@@ -89,8 +89,10 @@ import UiTypography from "../views/backend/ui/UiTypography";
 // icon-heroicon
 import Heroicons from "../views/backend/Icons/Heroicons ";
 import Units from "../views/backend/App/Units";
-import Test1 from "../components/test/Test1";
-
+import Test1 from "../components/test/Test1"; 
+import SafetyScreen from "../views/backend/App/Safety";
+import HireDriver from "../views/backend/App/HireDriver";
+   
 export const Layout1Route = [
   {
     path: "/",
@@ -101,6 +103,16 @@ export const Layout1Route = [
         element: <Dashbord />,
       }, 
       
+      {
+        path: "/safety",
+        element: <SafetyScreen />,
+      }, 
+
+      {
+        path: "/hire-driver",
+        element: <HireDriver />,
+      }, 
+
       {
         path: "/user-profile",
         element: <UserProfile />,
