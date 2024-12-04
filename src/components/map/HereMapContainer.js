@@ -1,7 +1,7 @@
 /* global H */
 import React, { useEffect, useRef } from "react";
 
-const HereMapContainer = ({ apikey, markers }) => {
+const HereMapContainer = ({ apikey, markers = [] }) => {
   const mapRef = useRef(null);
 
   useEffect(() => {
