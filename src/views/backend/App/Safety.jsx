@@ -17,6 +17,31 @@ const SafetyScreen = () => {
       Rating: 3.8,
     },
     {
+      Driver_ID: 23,
+      Driver_Name: "Bob Smith",
+      Status: "Pending",
+      Rating: 3.8,
+    },    {
+      Driver_ID: 21,
+      Driver_Name: "Bob Smith",
+      Status: "Pending",
+      Rating: 3.8,
+    },
+    {
+      Driver_ID: 11,
+      Driver_Name: "Bob Smith",
+      Status: "Pending",
+      Rating: 3.8,
+    },
+    {
+      Driver_ID: 25,
+      Driver_Name: "Bob Smith",
+      Status: "Pending",
+      Rating: 3.8,
+    },
+
+
+    {
       Driver_ID: 3,
       Driver_Name: "Charlie Brown",
       Status: "Inactive",
@@ -110,15 +135,57 @@ const SafetyScreen = () => {
         <div style={styles.rightSection}>
           {selectedDriver ? (
             <>
-              {/* Driver Information */}
-              <div style={styles.driverInfo}>
-                <h2 style={styles.sectionTitle}>Driver Information</h2>
-                {Object.entries(selectedDriver).map(([key, value]) => (
-                  <p key={key} style={styles.infoItem}>
-                    <strong>{key.replace(/_/g, " ")}:</strong> {value}
-                  </p>
-                ))}
-              </div>
+              <div style={styles.driverInfoContainer}>
+  <h2 style={styles.sectionTitle}>Driver Information</h2>
+  <div style={styles.driverCard}>
+    <div style={styles.cardHeader}>
+      <img
+        src="https://via.placeholder.com/100"
+        alt="Driver"
+        style={styles.driverImage}
+      />
+      <h3 style={styles.driverName}>John Doe</h3>
+      <p style={styles.driverStatus}>Status: Active</p>
+    </div>
+    <div style={styles.cardBody}>
+      <p style={styles.infoItem}>
+        <strong>Employment Type:</strong> Full-Time
+      </p>
+      <p style={styles.infoItem}>
+        <strong>CDL License Number:</strong> 12345678
+      </p>
+      <p style={styles.infoItem}>
+        <strong>Address:</strong> 123 Main St, Springfield, USA
+      </p>
+      <p style={styles.infoItem}>
+        <strong>License State:</strong> California
+      </p>
+      <p style={styles.infoItem}>
+        <strong>Email:</strong> johndoe@example.com
+      </p>
+      <p style={styles.infoItem}>
+        <strong>Phone Number:</strong> (123) 456-7890
+      </p>
+      <p style={styles.infoItem}>
+        <strong>Experience:</strong> 8 Years
+      </p>
+      <p style={styles.infoItem}>
+        <strong>Performance Rating:</strong> 4.7/5
+      </p>
+      <p style={styles.infoItem}>
+        <strong>Special Skills:</strong> Hazmat Transport, Defensive Driving
+      </p>
+      <p style={styles.infoItem}>
+        <strong>Hiring Status:</strong> Hired
+      </p>
+    </div>
+    <div style={styles.cardFooter}>
+      <button style={styles.viewPerformanceButton}>View Performance</button>
+      <button style={styles.editDetailsButton}>Edit Details</button>
+    </div>
+  </div>
+</div>
+
             </>
           ) : (
             <div
@@ -230,6 +297,77 @@ const styles = {
   placeholder: {
     textAlign: "center",
     color: "#555",
+    fontSize: "16px",
+  },
+  driverInfoContainer: {
+    margin: "20px",
+    padding: "20px",
+    backgroundColor: "#f8f9fa",
+    borderRadius: "8px",
+    // boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+  },
+  sectionTitle: {
+    fontSize: "24px",
+    fontWeight: "bold",
+    marginBottom: "20px",
+    textAlign: "center",
+    color: "#343a40",
+  },
+  driverCard: {
+    backgroundColor: "#ffffff",
+    borderRadius: "10px",
+    padding: "20px",
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+  },
+  cardHeader: {
+    textAlign: "center",
+    marginBottom: "20px",
+  },
+  driverImage: {
+    borderRadius: "50%",
+    width: "100px",
+    height: "100px",
+    objectFit: "cover",
+    marginBottom: "10px",
+  },
+  driverName: {
+    fontSize: "20px",
+    fontWeight: "bold",
+    margin: "10px 0",
+  },
+  driverStatus: {
+    fontSize: "16px",
+    color: "#28a745",
+  },
+  cardBody: {
+    lineHeight: "1.6",
+    color: "#495057",
+  },
+  infoItem: {
+    fontSize: "16px",
+    marginBottom: "10px",
+  },
+  cardFooter: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginTop: "20px",
+  },
+  viewPerformanceButton: {
+    padding: "10px 20px",
+    backgroundColor: "#007bff",
+    color: "#fff",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    fontSize: "16px",
+  },
+  editDetailsButton: {
+    padding: "10px 20px",
+    backgroundColor: "#6c757d",
+    color: "#fff",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
     fontSize: "16px",
   },
 };

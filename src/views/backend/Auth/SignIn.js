@@ -12,8 +12,7 @@ import { toast, ToastContainer } from "react-toastify";
 import logo from "../../../assets/images/logo.png";
 import darklogo from "../../../assets/images/logo-dark.png";
 import { baseUrl } from "../../../constants";
-import PasswordInput from "./PasswordInput";
-
+ 
 function mapStateToProps(state) {
   return {
     darkMode: getDarkMode(state),

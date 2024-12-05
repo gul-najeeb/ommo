@@ -43,7 +43,7 @@ const HereMapContainer = ({ apikey, markers = [] }) => {
 const icon = new H.map.Icon(svgMarkup)
  
       // Enable interaction
-      // const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+      const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
       const ui = H.ui.UI.createDefault(map, defaultLayers);
 
       // Add markers
