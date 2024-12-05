@@ -56,8 +56,8 @@ const HireDriver = () => {
   };
 
   return (
-    <Container className="py-5">
-      <Card className="shadow-lg p-4">
+    <Container fluid className="py-5">
+      <Card className=" p-4 border-none">
         <Card.Header as="h2" className="text-center text-primary">
           Hire Driver
         </Card.Header>
