@@ -179,6 +179,54 @@ const SafetyScreen = () => {
         <strong>Hiring Status:</strong> Hired
       </p>
     </div>
+    <div style={styles.documentTableContainer}>
+  <h3 style={styles.tableTitle}>Document List</h3>
+  <table className="table table-bordered  table-hover">
+    <thead className="">
+      <tr>
+        <th>Document Name</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Driver License</td>
+        <td style={{ color: "green" }}>Active</td>
+        <td>
+          <button
+            className="btn btn-primary btn-sm"
+            onClick={() => alert("Viewing Driver License")}
+          >
+            View
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>Medical Certificate</td>
+        <td style={{ color: "green" }}>Active</td>
+        <td>
+          <button
+            className="btn btn-primary btn-sm"
+            onClick={() => alert("Viewing Medical Certificate")}
+          >
+            View
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>Background Check</td>
+        <td style={{ color: "red" }}>Pending</td>
+        <td>
+          <button className="btn btn-secondary btn-sm" disabled>
+            View
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
     <div style={styles.cardFooter}>
       <button style={styles.viewPerformanceButton}>View Performance</button>
       <button style={styles.editDetailsButton}>Edit Details</button>
@@ -302,7 +350,7 @@ const styles = {
   driverInfoContainer: {
     margin: "20px",
     padding: "20px",
-    backgroundColor: "#f8f9fa",
+    // backgroundColor: "#f8f9fa",
     borderRadius: "8px",
     // boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
   },
@@ -369,6 +417,20 @@ const styles = {
     borderRadius: "5px",
     cursor: "pointer",
     fontSize: "16px",
+  },
+  documentTableContainer: {
+    marginTop: "20px",
+    padding: "20px",
+    // backgroundColor: "#f8f9fa",
+    borderRadius: "8px",
+    // boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+  },
+  tableTitle: {
+    fontSize: "20px",
+    fontWeight: "bold",
+    marginBottom: "15px",
+    textAlign: "left",
+    color: "#343a40",
   },
 };
 
