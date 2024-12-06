@@ -91,3 +91,10 @@ export function isValidEmail(email) {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
   }
+
+
+export function extractUsername(email) {
+    // Split the email at the '@' symbol and take the first part
+    const username = email.split('@')[0];
+    return username;
+}

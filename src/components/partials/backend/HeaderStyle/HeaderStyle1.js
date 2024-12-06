@@ -18,6 +18,7 @@ import flag1 from "../../../../assets/images/Flag/flag001.png";
 import ChangeMode from "../../../Change-Mode";
 import { logoutUser } from "../../../../services/auth";
 import { toast } from "react-toastify";
+// import { extractUsername } from "../../../../assets/vendor/ionicons/dist/collection/components/icon/utils";
 function mapStateToProps(state) {
   return {
     darkMode: getDarkMode(state),
@@ -30,6 +31,12 @@ const HeaderStyle1 = (props) => {
   const minisidbar = () => {
     document.body.classList.toggle("sidebar-main");
   };
+    function extractUsername(email) {
+    // Split the email at the '@' symbol and take the first part
+    const username = email.split('@')[0];
+    return username;
+}
+
   const search = [
     { name: "Jack Ryan", id: "OR-325548" },
     { name: "Matt Damon", id: "OR-223544" },
@@ -619,7 +626,7 @@ const HeaderStyle1 = (props) => {
                           width: "30px",
                         }}
                       />
-                      <span className="mb-0 ml-2 user-name">{username}</span>
+                      <span className="mb-0 ml-2 user-name">{extractUsername(username)}</span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu
                       as="ul"

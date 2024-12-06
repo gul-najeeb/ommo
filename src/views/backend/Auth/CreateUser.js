@@ -62,7 +62,7 @@ const CreateUser = (props) => {
   const onSubmit = async (data) => {
     // return;
     const formData = new FormData();
-    formData.append("Username", 'username');
+    formData.append("Username", 'us_'+email);
     formData.append("Email", email);
     formData.append("Phone", phone);
     formData.append("Password", data.password);
@@ -199,7 +199,7 @@ const CreateUser = (props) => {
                             <InputGroup.Text
                               onClick={() => setShowPassword(!showPassword)}
                             >
-                              {showPassword ? <FaEyeSlash /> : <FaEye />}
+                              {showPassword ? <FaEye/> : <FaEyeSlash />}
                             </InputGroup.Text>
                           </InputGroup>
                           {errors.password && (
@@ -232,7 +232,7 @@ const CreateUser = (props) => {
                                 setShowConfirmPassword(!showConfirmPassword)
                               }
                             >
-                              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                              {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
                             </InputGroup.Text>
                           </InputGroup>
                           {errors.confirmPassword && (

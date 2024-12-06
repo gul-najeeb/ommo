@@ -265,7 +265,7 @@ const SignIn = (props) => {
             transition: "all 0.3s ease", // Smooth animation for all properties
           }}
         >
-          <FaEye style={{ fontSize: "22px", color: "#5d5d5d" }} />
+        <FaEyeSlash style={{ fontSize: "22px", color: "gray" }} />
         </div>
 
         {/* FaEyeSlash Icon */}
@@ -275,12 +275,12 @@ const SignIn = (props) => {
             top: showPassword ? "0px" : "40px", // Slide in from bottom
             opacity: showPassword ? 1 : 0, // Fade in when sliding in
             transform: showPassword
-              ? "scale(1) skewY(0deg)" // Restore to normal size for showing
-              : "scale(0.7) skewY(-10deg)", // Shrink and skew when hiding
+            ? "scale(1) skewY(0deg)" // Restore to normal size for showing
+            : "scale(0.7) skewY(-10deg)", // Shrink and skew when hiding
             transition: "all 0.3s ease", // Smooth animation for all properties
           }}
         >
-          <FaEyeSlash style={{ fontSize: "22px", color: "gray" }} />
+          <FaEye style={{ fontSize: "22px", color: "#5d5d5d" }} />
         </div>
       </div>
                         </Form.Group>
