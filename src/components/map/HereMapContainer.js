@@ -95,7 +95,7 @@ const icon = new H.map.Icon(svgMarkup)
     }
   };
   return (<>
-    <button onClick={switchToSatelliteMode}>Switch to Satellite Mode</button>
+    {/* <button onClick={switchToSatelliteMode}>Switch to Satellite Mode</button> */}
 
     <div
       ref={mapRef}
