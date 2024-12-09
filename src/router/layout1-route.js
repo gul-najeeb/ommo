@@ -92,6 +92,8 @@ import Units from "../views/backend/App/Units";
 import Test1 from "../components/test/Test1"; 
 import SafetyScreen from "../views/backend/App/Safety";
 import HireDriver from "../views/backend/App/HireDriver";
+import DriverPerformance from "../views/backend/App/DriverPerformance";
+import RecordEvent from "../views/backend/App/RecordEvent";
    
 export const Layout1Route = [
   {
@@ -117,6 +119,16 @@ export const Layout1Route = [
         path: "/user-profile",
         element: <UserProfile />,
       },
+      {
+        path: "/driver-performance",
+        element: <DriverPerformance />,
+      },
+      {
+        path: "/record-event",
+        element: <RecordEvent />,
+      },
+
+
       {
         path: "/user-add",
         element: <UserAdd />,
