@@ -42,7 +42,7 @@ const RecordEvent = () => {
       backgroundColor: "#ffffff",
       padding: "30px",
       borderRadius: "8px",
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    //   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
       width: "100%",
     //   maxWidth: "    ",
       boxSizing: "border-box",
@@ -51,14 +51,14 @@ const RecordEvent = () => {
       fontSize: "28px",
       fontWeight: "bold",
       color: "#0056b3",
-      marginBottom: "20px",
-      textAlign: "center",
+      marginBottom: "10px",
+    //   textAlign: "center",
     },
     breadcrumb: {
-      marginBottom: "20px",
+      marginBottom: "30px",
       color: "#888",
       fontSize: "14px",
-      textAlign: "center",
+    //   textAlign: "center",
     },
     form: { display: "flex", flexDirection: "column", gap: "20px" },
     input: {
@@ -124,8 +124,8 @@ const RecordEvent = () => {
     <div style={styles.container}>
       <div style={styles.card}>
         {/* Header */}
-        <div style={styles.header}>Record Event</div>
-        <div style={styles.breadcrumb}>Safety → Record Event</div>
+        <div style={styles.header}>Safety → Record Event</div>
+        <div style={styles.breadcrumb}>Record The Events Occur During Driving</div>
 
         {/* Form */}
         <form style={styles.form}>
