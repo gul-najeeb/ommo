@@ -93,8 +93,3 @@ export function isValidEmail(email) {
   }
 
 
-export function extractUsername(email) {
-    // Split the email at the '@' symbol and take the first part
-    const username = email.split('@')[0];
-    return username;
-}
