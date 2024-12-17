@@ -12,7 +12,7 @@ import user1 from "../../../../assets/images/user/1.jpg";
 import user2 from "../../../../assets/images/user/2.jpg";
 
 // flag
-import flag1 from "../../../../assets/images/Flag/flag001.png"; 
+import flag1 from "../../../../assets/images/Flag/flag001.png";
 
 //chnage-mode
 import ChangeMode from "../../../Change-Mode";
@@ -31,11 +31,11 @@ const HeaderStyle1 = (props) => {
   const minisidbar = () => {
     document.body.classList.toggle("sidebar-main");
   };
-    function extractUsername(email) {
+  function extractUsername(email) {
     // Split the email at the '@' symbol and take the first part
     const username = email.split('@')[0];
     return username;
-}
+  }
 
   const search = [
     { name: "Jack Ryan", id: "OR-325548" },
@@ -55,7 +55,7 @@ const HeaderStyle1 = (props) => {
         return;
       }
       const result = await fetch(
-        baseUrl+"/api/user/get-user-info",
+        baseUrl + "/api/user/get-user-info",
         {
           method: "GET",
           headers: {
@@ -536,7 +536,7 @@ const HeaderStyle1 = (props) => {
                       aria-haspopup="true"
                       aria-expanded="false"
                     >
-                     </Dropdown.Toggle>
+                    </Dropdown.Toggle>
                     <Dropdown.Menu
                       className="iq-sub-dropdown"
                       aria-labelledby="dropdownMenuButton2"
@@ -626,7 +626,7 @@ const HeaderStyle1 = (props) => {
                           width: "30px",
                         }}
                       />
-                      <span className="mb-0 ml-2 user-name">{extractUsername(username)}</span>
+                      <span className="mb-0 ml-2 user-name">{username}</span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu
                       as="ul"

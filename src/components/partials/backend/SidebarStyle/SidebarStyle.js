@@ -9,7 +9,7 @@ import { baseUrl } from "../../../../constants";
 import logo from "../../../../../src/assets/images/logo.png";
 import { logoutUser } from "../../../../services/auth";
 import { ToastContainer, toast } from "react-toastify";
-
+import { FaCogs, FaShieldAlt, FaTruck, FaUserCog, FaClipboardList, FaStore, FaUsers, FaCube, FaFile, FaUser, FaMoneyBill, FaIdBadge, FaCog, FaUsersCog } from "react-icons/fa";
 function mapStateToProps(state) {
   return {
     darkMode: getDarkMode(state),
@@ -31,7 +31,7 @@ const SidebarStyle = (props) => {
         return;
       }
 
-      const result = await fetch(baseUrl+"/api/tab/get-tabs", {
+      const result = await fetch(baseUrl + "/api/tab/get-tabs", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -75,17 +75,36 @@ const SidebarStyle = (props) => {
 
   const [activeMenu, setActiveMenu] = useState(false);
   const [activesubMenu, setSubmenu] = useState(false);
-
+  // Mapping module names to specific icons
+  const moduleIcons = {
+    Setting: <FaCog />,
+    Safety: <FaShieldAlt />,
+    Subscription_Carrier: <FaTruck />,
+    Accounts: <FaUserCog />,
+    Dispatch: <FaClipboardList />,
+    Shop: <FaStore />,
+    Client: <FaUsers />,
+    Unit: <FaCube />,
+  };
+  // Mapping sub-tab (component) names to icons
+  const componentIcons = {
+    Role: <FaIdBadge />,
+    Document: <FaFile />,
+    User: <FaUser />,
+    Payment: <FaMoneyBill />,
+    Profile: <FaUserCog />,
+    Performance: <FaClipboardList />,
+  };
   const renderMenu = (tabsData) => {
     // Ensure tabsData is an array before mapping
     if (!Array.isArray(tabsData)) {
       console.error("tabsData is not an array:", tabsData);
       return null;
     }
-  
+
     return tabsData.map((tab) => {
       const { moduleName, components } = tab;
-  
+
       return (
         <li className="sidebar-layout" key={moduleName}>
           {/* Module Heading */}
@@ -95,9 +114,13 @@ const SidebarStyle = (props) => {
               className="svg-icon flex-grow-1"
               style={{ marginLeft: "-10px", padding: "15px" }}
             >
+
+
+              <span className="icon">{moduleIcons[tab.moduleName] || <FaCogs />}</span>
+
               <span className="ml-2">{moduleName}</span>
             </Link>
-  
+
             {components && components.length > 0 && (
               <Accordion.Toggle
                 as={Button}
@@ -123,42 +146,26 @@ const SidebarStyle = (props) => {
               </Accordion.Toggle>
             )}
           </div>
-  
+
           {components && components.length > 0 && (
             <Accordion.Collapse className="submenu" eventKey={moduleName}>
               <ul className="submenu">
                 {components.map((component) => (
-                  <li
-                    key={component.componentName}
-                    style={{ paddingLeft: "20px" }}
-                  >
+                  <li key={component.componentName} style={{ paddingLeft: "20px" }}>
                     <Link
                       to={`/${moduleName.toLowerCase()}/${component.componentName.toLowerCase()}`}
                       className="svg-icon"
                     >
-                      <i>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="18"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-                          />
-                        </svg>
-                      </i>
+                      {/* Add Icons for Components */}
+                      <span className="icon">
+                        {componentIcons[component.componentName] || <FaFile />}
+                      </span>
                       <span className="ml-2">{component.componentName}</span>
                     </Link>
                   </li>
                 ))}
               </ul>
-            </Accordion.Collapse>
-          )}
+            </Accordion.Collapse>)}
         </li>
       );
     });
@@ -182,9 +189,8 @@ const SidebarStyle = (props) => {
           <Link to="/" className="header-logo">
             <img
               src={logo}
-              className={`img-fluid rounded-normal light-logo ${
-                props.darkMode ? "d-none" : ""
-              }`}
+              className={`img-fluid rounded-normal light-logo ${props.darkMode ? "d-none" : ""
+                }`}
               style={{ width: "150px", height: "auto", marginLeft: "3px" }}
               alt="logo"
             />
