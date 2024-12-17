@@ -27,6 +27,9 @@ const CreateUser = (props) => {
   const queryParams = new URLSearchParams(location.search);
   const _companyId = queryParams.get('companyId');
   
+  const _name = queryParams.get('name');
+
+  
   const {
     register,
     handleSubmit,
@@ -51,7 +54,7 @@ const CreateUser = (props) => {
 
   useEffect(() => {
     if (location.state) {
-      setUsername(location.state.username || "");
+      setUsername(_name || "");
       setEmail(location.state.email || "");
       setPhone(location.state.phone || "");
       setCompanyId(_companyId || "");
@@ -62,7 +65,7 @@ const CreateUser = (props) => {
   const onSubmit = async (data) => {
     // return;
     const formData = new FormData();
-    formData.append("Username", 'us_'+email);
+    formData.append("Username", _name);
     formData.append("Email", email);
     formData.append("Phone", phone);
     formData.append("Password", data.password);

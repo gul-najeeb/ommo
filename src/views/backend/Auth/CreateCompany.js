@@ -84,7 +84,7 @@ const CreateCompany = (props) => {
 // console.log(result)
 //         return;
         setTimeout(() => {
-          navigate(`/auth/create-user?companyId=${result?.data?.companyId}&roleId=${result?.roleId}`, {
+          navigate(`/auth/create-user?name=${item.Name}&companyId=${result?.data?.companyId}&roleId=${result?.roleId}`, {
             state: {
               username: item.Name,
               email: item.Email,
