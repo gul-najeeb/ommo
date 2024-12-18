@@ -94,6 +94,7 @@ import SafetyScreen from "../views/backend/App/Safety";
 import HireDriver from "../views/backend/App/HireDriver";
 import DriverPerformance from "../views/backend/App/DriverPerformance";
 import RecordEvent from "../views/backend/App/RecordEvent";
+import Profile from "../views/backend/App/Profile";
    
 export const Layout1Route = [
   {
@@ -142,8 +143,8 @@ export const Layout1Route = [
         element: <UserPrivacySetting />,
       },
       {
-        path: "/user-account-setting",
-        element: <UserAccountSettingList />,
+        path: "/setting/profile",
+        element: <Profile />,
       },
       {
         path: "/user-profile-edit",

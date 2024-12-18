@@ -18,7 +18,7 @@ import flag1 from "../../../../assets/images/Flag/flag001.png";
 import ChangeMode from "../../../Change-Mode";
 import { logoutUser } from "../../../../services/auth";
 import { toast } from "react-toastify";
-// import { extractUsername } from "../../../../assets/vendor/ionicons/dist/collection/components/icon/utils";
+ 
 function mapStateToProps(state) {
   return {
     darkMode: getDarkMode(state),
