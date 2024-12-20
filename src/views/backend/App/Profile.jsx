@@ -20,6 +20,10 @@ const CompanyProfile = () => {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [alert, setAlert] = useState({ show: false, message: "", variant: "" });
+  function isValidEmail(email) {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  }
 
   // Fetch Company Profile Data
   const fetchCompanyProfile = async () => {
@@ -65,7 +69,7 @@ const CompanyProfile = () => {
       setLoading('button')
       const res = await updateCompanyProfile({
           name: editableData?.name,
-          email: editableData?.contact,
+          ...(isValidEmail(editableData?.contact) ? {email: editableData?.contact}: {phone:editableData?.contact}),
           address: editableData?.address
         });
         setLoading(false)
@@ -88,9 +92,7 @@ const CompanyProfile = () => {
 
   return (
     <div className="container mt-2">
-      {/* Alert Message */}
-      {/* {alert.show && <Alert variant={alert.variant}>{alert.message}</Alert>} */}
-
+     
       {/* Card Wrapper */}
       <Card border="none" className="">
         <Card.Header className=" text-white d-flex align-items-center">
