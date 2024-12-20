@@ -159,7 +159,7 @@ const CompanyProfile = () => {
                     <Form.Label>Created At</Form.Label>
                     <Form.Control
                       type="text"
-                      value={companyData.createdAt || ""}
+                      value={ new Date(editableData.createdAt).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'medium' }) || ""}
                       readOnly
                     />
                   </Form.Group>
@@ -223,9 +223,9 @@ const CompanyProfile = () => {
 
               {/* Buttons */}
               <div className="text-end mt-4">
-                <Button   variant="secondary" className="mr-2" onClick={fetchCompanyProfile}>
+                {/* <Button   variant="secondary" className="mr-2" onClick={fetchCompanyProfile}>
                   <FaRedo className="mb-1" size={14} /> Reset
-                </Button>
+                </Button> */}
                 <Button variant="primary" onClick={() => setShowModal(true)}>
                   <FaSave className="mb-1" /> Save
                 </Button>
