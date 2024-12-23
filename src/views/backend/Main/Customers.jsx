@@ -69,7 +69,7 @@ const CustomersComponent = () => {
                 <td>Hotel Inn</td>
 
                 <td className=''> 
-                    <FaEye  style={{cursor: 'pointer'}} className='mr-2' color="gray" /> 
+                    <FaEye  style={{cursor: 'pointer' }} className='mr-2' color="gray" /> 
                   <Button
                     variant="warning"
                     size="sm"
