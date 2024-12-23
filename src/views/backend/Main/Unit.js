@@ -346,7 +346,7 @@ const Unit = () => {
 
   return (
     <>
-      <Container style={{width: '45%'}} fluid>
+      <Container   fluid>
         <Row>
           <Col lg="12">
             <div className="d-flex flex-wrap align-items-center justify-content-between my-schedule mb-4">

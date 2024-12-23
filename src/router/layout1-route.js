@@ -95,6 +95,7 @@ import HireDriver from "../views/backend/App/HireDriver";
 import DriverPerformance from "../views/backend/App/DriverPerformance";
 import RecordEvent from "../views/backend/App/RecordEvent";
 import Profile from "../views/backend/App/Profile";
+import Customers from "../views/backend/Main/Customers";
    
 export const Layout1Route = [
   {
@@ -146,6 +147,11 @@ export const Layout1Route = [
         path: "/setting/profile",
         element: <Profile />,
       },
+      {
+        path: "/setting/user",
+        element: <Customers />,
+      },
+
       {
         path: "/user-profile-edit",
         element: <UserProfileEdit />,
