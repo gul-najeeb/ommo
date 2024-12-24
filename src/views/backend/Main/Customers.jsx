@@ -1,109 +1,203 @@
-import React, { useState } from 'react';
-import { Button, Modal, Form, Table } from 'react-bootstrap';
-import { FaEye } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { Button, Modal, Form, Table, Spinner } from 'react-bootstrap';
+import { FaAngleRight, FaArrowRight, FaEdit } from 'react-icons/fa';
+import Switch from 'react-switch';
+import axios from 'axios';
+import { axiosInstance } from '../../../services';
+const myUsers = [
+  {
+    id: 1,
+    name: 'Alice Johnson',
+    email: 'alice.johnson@example.com',
+    phone: '+1-555-123-4567',
+    role_name: 'Admin',
+    status: true, // Toggle status (active/inactive)
+  },
+  {
+    id: 2,
+    name: 'Bob Smith',
+    email: 'bob.smith@example.com',
+    phone: '+1-555-987-6543',
+    role_name: 'Manager',
+    status: false,
+  },
+  {
+    id: 3,
+    name: 'Charlie Brown',
+    email: 'charlie.brown@example.com',
+    phone: '+1-555-567-1234',
+    role_name: 'Employee',
+    status: true,
+  },
+  {
+    id: 4,
+    name: 'Diana Prince',
+    email: 'diana.prince@example.com',
+    phone: '+1-555-444-5555',
+    role_name: 'Admin',
+    status: false,
+  },
+  {
+    id: 5,
+    name: 'Edward Stark',
+    email: 'edward.stark@example.com',
+    phone: '+1-555-777-8888',
+    role_name: 'Manager',
+    status: true,
+  },
+];
 
-const CustomersComponent = () => {
+const UserSettingsComponent = () => {
+  const [users, setUsers] = useState(myUsers);
   const [showModal, setShowModal] = useState(false);
-  const [customers, setCustomers] = useState([
-    { id: 1, name: 'John Doe', email: 'john.doe@example.com' },
-    { id: 2, name: 'Jane Smith', email: 'jane.smith@example.com' },
-  ]);
-  const [customerData, setCustomerData] = useState({ name: '', email: '' });
+  const [userData, setUserData] = useState({ name: '', email: '', phone: '', role_name: '' });
   const [editingIndex, setEditingIndex] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleShowModal = () => {
-    setShowModal(true);
-    setCustomerData({ name: '', email: '' });
-    setEditingIndex(null);
-  };
+  // Fetch users from Get_Users API
+  useEffect(() => {
+    const fetchUsers = async () => {
+      setLoading(true);
+      setError('');
+      try {
+        const response = await axiosInstance.get('/api/role/get-roles', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+          }
+        }); // Replace with your API endpoint
+        console.log(response.data, ' SS')
+       } catch (err) {
+        // setError('Failed to fetch users. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const handleEditCustomer = (index) => {
-    setEditingIndex(index);
-    setCustomerData(customers[index]);
-    setShowModal(true);
-  };
+    fetchUsers();
+  }, []);
 
-  const handleDeleteCustomer = (index) => {
-    const updatedCustomers = [...customers];
-    updatedCustomers.splice(index, 1);
-    setCustomers(updatedCustomers);
-  };
+  // Handle toggle for user status
+  const handleToggleStatus = async (index) => {
+    const updatedUsers = [...users];
+    const user = updatedUsers[index];
+    const newStatus = !user.status;
 
-  const handleSaveCustomer = () => {
-    if (editingIndex !== null) {
-      const updatedCustomers = [...customers];
-      updatedCustomers[editingIndex] = customerData;
-      setCustomers(updatedCustomers);
-    } else {
-      setCustomers([...customers, { ...customerData, id: Date.now() }]);
+    try {
+      // await axios.post('/api/Post_Update_Status', { id: user.id, status: newStatus }); // Replace with your API endpoint
+      updatedUsers[index].status = newStatus;
+      setUsers(updatedUsers);
+    } catch (err) {
+      alert('Failed to update status. Please try again.');
     }
-    setShowModal(false);
+  };
+
+  // Handle showing Add/Edit modal
+  const handleShowModal = (index = null) => {
+    if (index !== null) {
+      setEditingIndex(index);
+      setUserData(users[index]);
+    } else {
+      setEditingIndex(null);
+      setUserData({ name: '', email: '', phone: '', role_name: '' });
+    }
+    setShowModal(true);
+  };
+
+  // Handle saving user data
+  const handleSaveUser = async () => {
+    try {
+      if (editingIndex !== null) {
+        // Edit existing user
+        const response = await axios.put(`/api/Edit_User/${userData.id}`, userData); // Replace with your API endpoint
+        const updatedUsers = [...users];
+        updatedUsers[editingIndex] = response.data;
+        setUsers(updatedUsers);
+      } else {
+        // Add new user
+        const response = await axios.post('/api/Add_User', userData); // Replace with your API endpoint
+        setUsers([...users, response.data]);
+      }
+      setShowModal(false);
+    } catch (err) {
+      alert('Failed to save user. Please try again.');
+    }
   };
 
   return (
     <div>
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h4>Customers</h4>
-        <Button variant="primary" onClick={handleShowModal}>
-          Add Customer
+        <h4>Settings <FaAngleRight/> Users</h4>
+        {/* <h5>Users</h5> */}
+        <Button variant="primary" onClick={() => handleShowModal()}>
+          Add User
         </Button>
       </div>
 
-      <Table bordered>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Location</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {customers.length > 0 ? (
-            customers.map((customer, index) => (
-              <tr key={customer.id}>
-                <td>{index + 1}</td>
-                <td>{customer.name}</td>
-                <td>{customer.email}</td>
-                <td>Hotel Inn</td>
+      {loading ? (
+        <div className="text-center">
+          <Spinner animation="border" />
+        </div>
+      ) : error ? (
+        <div className="text-center text-danger">{error}</div>
+      ) : (
+        <Table bordered hover>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
 
-                <td className=''> 
-                    <FaEye  style={{cursor: 'pointer' }} className='mr-2' color="gray" /> 
-                  <Button
-                    variant="warning"
-                    size="sm"
-                    className="me-2 mr-2"
-                    onClick={() => handleEditCustomer(index)}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={() => handleDeleteCustomer(index)}
-                  >
-                    Delete
-                  </Button>
+            {users.length > 0 ? (
+              
+              users.map((user, index) => (
+                <tr key={user.id}>
+                  <td>{index + 1}</td>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>{user.phone}</td>
+                  <td>{user.role_name}</td>
+                  <td>
+                    <Switch
+                      onChange={() => handleToggleStatus(index)}
+                      checked={user.status}
+                      onColor="#4CAF50"
+                      offColor="#F44336"
+                    />
+                  </td>
+                  <td>
+                    <FaEdit
+                      style={{ cursor: 'pointer' }}
+                      color="blue"
+                      onClick={() => handleShowModal(index)}
+                      className="me-2"
+                    />
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7" className="text-center">
+                  No users found.
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="4" className="text-center">
-                No customers found.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </Table>
+            )}
+          </tbody>
+        </Table>
+      )}
 
-      {/* Modal for Add/Edit Customer */}
-      <Modal show={showModal} className='rounded-lg' onHide={() => setShowModal(false)}>
-        <Modal.Header className="bg-primary  " closeButton>
-          <Modal.Title>
-            {editingIndex !== null ? 'Edit Customer' : 'Add Customer'}
-          </Modal.Title>
+      {/* Modal for Add/Edit User */}
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>{editingIndex !== null ? 'Edit User' : 'Add User'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -111,10 +205,10 @@ const CustomersComponent = () => {
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter customer name"
-                value={customerData.name}
+                placeholder="Enter user name"
+                value={userData.name}
                 onChange={(e) =>
-                  setCustomerData({ ...customerData, name: e.target.value })
+                  setUserData({ ...userData, name: e.target.value })
                 }
               />
             </Form.Group>
@@ -122,10 +216,32 @@ const CustomersComponent = () => {
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
-                placeholder="Enter customer email"
-                value={customerData.email}
+                placeholder="Enter user email"
+                value={userData.email}
                 onChange={(e) =>
-                  setCustomerData({ ...customerData, email: e.target.value })
+                  setUserData({ ...userData, email: e.target.value })
+                }
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Phone</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter user phone"
+                value={userData.phone}
+                onChange={(e) =>
+                  setUserData({ ...userData, phone: e.target.value })
+                }
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Role</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter user role"
+                value={userData.role_name}
+                onChange={(e) =>
+                  setUserData({ ...userData, role_name: e.target.value })
                 }
               />
             </Form.Group>
@@ -135,7 +251,7 @@ const CustomersComponent = () => {
           <Button variant="secondary" onClick={() => setShowModal(false)}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleSaveCustomer}>
+          <Button variant="primary" onClick={handleSaveUser}>
             Save Changes
           </Button>
         </Modal.Footer>
@@ -144,4 +260,4 @@ const CustomersComponent = () => {
   );
 };
 
-export default CustomersComponent;
+export default UserSettingsComponent;
