@@ -70,7 +70,8 @@ const CompanyProfile = () => {
       const res = await updateCompanyProfile({
           name: editableData?.name,
           ...(isValidEmail(editableData?.contact) ? {email: editableData?.contact}: {phone:editableData?.contact}),
-          address: editableData?.address
+          address: editableData?.address,
+          // phone:''
         });
         setLoading(false)
         console.log(res)

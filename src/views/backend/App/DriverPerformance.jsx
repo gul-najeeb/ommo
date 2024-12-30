@@ -14,10 +14,11 @@ const DriverPerformance = () => {
             border: '1px solid #ddd',
             borderRadius: '8px',
             padding: '15px',
+            marginBottom: '10px',
             boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
         },
         cardHeader: { fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' },
-        cardBody: { marginTop: '10px' },
+        cardBody: { marginTop: '10px', marginBottom: ''},
         button: {
             backgroundColor: '#007bff',
             color: '#fff',
@@ -80,6 +81,38 @@ const DriverPerformance = () => {
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
             zIndex: 999,
         },
+        imagePlaceholder: {
+            width: '100%',
+            height: '200px',
+            backgroundColor: '#ddd',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#666',
+            fontSize: '16px',
+        },
+        imageList: {
+            display: 'flex',
+            gap: '10px',
+            flexWrap: 'wrap',
+            marginTop: '10px',
+        },
+        imageItem: {
+            width: '100px',
+            height: '100px',
+            borderRadius: '6px',
+            overflow: 'hidden',
+            border: '1px solid #ddd',
+            marginBottom: '10px'
+        },
+        img: {
+            borderRadius: '6px',
+
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            // marginBottom: '10px'
+        },
     };
 
     const handleFilter = () => {
@@ -105,7 +138,7 @@ const DriverPerformance = () => {
                                 <input style={styles.input} type="date" />
                                 <input style={styles.input} type="date" />
                             </div>
-                            <select style={styles.input}>
+                            <select style={styles.input} onChange={(e) => setEventType(e.target.value)}>
                                 <option>Accident</option>
                                 <option>Incident</option>
                                 <option>Ticket</option>
@@ -143,19 +176,19 @@ const DriverPerformance = () => {
                 <div style={{ ...styles.column, flex: 2 }}>
                     {/* Performance Stats */}
                     <div style={styles.row}>
-                        <div style={styles.card} style={{ flex: 1 }}>
+                        <div style={{ ...styles.card, flex: 1 }}>
                             <div style={styles.cardBody}>
                                 <h5>Accidents</h5>
                                 <h3 style={{ color: '#dc3545' }}>5</h3>
                             </div>
                         </div>
-                        <div style={styles.card} style={{ flex: 1 }}>
+                        <div style={{ ...styles.card, flex: 1 }}>
                             <div style={styles.cardBody}>
-                                <h5>Incidents</h5>
+                                <h5 >Incidents</h5>
                                 <h3 style={{ color: '#ffc107' }}>12</h3>
                             </div>
                         </div>
-                        <div style={styles.card} style={{ flex: 1 }}>
+                        <div style={{ ...styles.card, flex: 1 }}>
                             <div style={styles.cardBody}>
                                 <h5>Tickets</h5>
                                 <h3 style={{ color: '#17a2b8' }}>8</h3>
@@ -170,10 +203,125 @@ const DriverPerformance = () => {
                             {eventType === 'Accident' && (
                                 <>
                                     <h6>Accident Details</h6>
+                                    <div style={styles.imagePlaceholder}>Image Placeholder</div>
+                                    <div style={styles.imageList}>
+                                        <div style={styles.imageItem}>
+                                            <img
+                                                style={styles.img}
+                                                src="https://via.placeholder.com/100"
+                                                alt="Accident 1"
+                                            />
+                                        </div>
+                                        <div style={styles.imageItem}>
+                                            <img
+                                                style={styles.img}
+                                                src="https://via.placeholder.com/100"
+                                                alt="Accident 2"
+                                            />
+                                        </div>
+                                    </div>
                                     <input style={styles.input} placeholder="Accident Date" type="date" />
-                                    <button style={styles.buttonSecondary} onClick={() => setModalShow(true)}>
-                                        View Documents
-                                    </button>
+                                    <input style={styles.input} placeholder="Truck ID" />
+                                    <input style={styles.input} placeholder="Driver Name" />
+                                    <select style={styles.input}>
+                                        <option>Has Casualties?</option>
+                                        <option>Yes</option>
+                                        <option>No</option>
+                                    </select>
+                                    <select style={styles.input}>
+                                        <option>Driver Drug Tested?</option>
+                                        <option>Yes</option>
+                                        <option>No</option>
+                                    </select>
+                                    <div>
+                                        <h6>Documents</h6>
+                                        <ul>
+                                            <li><a href="#" target="_blank">Drug Test Report</a></li>
+                                            <li><a href="#" target="_blank">Police Report</a></li>
+                                            <li><a href="#" target="_blank">Driver Statement</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h6>Claim Information</h6>
+                                        <input style={styles.input} placeholder="Claim ID" />
+                                        <input style={styles.input} placeholder="Claim Type" />
+                                        <input style={styles.input} placeholder="Claim Status" />
+                                        <input style={styles.input} placeholder="Claim Amount" />
+                                        <input style={styles.input} placeholder="Claim Created At" />
+                                    </div>
+                                </>
+                            )}
+                            {eventType === 'Incident' && (
+                                <>
+                                    <h6>Incident Details</h6>
+                                    <div style={styles.imagePlaceholder}>Image Placeholder</div>
+                                    <div style={styles.imageList}>
+                                        <div style={styles.imageItem}>
+                                            <img
+                                                style={styles.img}
+                                                src="https://via.placeholder.com/100"
+                                                alt="Incident 1"
+                                            />
+                                        </div>
+                                        <div style={styles.imageItem}>
+                                            <img
+                                                style={styles.img}
+                                                src="https://via.placeholder.com/100"
+                                                alt="Incident 2"
+                                            />
+                                        </div>
+                                    </div>
+                                    <input style={styles.input} placeholder="Incident Date" type="date" />
+                                    <input style={styles.input} placeholder="Truck ID" />
+                                    <input style={styles.input} placeholder="Driver Name" />
+                                    <input style={styles.input} placeholder="Description" />
+                                    <input style={styles.input} placeholder="Incident Type" />
+                                    <div>
+                                        <h6>Documents</h6>
+                                        <ul>
+                                            <li><a href="#" target="_blank">Incident Image 1</a></li>
+                                            <li><a href="#" target="_blank">Incident Image 2</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h6>Invoice Information</h6>
+                                        <input style={styles.input} placeholder="Invoice Amount" />
+                                        <input style={styles.input} placeholder="Invoice Date" type="date" />
+                                        <input style={styles.input} placeholder="Closure Date" type="date" />
+                                    </div>
+                                </>
+                            )}
+                            {eventType === 'Ticket' && (
+                                <>
+                                    <h6>Ticket Details</h6>
+                                    <div style={styles.imagePlaceholder}>Image Placeholder</div>
+                                    <div style={styles.imageList}>
+                                        <div style={styles.imageItem}>
+                                            <img
+                                                style={styles.img}
+                                                src="https://via.placeholder.com/100"
+                                                alt="Ticket 1"
+                                            />
+                                        </div>
+                                    </div>
+                                    <input style={styles.input} placeholder="Incident Date" type="date" />
+                                    <input style={styles.input} placeholder="Truck ID" />
+                                    <input style={styles.input} placeholder="Driver Name" />
+                                    <input style={styles.input} placeholder="Company Fee" />
+                                    <input style={styles.input} placeholder="Ticket Status" />
+                                    <div>
+                                        <h6>Documents</h6>
+                                        <ul>
+                                            <li><a href="#" target="_blank">Ticket Document</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h6>Violation Information</h6>
+                                        <input style={styles.input} placeholder="Violation Type" />
+                                        <input style={styles.input} placeholder="Violation Description" />
+                                        <input style={styles.input} placeholder="Violation Penalty Point" />
+                                        <input style={styles.input} placeholder="Violation Fine Amount" />
+                                    </div>
                                 </>
                             )}
                         </div>
@@ -203,4 +351,3 @@ const DriverPerformance = () => {
 };
 
 export default DriverPerformance;
-    
