@@ -62,6 +62,7 @@ const RecordEvent = () => {
     },
     form: { display: "flex", flexDirection: "column", gap: "20px" },
     input: {
+      marginTop: '1rem',
       width: "100%",
       padding: "12px",
       border: "1px solid #ddd",
@@ -73,15 +74,16 @@ const RecordEvent = () => {
       border: "1px solid #ddd",
       borderRadius: "4px",
       resize: "vertical",
-      minHeight: "100px",
+      minHeight: "10px",
     },
     select: {
       width: "100%",
       padding: "12px",
+      marginTop: '1rem',
       border: "1px solid #ddd",
       borderRadius: "4px",
     },
-    fileInput: { display: "block", padding: "10px 0" },
+    fileInput: { display: "block", padding: "10px 0", marginTop: '1rem' },
     buttonPrimary: {
       backgroundColor: "#007bff",
       color: "#fff",

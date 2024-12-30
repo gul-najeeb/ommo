@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { axiosInstance } from "../../../services";
+import { toast } from "react-toastify";
 
 const SafetyScreen = () => {
   // Sample Data for Drivers List
@@ -61,6 +63,17 @@ const SafetyScreen = () => {
 
   const nav = useNavigate();
 
+  useEffect(() => {
+      axiosInstance.get('/api/driver/list', {headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }}).then(
+        _ => {
+
+          // 
+        }
+      ).catch(_ => toast.error(_.message))
+  }, [])
+  
   // Filter drivers based on search text and rating
   const filteredDrivers = driversList.filter((driver) => {
     const matchesSearch =
@@ -228,7 +241,9 @@ const SafetyScreen = () => {
 </div>
 
     <div style={styles.cardFooter}>
-      <button style={styles.viewPerformanceButton}>View Performance</button>
+      <button style={styles.viewPerformanceButton}>
+        <Link to="/driver-performance" style={{color: 'white'}}>Driver Performance</Link>
+      </button>
       <button style={styles.editDetailsButton}>Edit Details</button>
     </div>
   </div>
