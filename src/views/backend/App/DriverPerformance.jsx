@@ -107,7 +107,6 @@ const DriverPerformance = () => {
         },
         img: {
             borderRadius: '6px',
-
             width: '100%',
             height: '100%',
             objectFit: 'cover',

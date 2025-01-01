@@ -67,7 +67,7 @@ const SafetyScreen = () => {
       axiosInstance.get('/api/driver/list', {headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }}).then(
-        _ => {
+        _ => { 
 
           // 
         }
