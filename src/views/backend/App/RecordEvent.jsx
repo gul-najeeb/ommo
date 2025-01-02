@@ -10,16 +10,13 @@ const RecordEvent = () => {
 
   // Handlers
   const handleAddViolation = () => {
-    setViolations([
-      ...violations,
-      { type: "", description: "", points: 0, fine: 0 },
-    ]);
+    setViolations([...violations, { type: "", description: "", points: 0, fine: 0 }]);
   };
 
   const handleRemoveViolation = (index) => {
     const updatedViolations = violations.filter((_, i) => i !== index);
     setViolations(updatedViolations);
-  };    
+  };
 
   const handleViolationChange = (index, field, value) => {
     const updatedViolations = violations.map((violation, i) =>
@@ -34,56 +31,59 @@ const RecordEvent = () => {
       justifyContent: "center",
       alignItems: "center",
       padding: "40px",
-    //   backgroundColor: "#f8f9fa",
+      // backgroundColor: "#f5f7fa",
       minHeight: "100vh",
-      boxSizing: "border-box",
     },
     card: {
-      backgroundColor: "#ffffff",
+      // backgroundColor: "#ffffff",
       padding: "30px",
       borderRadius: "8px",
-    //   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+      // boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
       width: "100%",
-    //   maxWidth: "    ",
-      boxSizing: "border-box",
+      maxWidth: "960px",
     },
     header: {
       fontSize: "28px",
       fontWeight: "bold",
-      color: "#0056b3",
-      marginBottom: "10px",
-    //   textAlign: "center",
+      color: "#4a4a4a",
+      marginBottom: "5px",
     },
     breadcrumb: {
-      marginBottom: "30px",
+      marginBottom: "20px",
       color: "#888",
-      fontSize: "14px",
-    //   textAlign: "center",
+      fontSize: "16px",
     },
-    form: { display: "flex", flexDirection: "column", gap: "20px" },
+    label: {
+      marginTop: 'rem',
+      marginBottom: '2rem',
+      fontWeight: "600",
+      color: "#4a4a4a",
+      marginBottom: "5px",
+    },
+    form: { display: "flex", flexDirection: "column", gap: "15px" },
     input: {
-      marginTop: '1rem',
       width: "100%",
-      padding: "12px",
+      padding: "10px",
       border: "1px solid #ddd",
       borderRadius: "4px",
     },
     textarea: {
       width: "100%",
-      padding: "12px",
+      padding: "10px",
       border: "1px solid #ddd",
       borderRadius: "4px",
       resize: "vertical",
-      minHeight: "10px",
     },
     select: {
       width: "100%",
-      padding: "12px",
-      marginTop: '1rem',
+      padding: "10px",
       border: "1px solid #ddd",
       borderRadius: "4px",
     },
-    fileInput: { display: "block", padding: "10px 0", marginTop: '1rem' },
+    fileInput: {
+      display: "block",
+      padding: "10px 0",
+    },
     buttonPrimary: {
       backgroundColor: "#007bff",
       color: "#fff",
@@ -91,7 +91,7 @@ const RecordEvent = () => {
       padding: "10px 20px",
       borderRadius: "4px",
       cursor: "pointer",
-      marginRight: "1rem",
+      fontWeight: "600",
     },
     buttonSecondary: {
       backgroundColor: "#6c757d",
@@ -100,6 +100,7 @@ const RecordEvent = () => {
       padding: "10px 20px",
       borderRadius: "4px",
       cursor: "pointer",
+      fontWeight: "600",
     },
     dynamicSection: {
       border: "1px solid #ddd",
@@ -126,94 +127,119 @@ const RecordEvent = () => {
     <div style={styles.container}>
       <div style={styles.card}>
         {/* Header */}
-        <div style={styles.header}>Safety → Record Event</div>
-        <div style={styles.breadcrumb}>Record The Events Occur During Driving</div>
+        <div style={styles.header}>Record Event</div>
+        <div style={styles.breadcrumb}>Capture the details of safety events during driving</div>
 
         {/* Form */}
         <form style={styles.form}>
-          <select style={styles.select}>
-            <option>Select Truck</option>
-            {trucks.map((truck, index) => (
-              <option key={index}>{truck}</option>
-            ))}
-          </select>
-          <select style={styles.select}>
-            <option>Select Driver</option>
-            {drivers.map((driver, index) => (
-              <option key={index}>{driver}</option>
-            ))}
-          </select>
-          <input type="date" style={styles.input} placeholder="Event Date" />
-          <select
-            style={styles.select}
-            onChange={(e) => setEventType(e.target.value)}
-            value={eventType}
-          >
-            <option>Accident</option>
-            <option>Incident</option>
-            <option>Ticket</option>
-          </select>
+          <div>
+            <label style={styles.label}>Truck</label>
+            <select style={styles.select}>
+              <option value="">Select Truck</option>
+              {trucks.map((truck, index) => (
+                <option key={index}>{truck}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label style={styles.label}>Driver</label>
+            <select style={styles.select}>
+              <option value="">Select Driver</option>
+              {drivers.map((driver, index) => (
+                <option key={index}>{driver}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label style={styles.label}>Event Date</label>
+            <input type="date" style={styles.input} />
+          </div>
+
+          <div>
+            <label style={styles.label}>Event Type</label>
+            <select
+              style={styles.select}
+              onChange={(e) => setEventType(e.target.value)}
+              value={eventType}
+            >
+              <option>Accident</option>
+              <option>Incident</option>
+              <option>Ticket</option>
+            </select>
+          </div>
 
           {/* Dynamic Fields */}
           <div style={styles.dynamicSection}>
             {eventType === "Accident" && (
               <>
+                <label style={styles.label}>Casualties</label>
                 <select style={styles.select}>
-                  <option>Has Casualties?</option>
+                  <option value="">Has Casualties?</option>
                   <option>Yes</option>
                   <option>No</option>
                 </select>
+
+                <label style={styles.label}>Driver Drug Tested</label>
                 <select style={styles.select}>
-                  <option>Driver Drug Tested?</option>
+                  <option value="">Driver Drug Tested?</option>
                   <option>Yes</option>
                   <option>No</option>
                 </select>
-                <input type="file" style={styles.fileInput} />
-                <input type="file" style={styles.fileInput} />
-                <input type="file" style={styles.fileInput} />
+
+                <label style={styles.label}>Upload Photos</label>
                 <input type="file" style={styles.fileInput} multiple />
-                <input type="text" style={styles.input} placeholder="Claim Type" />
-                <input
-                  type="number"
-                  style={styles.input}
-                  placeholder="Claim Amount"
-                />
+
+                <label style={styles.label}>Claim Type</label>
+                <input type="text" style={styles.input} placeholder="Enter claim type" />
+
+                <label style={styles.label}>Claim Amount</label>
+                <input type="number" style={styles.input} placeholder="Enter claim amount" />
               </>
             )}
             {eventType === "Incident" && (
               <>
-                <textarea style={styles.textarea} placeholder="Description"></textarea>
+                <label style={styles.label}>Description</label>
+                <textarea style={styles.textarea} placeholder="Enter incident description"></textarea>
+
+                <label style={styles.label}>Incident Type</label>
                 <select style={styles.select}>
-                  <option>Incident Type</option>
+                  <option value="">Select incident type</option>
                   <option>Type A</option>
                   <option>Type B</option>
                 </select>
+
+                <label style={styles.label}>Invoice Amount</label>
                 <input
                   type="number"
                   style={styles.input}
-                  placeholder="Invoice Amount"
+                  placeholder="Enter invoice amount"
                 />
-                <input
-                  type="date"
-                  style={styles.input}
-                  placeholder="Invoice Date"
-                />
-                <input
-                  type="date"
-                  style={styles.input}
-                  placeholder="Closure Date"
-                />
+
+                <label style={styles.label}>Invoice Date</label>
+                <input type="date" style={styles.input} />
+
+                <label style={styles.label}>Closure Date</label>
+                <input type="date" style={styles.input} />
+
+                <label style={styles.label}>Upload Files</label>
                 <input type="file" style={styles.fileInput} multiple />
               </>
             )}
             {eventType === "Ticket" && (
               <>
+                <label style={styles.label}>Company Fee</label>
                 <input
                   type="number"
                   style={styles.input}
-                  placeholder="Company Fee"
+                  placeholder="Enter company fee"
                 />
-                <input type="file" style={styles.fileInput} />
+
+                <label style={styles.label}>Upload Supporting Documents</label>
+                <input type="file" style={styles.fileInput} multiple />
+
+                <label style={styles.label}>Violations</label>
                 <table style={styles.table}>
                   <thead>
                     <tr>
@@ -231,6 +257,7 @@ const RecordEvent = () => {
                           <input
                             type="text"
                             style={styles.input}
+                            placeholder="Enter violation type"
                             value={violation.type}
                             onChange={(e) =>
                               handleViolationChange(index, "type", e.target.value)
@@ -238,22 +265,21 @@ const RecordEvent = () => {
                           />
                         </td>
                         <td style={styles.td}>
-                          <textarea
-                            style={styles.textarea}
+                          <input
+                            type="text"
+                            style={styles.input}
+                            placeholder="Enter description"
                             value={violation.description}
                             onChange={(e) =>
-                              handleViolationChange(
-                                index,
-                                "description",
-                                e.target.value
-                              )
+                              handleViolationChange(index, "description", e.target.value)
                             }
-                          ></textarea>
+                          />
                         </td>
                         <td style={styles.td}>
                           <input
                             type="number"
                             style={styles.input}
+                            placeholder="Enter points"
                             value={violation.points}
                             onChange={(e) =>
                               handleViolationChange(index, "points", e.target.value)
@@ -264,6 +290,7 @@ const RecordEvent = () => {
                           <input
                             type="number"
                             style={styles.input}
+                            placeholder="Enter fine"
                             value={violation.fine}
                             onChange={(e) =>
                               handleViolationChange(index, "fine", e.target.value)
@@ -294,13 +321,7 @@ const RecordEvent = () => {
           </div>
 
           {/* Submit and Cancel Buttons */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginTop: "20px",
-            }}
-          >
+          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px" }}>
             <button style={styles.buttonPrimary} type="submit">
               Record Event
             </button>
