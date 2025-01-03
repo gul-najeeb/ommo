@@ -97,6 +97,7 @@ import RecordEvent from "../views/backend/App/RecordEvent";
 import Profile from "../views/backend/App/Profile";
 import Customers from "../views/backend/Main/Customers";
 import CreateRole from "../views/backend/Main/CreateRole";
+import EditProfile from "./EditProfile";
    
 export const Layout1Route = [
   {
@@ -160,7 +161,9 @@ export const Layout1Route = [
 
       {
         path: "/user-profile-edit",
-        element: <UserProfileEdit />,
+        // element: <UserProfileEdit />,
+                element: <EditProfile />,
+
       },
       {
         path: "/chat",

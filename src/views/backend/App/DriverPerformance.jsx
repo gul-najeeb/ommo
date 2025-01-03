@@ -1,8 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { axiosInstance } from '../../../services';
+import { toast } from 'react-toastify';
 
 const DriverPerformance = () => {
     const [eventType, setEventType] = useState('Accident');
     const [modalShow, setModalShow] = useState(false);
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                const response = await axiosInstance.get('/api/events/get-events', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    },
+                });
+                console.log('Successful response:', response.data);
+                // Handle the response data as needed
+            } catch (error) {
+                console.error('Error:', error);
+                toast.error(error.message)
+                // Handle any errors that occur during the request
+            }
+        };
+
+        fetchEvents();
+
+    }, []); // Empty dependency array ensures the effect runs only once
+
 
     const styles = {
         container: { padding: '20px', fontFamily: 'Arial, sans-serif', color: '#333' },
