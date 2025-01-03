@@ -10,7 +10,10 @@ const RecordEvent = () => {
 
   // Handlers
   const handleAddViolation = () => {
-    setViolations([...violations, { type: "", description: "", points: 0, fine: 0 }]);
+    setViolations([
+      ...violations,
+      { type: "", description: "", points: 0, fine: 0 },
+    ]);
   };
 
   const handleRemoveViolation = (index) => {
@@ -54,8 +57,8 @@ const RecordEvent = () => {
       fontSize: "16px",
     },
     label: {
-      marginTop: 'rem',
-      marginBottom: '2rem',
+      marginTop: "rem",
+      marginBottom: "2rem",
       fontWeight: "600",
       color: "#4a4a4a",
       marginBottom: "5px",
@@ -128,7 +131,9 @@ const RecordEvent = () => {
       <div style={styles.card}>
         {/* Header */}
         <div style={styles.header}>Record Event</div>
-        <div style={styles.breadcrumb}>Capture the details of safety events during driving</div>
+        <div style={styles.breadcrumb}>
+          Capture the details of safety events during driving
+        </div>
 
         {/* Form */}
         <form style={styles.form}>
@@ -192,16 +197,27 @@ const RecordEvent = () => {
                 <input type="file" style={styles.fileInput} multiple />
 
                 <label style={styles.label}>Claim Type</label>
-                <input type="text" style={styles.input} placeholder="Enter claim type" />
+                <input
+                  type="text"
+                  style={styles.input}
+                  placeholder="Enter claim type"
+                />
 
                 <label style={styles.label}>Claim Amount</label>
-                <input type="number" style={styles.input} placeholder="Enter claim amount" />
+                <input
+                  type="number"
+                  style={styles.input}
+                  placeholder="Enter claim amount"
+                />
               </>
             )}
             {eventType === "Incident" && (
               <>
                 <label style={styles.label}>Description</label>
-                <textarea style={styles.textarea} placeholder="Enter incident description"></textarea>
+                <textarea
+                  style={styles.textarea}
+                  placeholder="Enter incident description"
+                ></textarea>
 
                 <label style={styles.label}>Incident Type</label>
                 <select style={styles.select}>
@@ -260,7 +276,11 @@ const RecordEvent = () => {
                             placeholder="Enter violation type"
                             value={violation.type}
                             onChange={(e) =>
-                              handleViolationChange(index, "type", e.target.value)
+                              handleViolationChange(
+                                index,
+                                "type",
+                                e.target.value
+                              )
                             }
                           />
                         </td>
@@ -271,7 +291,11 @@ const RecordEvent = () => {
                             placeholder="Enter description"
                             value={violation.description}
                             onChange={(e) =>
-                              handleViolationChange(index, "description", e.target.value)
+                              handleViolationChange(
+                                index,
+                                "description",
+                                e.target.value
+                              )
                             }
                           />
                         </td>
@@ -282,7 +306,11 @@ const RecordEvent = () => {
                             placeholder="Enter points"
                             value={violation.points}
                             onChange={(e) =>
-                              handleViolationChange(index, "points", e.target.value)
+                              handleViolationChange(
+                                index,
+                                "points",
+                                e.target.value
+                              )
                             }
                           />
                         </td>
@@ -293,7 +321,11 @@ const RecordEvent = () => {
                             placeholder="Enter fine"
                             value={violation.fine}
                             onChange={(e) =>
-                              handleViolationChange(index, "fine", e.target.value)
+                              handleViolationChange(
+                                index,
+                                "fine",
+                                e.target.value
+                              )
                             }
                           />
                         </td>
@@ -321,7 +353,13 @@ const RecordEvent = () => {
           </div>
 
           {/* Submit and Cancel Buttons */}
-          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "20px",
+            }}
+          >
             <button style={styles.buttonPrimary} type="submit">
               Record Event
             </button>
